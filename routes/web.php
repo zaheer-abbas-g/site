@@ -20,9 +20,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', function () {
+    return "Home page";
+})->name('home');
 
 
 
 Route::get('/contact-index', [ContactController::class, 'index']);
 Route::get('/about-index', [AboutController::class, 'index']);
-Route::get('/test-index', [TestController::class, 'index']);
+
+
+Route::middleware(['age'])->group(function () {
+    Route::get('/testing-index', [TestController::class, 'index']);
+});

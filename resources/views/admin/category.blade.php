@@ -3,72 +3,76 @@
 
 @section('content')
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-header">
-                    <h1> All Categories
-                        <a class="btn btn-info float-right" href="javascript:void(0)" data-toggle="modal"  data-target="#exampleModalCenter" id="createCategory" >Add Categories
-                        </a>
-                    </h1>
-                </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h1> All Categories
+                            <a class="btn btn-info float-right" href="javascript:void(0)" data-toggle="modal"
+                                data-target="#exampleModalCenter" id="createCategory">Add Categories
+                            </a>
+                        </h1>
+                    </div>
 
-                <div class="card-body">
-                    <table class="table table-bordered data-table">
-                        <thead class="thead-light">
-                            <tr class="text-center">
-                                <th>SN.</th>
-                                <th>Category Name</th>
-                                <th width="280px">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div class="card-body">
+                        <table class="table table-bordered data-table">
+                            <thead class="thead-light">
+                                <tr class="text-center">
+                                    <th>SN.</th>
+                                    <th>Category Name</th>
+                                    <th width="280px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-     
-       
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Create Category</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form id="categoryForm" name="categoryForm">
-        <div class="modal-body">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
 
-            <div class="form-group">
-                <label for="exampleInputEmail1">Category Name</label>
-                <input type="text" class="form-control" id="category_name" name='category_name' aria-describedby="category_name"     placeholder="Enter Category">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Create Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="categoryForm" name="categoryForm">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Category Name <small class="text-danger">*</small></label>
+                            <input type="text" class="form-control" id="category_name" name='category_name'
+                                aria-describedby="category_name" placeholder="Enter Category">
+                            <span><small id="category_name_error" class="text-danger"></small></span>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="saveCategory">Save</button>
+                    </div>
+
+                </form>
             </div>
-
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="saveCategory">Save Category</button>
-        </div>
-
-         </form>
-      </div>
     </div>
-  </div>
 
-  <script  type="text/javascript">
-        $(document).ready(function(){
+    <script type="text/javascript">
+        $(document).ready(function() {
 
             $.ajaxSetup({
                 headers: {
@@ -76,24 +80,59 @@
                 }
             });
 
-
-            $('#saveCategory').on('click',function(e){
+            ////////////// Save Category //////////////
+            $('#saveCategory').on('click', function(e) {
                 e.preventDefault();
-                 
+                $('#saveCategory').html('Save Category...');
                 var formData = $('#categoryForm').serialize();
 
                 $.ajax({
-                    type:'post',
-                    url:"{{ route('categories.store') }}",
-                    data:formData,
-                    success:function(response){
-                        console.log(response);    
+                    type: 'post',
+                    url: "{{ route('categories.store') }}",
+                    data: formData,
+                    success: function(response) {
+                        console.log(response);
+                        $('#saveCategory').html('Save');
+                        $('#categoryForm')[0].reset();
+                        $('#exampleModalCenter').modal('hide');
+
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+                    },
+                    error: function(xhr, status, error) {
+                        var error = JSON.parse(xhr.responseText);
+                        console.log(error.errors.category_name[0])
+                        $('#category_name_error').text(error.errors.category_name[0]);
+                        $('#saveCategory').html('Save');
                     }
                 })
             });
-           
+            //////////////End Save Category //////////////
+
+            //////////////List Categories //////////////
+            $(body).click('.data-table', function() {
+                alert('ok');
+            });
+
+            var table = $('.data-table').DataTable({
+                alert('ok');
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('categories.index') }}",
+                columns: [{
+                    data: name,
+                    name: category_name
+                }],
+
+            });
 
         });
-  </script>
+    </script>
 
 @endsection

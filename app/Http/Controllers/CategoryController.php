@@ -15,6 +15,9 @@ class CategoryController extends Controller
             $categories = Category::with('user')->get();
             return DataTables::of($categories)
                 ->addIndexColumn()
+                ->addColumn('username', function ($row) {
+                    return $row->user ? $row->user->name : 'N/A';
+                })
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editCategory"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>';
 
@@ -44,7 +47,25 @@ class CategoryController extends Controller
     }
 
     public function edit($id)
-    {
-        return response()->json('k');
+    {   
+        try {
+            $category = Category::with('user')->findOrFail($id);
+            return response()->json(['success' => true,'data' => $category ]);
+        }
+        catch(\Exception $e){
+            return response()->json(['success' => false, 'message' => 'category not found'],404);
+        }
     }
+
+    public function update(Request $request, $id){
+
+        $request->validate([
+            'category_name' => 'required',
+            'user_name' => 'required',
+        ]);
+
+        return response()->json($request);
+    }
+
+
 }

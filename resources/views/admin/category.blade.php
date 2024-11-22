@@ -28,6 +28,7 @@
                                 <tr class="text-center">
                                     <th>SN.</th>
                                     <th>Category Name</th>
+                                    <th>User Name</th>
                                     <th width="280px">Action</th>
                                 </tr>
                             </thead>
@@ -66,11 +67,24 @@
                                 aria-describedby="category_name" placeholder="Enter Category">
                             <span><small id="category_name_error" class="text-danger"></small></span>
                         </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" name='id' aria-describedby="id">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputuser_name">User Name <small class="text-danger">*</small></label>
+                            <input type="text" class="form-control" id="user_name" name='user_name'
+                                aria-describedby="user_name" placeholder="Enter Category">
+                            <span><small id="user_name_error" class="text-danger"></small></span>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" id="saveCategory">Save</button>
+                        <button type="button" class="btn btn-success" id="updateCategory"
+                            style = "display:none">Update</button>
+
                     </div>
 
                 </form>
@@ -90,9 +104,9 @@
             ////////////// Save Category //////////////
             $('#saveCategory').on('click', function(e) {
                 e.preventDefault();
+
                 $('#saveCategory').html('Save Category...');
                 var formData = $('#categoryForm').serialize();
-
                 $.ajax({
                     type: 'post',
                     url: "{{ route('categories.store') }}",
@@ -101,6 +115,7 @@
                         $('#saveCategory').html('Save');
                         $('#categoryForm')[0].reset();
                         $('#exampleModalCenter').modal('hide');
+
 
                         Swal.fire({
                             position: "top-end",
@@ -137,6 +152,11 @@
                         name: 'category name',
                         className: 'center-text'
                     }, {
+                        data: 'username',
+                        name: 'user name',
+                        className: 'center-text'
+                    },
+                    {
                         data: 'action',
                         name: 'action',
                         orderable: false,
@@ -154,18 +174,61 @@
 
             $('body').on('click', '.editCategory', function() {
                 var category_id = $(this).data('id');
-
                 $.ajax({
                     type: 'get',
                     url: "{{ route('categories.index') }}" + '/' + category_id + '/edit',
+                    dataType: 'json',
                     success: function(response) {
                         $('#exampleModalCenter').modal('show');
+                        $('#saveCategory').hide();
+                        $('#updateCategory').show();
+                        $('#exampleModalLongTitle').text('Edit Category');
+                        $('#category_name').val(response.data.category_name);
+                        $('#user_name').val(response.data.user.name);
+                        $('#id').val(response.data.id);
+                        $('#user_name_error').html('');
+                        $('#category_name_error').html('');
+                        console.log(response);
+                    },
+                    error: function(xhr, status) {
+                        var error = xhr.responseText;
+                        console.log(error);
                     }
-
                 })
             })
 
             ////////////// End Edit Categories //////////////
+
+            $('#updateCategory').on('click', function(e) {
+                e.preventDefault()
+
+                $(this).html('Processing...');
+                // alert('ok');
+                var formData = $('#categoryForm').serialize();
+                var category_id = $('#id').val();
+                $.ajax({
+                    url: "{{ url('categories') }}" + "/" + category_id,
+                    type: 'PUT',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                        $('#categoryForm')[0].reset();
+                        $('#exampleModalCenter').modal('hide');
+                        $('#updateCategory').html('Update');
+                    },
+                    error: function(xhr, status, error) {
+                        var errors = JSON.parse(xhr.responseText);
+                        $('#updateCategory').html('Update');
+                        $('#category_name_error').html(errors.errors.category_name);
+                        $('#user_name_error').html(errors.errors.user_name);
+                        console.log(errors);
+                    }
+
+                });
+            });
+
+
 
         });
     </script>

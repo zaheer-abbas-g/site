@@ -162,6 +162,7 @@
                     url: "{{ route('users.update', '') }}/" + id,
                     type: 'PUT',
                     data: formData,
+                    dataType: 'json',
                     success: function(response) {
                         $('#ajaxModelexa').modal('hide');
                         table.ajax.reload();

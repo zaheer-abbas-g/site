@@ -42,4 +42,9 @@ class CategoryController extends Controller
         $user->categories()->save($category);
         return response()->json(['message' => 'Category successfully added']);
     }
+
+    public function edit($id)
+    {
+        return response()->json('k');
+    }
 }

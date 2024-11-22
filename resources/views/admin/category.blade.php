@@ -1,6 +1,13 @@
 @extends('layouts.app')
 @section('title', 'category')
 
+
+<style>
+    .center-text {
+        text-align: center;
+    }
+</style>
+
 @section('content')
 
     <div class="container mt-5">
@@ -91,7 +98,6 @@
                     url: "{{ route('categories.store') }}",
                     data: formData,
                     success: function(response) {
-                        console.log(response);
                         $('#saveCategory').html('Save');
                         $('#categoryForm')[0].reset();
                         $('#exampleModalCenter').modal('hide');
@@ -103,7 +109,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-
+                        table.ajax.reload();
                     },
                     error: function(xhr, status, error) {
                         var error = JSON.parse(xhr.responseText);
@@ -115,22 +121,51 @@
             });
             //////////////End Save Category //////////////
 
-            //////////////List Categories //////////////
-            $(body).click('.data-table', function() {
-                alert('ok');
-            });
 
+            //////////////List Categories //////////////
             var table = $('.data-table').DataTable({
-                alert('ok');
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('categories.index') }}",
                 columns: [{
-                    data: name,
-                    name: category_name
-                }],
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        className: 'center-text'
+                    },
+                    {
+                        data: 'category_name',
+                        name: 'category name',
+                        className: 'center-text'
+                    }, {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        className: 'center-text'
+                    }
+                ]
 
             });
+
+            ////////////// End List Categories //////////////
+
+
+            ////////////// Edit Categories //////////////
+
+            $('body').on('click', '.editCategory', function() {
+                var category_id = $(this).data('id');
+
+                $.ajax({
+                    type: 'get',
+                    url: "{{ route('categories.index') }}" + '/' + category_id + '/edit',
+                    success: function(response) {
+                        $('#exampleModalCenter').modal('show');
+                    }
+
+                })
+            })
+
+            ////////////// End Edit Categories //////////////
 
         });
     </script>

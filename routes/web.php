@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -35,3 +36,6 @@ require __DIR__ . '/auth.php';
 
 Route::resource('/users', UserController::class);
 Route::resource('/categories', CategoryController::class);
+Route::get('categories-restore/{id}', [CategoryController::class, 'restore']);
+
+Route::resource('/brands', BrandController::class);

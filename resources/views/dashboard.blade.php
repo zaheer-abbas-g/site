@@ -12,36 +12,32 @@
 
     <div class="container mt-5">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h1> All users
-                            {{-- <a class="btn btn-info float-right" href="javascript:void(0)" id="createUser">Add New User
-                                    </a> --}}
-                        </h1>
+                        <h1 class="mb-0">All Users</h1>
                     </div>
-
                     <div class="card-body">
-                        <table class="table table-bordered data-table">
-                            <thead class="thead-light">
-                                <tr class="text-center">
-                                    <th>SN.</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th width="280px">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered data-table">
+                                <thead class="thead-light">
+                                    <tr class="text-center">
+                                        <th>SN.</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th width="280px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data rows will be dynamically loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 
     <div class="modal fade" id="ajaxModelexa" aria-hidden="true">
         <div class="modal-dialog">
@@ -117,25 +113,6 @@
                 ]
             });
 
-            //   $('#createUser').click(function () {
-            //       $('#savedata').val("create-post");
-            //       $('#id').val('');
-            //       $('#postForm').trigger("reset");
-            //       $('#modelHeading').html("Create New User");
-            //       $('#ajaxModelexa').modal('show');
-            //   });
-
-            //   $('body').on('click', '.editPost', function () {
-            //     var id = $(this).data('id');
-            //     $.get("{{ route('users.index') }}" +'/' + id +'/edit', function (data) {
-            //         $('#modelHeading').html("Edit Post");
-            //         $('#savedata').val("edit-user");
-            //         $('#ajaxModelexa').modal('show');
-            //         $('#id').val(data.id);
-            //         $('#title').val(data.title);
-            //         $('#description').val(data.description);
-            //     })
-            //  });
 
             $('body').on('click', '.editUser', function() {
                 var id = $(this).data('id');

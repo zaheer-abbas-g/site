@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MultiImagesController;
+use App\Http\Controllers\MultipleImages;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -39,3 +41,4 @@ Route::resource('/categories', CategoryController::class);
 Route::get('categories-restore/{id}', [CategoryController::class, 'restore']);
 
 Route::resource('/brands', BrandController::class);
+Route::resource('/multipleimages', MultiImagesController::class);

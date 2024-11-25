@@ -24,12 +24,19 @@
                     </x-nav-link>
                 </div>
 
-                    <!-- Brand  -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('brands.index')" :active="request()->routeIs('brands.index')">
-                            {{ __('Brands') }}
-                        </x-nav-link>
-                    </div>
+                <!-- Brand  -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('brands.index')" :active="request()->routeIs('brands.index')">
+                        {{ __('Brands') }}
+                    </x-nav-link>
+                </div>
+
+                <!-- Multiple Images  -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('multipleimages.index')" :active="request()->routeIs('multipleimages.index')">
+                        {{ __('Multi images') }}
+                    </x-nav-link>
+                </div>
 
             </div>
 

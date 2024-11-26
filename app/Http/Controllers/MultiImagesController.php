@@ -63,8 +63,25 @@ class MultiImagesController extends Controller
         $request->validate([
             'image' => 'required|mimes:png,jpg,jpeg'
         ]);
+        $multimages = MultiImages::findOrFail($id);
+
         if ($request->hasFile('image')) {
-            return response()->json('oddd');
+
+
+            ############ unlink existing image ############
+            $multimage = $multimages->image;
+            $filePath = public_path('admin/images/multipleImages/') . $multimage;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            ############ Uploading New image ##########333333
+            $image = $request->image;
+            $imageName = time() . '.' . $image->extension();
+            $image->move(public_path('admin/images/multipleImages'), $imageName);
+            $multimages->image = $imageName;
         }
+        $multimages->update();
+        return response()->json(['success' => true, 'data' => $multimage,  'message' => 'Image Successfully updated']);
     }
 }

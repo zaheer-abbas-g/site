@@ -241,12 +241,10 @@
                         $('#brandUpdate').show();
                         $('#brandname').val(response.data.brand_name)
                         $('#brandid').val(response.data.id)
-                        // $('#brandimage').val(response.data.brand_image)
                         var baseUrl = "{{ asset('admin/images/brand') }}";
                         var image = baseUrl + '/' + response.data
-                            .brand_image; // Dynamically append the image name
+                            .brand_image; 
                         $('#imagepreivew').attr('src', image);
-
                         $('#brandname_error').html('')
                         $('#brandimage_error').html('')
                     }

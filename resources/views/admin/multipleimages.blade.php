@@ -46,33 +46,30 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
-                <form enctype="multipart/form-data" id="multiImagesForm">
-
-                    <div class="modal-body">
+                
+                
+                <div class="modal-body">
+                        <form enctype="multipart/form-data" id="multiImagesForm">
                         <div class="form-group">
                             <label for="multipleImagesUpload">Upload images</label>
                             <input type="file" class="form-control-file" id="multipleImages" name="multipleImages[]"
                                 multiple>
-                        </div>
-
-                        <div class="form-group imagepreivew">
-
+                                <span><small id="multipleimage_error" class="text-danger"></small></span>
                         </div>
 
                         <div class="form-group">
-                            <img src="{{ asset('admin/images/preview.jpg') }}" id="imagepreivew" name="imagepreivew"
-                                class="rounded float-left " alt="no image found"
-                                style="width: 100px; height: 100px; object-fit: cover;">
+                            <input type="text" class="form-control-file" id="images_id" name="images_id">
                         </div>
+                        
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="Upload">Upload</button>
-                    </div>
-                </form>
-
+                        <div id="imageperviewcontainer"> </div>
+                     </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="Upload">Upload</button>
+                    <button type="button" class="btn btn-info" id="update" style="display:none">update</button>
+                </div>
+            </form>
             </div>
         </div>
     </div>
@@ -87,9 +84,16 @@
             });
 
 
-            // $('.crateImages').on('click', function() {
-            //     $('#imagepreivew').attr('src', '');
-            // })
+            $('.crateImages').on('click', function() {
+                $('#exampleModalLongTitle').html('Create Images');
+                $('#multiImagesForm')[0].reset();
+                $('#imageperviewcontainer').empty(); 
+                $('#multipleImages').closest('.form-group').show(); 
+                $('#update').hide();
+                $('#Upload').show();
+                $('#multipleimage_error').html('');
+            })  
+
 
             /////////////////// Uploading Images ////////////////
             $('#Upload').on('click', function(e) {
@@ -123,11 +127,23 @@
                         table.ajax.reload();
                     },
                     error: function(xhr) {
-                        var error_response = JSON.parse(xhr.responseText());
-                        console.log(error_response.errors);
-                    }
+                            var error_response = JSON.parse(xhr.responseText);
+                            console.log(error_response.errors);  
+                            if (error_response.errors) {
+                                if (error_response.errors.multipleImages) {
+                                    $('#multipleimage_error').html(error_response.errors.multipleImages[0]);
+                                } else {
+                                    $('#multipleimage_error').html('');
+                                }
+                            } else {
+                                $('#multipleimage_error').html('');
+                            }
+
+                            $('#Upload').html('upload');
+                        }
+                    });
                 })
-            })
+        
 
             ///////////////////// Multiple Images listing /////////////////////////
             var table = $('.data-table').DataTable({
@@ -158,6 +174,7 @@
             ////////////// edit images //////////
             $('body').on('click', '.editiamges', function() {
                 var image_id = $(this).data('id');
+                $('#multipleImages').closest('.form-group').hide();
 
                 $.ajax({
                     url: "{{ url('multipleimages') }}" + '/' + image_id + '/edit',
@@ -170,17 +187,89 @@
                         $('#imagepreivew').attr('src', image);
                         $('#exampleModalCenter').modal('show');
                         $('#exampleModalLongTitle').html('Edit Image');
-                        $('#Upload').html('Update Image');
+                        $('#Upload').hide('');
+                        $('#update').show();
+                        $('#images_id').val(response.data.id);
+                        var imagePreviewHTML = `
+                            <div class="form-group">
+                                 <input type="file" 
+                                    id="multipleImages-${image_id}" name="image"
+                                    class=" form-control mt-2" 
+                                    accept="image/*">
+                                     <span><small id="image_error" class="text-danger"></small></span>
+                            </div>
+                            <div class="form-group">
+                                <img src="${image}" 
+                                    id="imagepreivew-${image_id}" 
+                                    class="editImageInput rounded float-left" 
+                                    alt="Image not found" 
+                                    style="width: 100px; height: 100px; object-fit: cover;"> 
+                            </div>
+                        `;
+                        $('#imageperviewcontainer').html(imagePreviewHTML); 
+
+                        $(`#multipleImages-${image_id}`).on('change', function () {
+                            var file = this.files[0];
+                            if (file) {
+                                $(`#imagepreivew-${image_id}`).attr('src', window.URL.createObjectURL(file));   $('#image_error').html('');
+                            }
+                        });
                     },
                     error: function(xhr) {
                         var error = xhr.responseText();
                         console.log(error.errors);
                     }
                 });
-
             })
 
-        });
+            ///////////// Update multiple Images //////////////
+            $('#update').on('click',function(e){
+                e.preventDefault();
+                var images_id = $('#images_id').val();
+                var formData = new FormData($('#multiImagesForm')[0]);
+                formData.append('_method', 'PUT'); // Spoof PUT method for Laravel
+                $('#update').html('Updating...');
+
+                $.ajax({
+                    url: "{{ url('multipleimages') }}"+'/'+images_id,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        $('#exampleModalCenter').modal('hide');
+                        $('#update').html('update');
+                        $('#multiImagesForm')[0].reset();
+                        // $('#multipleImages').val('');
+                        console.log(response);
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your work has been saved",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        table.ajax.reload();
+                    },
+                 error: function(xhr) {
+                            var error_response = JSON.parse(xhr.responseText);
+                            console.log(error_response.errors);  
+                            if (error_response.errors) {
+                                if (error_response.errors.image) {
+                                    $('#image_error').html(error_response.errors.image[0]);
+                                } else {
+                                    $('#image_error').html('');
+                                }
+                            } else {
+                                $('#image_error').html('');
+                            }
+                            $('#update').html('update');
+                        }
+                    });
+                });    
+    
+    
+            });
     </script>
 
 @endsection

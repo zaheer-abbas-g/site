@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="text" class="form-control-file" id="images_id" name="images_id">
+                            <input type="hidden" class="form-control-file" id="images_id" name="images_id">
                         </div>
                         
 
@@ -267,7 +267,44 @@
                         }
                     });
                 });    
-    
+                
+
+
+                            //////////////// Delete Brand ///////////
+
+            $('body').on('click', '.deleteimages', function() {
+                var image_id = $(this).data('id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "delete"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ url('multipleimages') }}" + '/' + image_id,
+                            type: 'delete',
+                            dataType: "json",
+                            success: function(response) {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: response.message,
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                });
+
+                                table.ajax.reload();
+                            }
+                        });
+                    }
+                })
+            });
+
     
             });
     </script>

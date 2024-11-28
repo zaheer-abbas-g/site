@@ -20,8 +20,15 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
+    return view('admin.dashboard');
+});
+Route::get('/welcome', function () {
     return view('welcome');
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -36,9 +43,16 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 
+// Route::middleware('auth')->group(function () {
+
 Route::resource('/users', UserController::class);
 Route::resource('/categories', CategoryController::class);
 Route::get('categories-restore/{id}', [CategoryController::class, 'restore']);
-
 Route::resource('/brands', BrandController::class);
 Route::resource('/multipleimages', MultiImagesController::class);
+// });
+
+
+// user LogOut 
+
+Route::get('/user-logout', [UserController::class, 'logOut'])->name('user.logout');

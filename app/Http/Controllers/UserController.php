@@ -54,4 +54,12 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['message' => 'user deleted successfully']);
     }
+
+    public function logOut()
+    {
+
+        auth()->logout();
+
+        return redirect()->route('login')->with(['message' => 'user Logout Successfull']);
+    }
 }

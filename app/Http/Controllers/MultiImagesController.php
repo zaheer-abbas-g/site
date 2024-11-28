@@ -16,7 +16,7 @@ class MultiImagesController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editiamges"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>';
-                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteiamges"><i class="fa fa-trash-o" aria-hidden="true"></i></a>';
+                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteimages"><i class="fa fa-trash-o" aria-hidden="true"></i></a>';
                     return $btn;
                 })
                 ->addColumn('image', function ($row) {
@@ -63,8 +63,45 @@ class MultiImagesController extends Controller
         $request->validate([
             'image' => 'required|mimes:png,jpg,jpeg'
         ]);
+        $multimages = MultiImages::findOrFail($id);
+
         if ($request->hasFile('image')) {
-            return response()->json('oddd');
+
+
+            ############ unlink existing image ############
+            $multimage = $multimages->image;
+            $filePath = public_path('admin/images/multipleImages/') . $multimage;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            ############ Uploading New image ##########333333
+            $image = $request->image;
+            $imageName = time() . '.' . $image->extension();
+            $image->move(public_path('admin/images/multipleImages'), $imageName);
+            $multimages->image = $imageName;
+        }
+        $multimages->update();
+        return response()->json(['success' => true, 'data' => $multimage,  'message' => 'Image Successfully updated']);
+    }
+
+
+    public function destroy($id)
+    {
+
+        try {
+            $multimages = MultiImages::findOrFail($id);
+
+            $image = $multimages->image;
+            $imagePath = public_path('admin/images/multipleImages/') . $image;
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $multimages->delete();
+            return response()->json(['success' => true, 'data' => $multimages, 'message' => 'Image successfully deleted']);
+        } catch (\Exception $e) {
+            logger()->error('Image Not Found' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Image not delete'], 500);
         }
     }
 }

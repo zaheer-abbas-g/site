@@ -50,19 +50,19 @@
                   <h4 class="text-dark mb-5 text-center">Sign Up</h4>
                   <form action="" id="registerForm" class="form-pill">
                     <div class="row">
-                      <div class="form-group col-md-12 mb-4">
+                      <div class="form-group col-md-12 mb-2">
                         <input type="text" class="form-control input-lg" id="name" aria-describedby="nameHelp" placeholder="Name">
                         <span class="text-danger" id="name_error" style="padding-left: 15px;"></span>
                       </div>
-                      <div class="form-group col-md-12 mb-4">
+                      <div class="form-group col-md-12 mb-2">
                         <input type="email" class="form-control input-lg" id="email" aria-describedby="emailHelp" placeholder="Username">
                         <span class="text-danger" id="email_error" style="padding-left: 15px;"></span>
                       </div>
-                      <div class="form-group col-md-12 ">
+                      <div class="form-group col-md-12 mb-2">
                         <input type="password" class="form-control input-lg" id="password" placeholder="Password">
                         <span class="text-danger" id="password_error" style="padding-left: 15px;"></span>
                       </div>
-                      <div class="form-group col-md-12 ">
+                      <div class="form-group col-md-12 mb-2">
                         <input type="password" class="form-control input-lg" id="cpassword" placeholder="Confirm Password">
                         <span class="text-danger" id="cpassword_error" style="padding-left: 15px;"></span>
                       </div>

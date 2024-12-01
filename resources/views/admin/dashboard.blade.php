@@ -1,114 +1,218 @@
 @extends('admin.layout.app')
-@section('title','dashboard');
+@section('title', 'dashboard')
+
+
+<style>
+    .center-text {
+        text-align: center;
+    }
+</style>
 
 @section('content')
+ 
+        <div class="col-lg-12">
+            <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                    <h2>User listing</h2>
+                </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered data-table" style="width:100%">
+                          
+                                <thead>
+                                    <tr>
+                                        <th>SN.</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-     <!-- Top Statistics -->
-     <div class="row">
-      <div class="col-xl-3 col-sm-6">
-        <div class="card card-mini mb-4">
-          <div class="card-body">
-            <h2 class="mb-1">71,503</h2>
-            <p>Online Signups</p>
-            <div class="chartjs-wrapper">
-              <canvas id="barChart"></canvas>
+ 
+
+    <div class="modal fade" id="ajaxModelexa" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modelHeading"></h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm" name="userForm" class="form-horizontal">
+                        @csrf
+                        <input type="hidden" name="id" id="id">
+                        <div class="form-group">
+                            <label for="title" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Enter Name" value="" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="email" name="email" value=""
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn btn-success btn-pill" id="savedata" value="create">Save User
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="col-xl-3 col-sm-6">
-        <div class="card card-mini  mb-4">
-          <div class="card-body">
-            <h2 class="mb-1">9,503</h2>
-            <p>New Visitors Today</p>
-            <div class="chartjs-wrapper">
-              <canvas id="dual-line"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6">
-        <div class="card card-mini mb-4">
-          <div class="card-body">
-            <h2 class="mb-1">71,503</h2>
-            <p>Monthly Total Order</p>
-            <div class="chartjs-wrapper">
-              <canvas id="area-chart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6">
-        <div class="card card-mini mb-4">
-          <div class="card-body">
-            <h2 class="mb-1">9,503</h2>
-            <p>Total Revenue This Year</p>
-            <div class="chartjs-wrapper">
-              <canvas id="line"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
 
-<div class="row">
-<div class="col-xl-8 col-md-12">
-        <!-- Sales Graph -->
-        <div class="card card-default" data-scroll-height="675">
-          <div class="card-header">
-            <h2>Sales Of The Year</h2>
-          </div>
-          <div class="card-body">
-            <canvas id="linechart" class="chartjs"></canvas>
-          </div>
-          <div class="card-footer d-flex flex-wrap bg-white p-0">
-            <div class="col-6 px-0">
-              <div class="text-center p-4">
-                <h4>$6,308</h4>
-                <p class="mt-2">Total orders of this year</p>
-              </div>
-            </div>
-            <div class="col-6 px-0">
-              <div class="text-center p-4 border-left">
-                <h4>$70,506</h4>
-                <p class="mt-2">Total revenue of this year</p>
-              </div>
-            </div>
-          </div>
-        </div>
-</div>
-<div class="col-xl-4 col-md-12">
-    <!-- Doughnut Chart -->
-    <div class="card card-default" data-scroll-height="675">
-      <div class="card-header justify-content-center">
-        <h2>Orders Overview</h2>
-      </div>
-      <div class="card-body" >
-        <canvas id="doChart" ></canvas>
-      </div>
-      <a href="#" class="pb-5 d-block text-center text-muted"><i class="mdi mdi-download mr-2"></i> Download overall report</a>
-      <div class="card-footer d-flex flex-wrap bg-white p-0">
-        <div class="col-6">
-          <div class="py-4 px-4">
-            <ul class="d-flex flex-column justify-content-between">
-              <li class="mb-2"><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #4c84ff"></i>Order Completed</li>
-              <li><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #80e1c1 "></i>Order Unpaid</li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-6 border-left">
-          <div class="py-4 px-4 ">
-            <ul class="d-flex flex-column justify-content-between">
-              <li class="mb-2"><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #8061ef"></i>Order Pending</li>
-              <li><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #ffa128"></i>Order Canceled</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-</div>
-</div>
+
+    <script type="text/javascript">
+        $(function() {
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var table = $('.data-table').DataTable({
+                serverSide: true,
+                responsive: true, // Enable responsiveness
+                ajax: "{{ route('users.index') }}",
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        className: 'center-text'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                        className: 'center-text'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email',
+                        className: 'center-text'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        className: 'center-text'
+                    },
+                ]
+            });
 
 
+            $('body').on('click', '.editUser', function() {
+                var id = $(this).data('id');
+                $.get("{{ route('users.index') }}" + '/' + id + '/edit', function(data) {
+                    $('#modelHeading').html('Edit user');
+                    $('#savedata').html("update");
+                    $('#ajaxModelexa').modal('show');
+                    $('#id').val(data.id);
+                    $('#name').val(data.name);
+                    $('#email').val(data.email);
+                });
+
+            })
+
+
+            $('#savedata').click(function(e) {
+                e.preventDefault();
+                $(this).html('Updating...');
+
+                var formData = $('#userForm').serialize();
+                var id = $('#id').val();
+
+                $.ajax({
+                    url: "{{ route('users.update', '') }}/" + id,
+                    type: 'PUT',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#ajaxModelexa').modal('hide');
+                        table.ajax.reload();
+
+                        $('#savedata').html('Save User');
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                        alert(
+                            'An error occurred while updating the user'); // Show error message
+                        $('#savedata').html('Save User'); // Reset button text in case of error
+                    }
+                });
+            });
+
+
+
+
+            $('body').on('click', '.deleteUser', function() {
+                var id = $(this).data('id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "delete",
+                    // showConfirmButton: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ route('users.destroy', ':id') }}".replace(':id',id) ,
+                            success: function(data) {
+
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: data.message,
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+
+                                table.draw();
+                            },
+                            error: function(data) {
+                                console.log('Error:', data);
+                            }
+                        })
+
+
+                    }
+                });
+
+
+
+            })
+
+
+        });
+    </script>
 @endsection

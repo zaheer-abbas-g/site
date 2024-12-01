@@ -18,9 +18,9 @@ class UserController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
 
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editUser"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>';
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editUser"><i class="mdi mdi-pencil-box" aria-hidden="true"></i></a>';
 
-                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteUser"><i class="fa fa-trash-o" aria-hidden="true"></i></a>';
+                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteUser"><i class="mdi mdi-trash-can"></i></a>';
 
                     return $btn;
                 })
@@ -28,7 +28,7 @@ class UserController extends Controller
                 ->make(true);
         }
 
-        return view('dashboard');
+        return view('admin.dashboard');
     }
 
 

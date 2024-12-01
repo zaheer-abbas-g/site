@@ -1,22 +1,29 @@
-@extends('layouts.app')
+@extends('admin.layout.app')
 
 
 @section('title', 'Multiple Images')
 
-@section('content')
 
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h1>Multiple Images Listing
-                            <span> <a href="" class="btn btn-info btn-sm float-right crateImages" data-toggle="modal"
-                                    data-target="#exampleModalCenter">Create Images</a></span>
-                        </h1>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-bordered data-table">
+
+<style>
+    .center-text {
+        text-align: center;
+    }
+</style>
+
+
+
+@section('content')
+<div class="col-lg-12">
+    <div class="card card-default">
+        <div class="card-header card-header-border-bottom d-flex justify-content-between align-items-center">
+            <span>Multiple Images Listing </span>
+            <a href="" class="btn  btn-primary btn-pill float-right crateImages" data-toggle="modal"
+                                    data-target="#exampleModalCenter">Create Images</a>           
+        </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered data-table" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>S.No</th>
@@ -32,7 +39,7 @@
                 </div>
             </div>
         </div>
-    </div>
+  
 
 
     <!-- Modal -->
@@ -40,16 +47,18 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Create Multiple Images</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                <div class="card card-default">
+                    
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Create Multiple Images</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
                 
-                
-                <div class="modal-body">
+                <div class="card-body">
                         <form enctype="multipart/form-data" id="multiImagesForm">
+                            @csrf
                         <div class="form-group">
                             <label for="multipleImagesUpload">Upload images</label>
                             <input type="file" class="form-control-file" id="multipleImages" name="multipleImages[]"
@@ -60,17 +69,19 @@
                         <div class="form-group">
                             <input type="hidden" class="form-control-file" id="images_id" name="images_id">
                         </div>
-                        
 
                         <div id="imageperviewcontainer"> </div>
-                     </div>
-                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="Upload">Upload</button>
-                    <button type="button" class="btn btn-info" id="update" style="display:none">update</button>
+                    </form>
                 </div>
-            </form>
+
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-pill" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success btn-pill" id="Upload">Upload</button>
+                    <button type="button" class="btn btn-primary btn-pill" id="update" style="display:none">update</button>
+                </div>
+            
             </div>
+        </div>
         </div>
     </div>
 
@@ -154,17 +165,20 @@
                 serverSide: true,
                 columns: [{
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex',
+                        className: 'center-text'
                     },
                     {
                         data: 'image',
-                        name: 'image'
+                        name: 'image',
+                        className: 'center-text'
                     },
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
                         searchable: false,
+                        className: 'center-text'
                     }
 
                 ]

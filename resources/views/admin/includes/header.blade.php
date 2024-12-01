@@ -1,3 +1,24 @@
+<style>
+      /* Active Link Background Color */
+    .sidenav-item-link.active {
+    background-color: #007bff; /* Set your preferred active background color */
+    color: #fff; /* Change the text color when active */
+    }
+
+    /* Hover Effect */
+    .sidenav-item-link:hover {
+    background-color: #0056b3; /* Set your preferred hover background color */
+    color: #fff; /* Change the text color when hovered */
+    }
+
+    /* Submenu Active State */
+    .sidenav-item-link.active-link {
+    background-color: #007bff; /* Active background for submenu items */
+    color: #fff; /* Text color for active submenu items */
+    }
+
+</style>
+
 <header class="main-header " id="header">
     <nav class="navbar navbar-static-top navbar-expand-lg">
       <!-- Sidebar toggle button -->
@@ -10,95 +31,37 @@
           <button type="button" name="search" id="search-btn" class="btn btn-flat">
             <i class="mdi mdi-magnify"></i>
           </button>
-          <input type="text" name="query" id="search-input" class="form-control" placeholder="'button', 'chart' etc."
+          <input type="text" name="query" id="search-input" class="form-control" placeholder="'product', 'category' etc."
             autofocus autocomplete="off" />
         </div>
-        <div id="search-results-container">
-          <ul id="search-results"></ul>
+        <div id="search-results">
+        
         </div>
       </div>
 
       <div class="navbar-right ">
         <ul class="nav navbar-nav">
-          <!-- Github Link Button -->
-          <li class="github-link mr-3">
-            <a class="btn btn-outline-secondary btn-sm" href="https://github.com/tafcoder/sleek-dashboard" target="_blank">
-              <span class="d-none d-md-inline-block mr-2">Source Code</span>
-              <i class="mdi mdi-github-circle"></i>
-            </a>
-
-          </li>
-          <li class="dropdown notifications-menu">
-            <button class="dropdown-toggle" data-toggle="dropdown">
-              <i class="mdi mdi-bell-outline"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li class="dropdown-header">You have 5 notifications</li>
-              <li>
-                <a href="#">
-                  <i class="mdi mdi-account-plus"></i> New user registered
-                  <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 10 AM</span>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="mdi mdi-account-remove"></i> User deleted
-                  <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 07 AM</span>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="mdi mdi-chart-areaspline"></i> Sales report is ready
-                  <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 12 PM</span>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="mdi mdi-account-supervisor"></i> New client
-                  <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 10 AM</span>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="mdi mdi-server-network-off"></i> Server overloaded
-                  <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 05 AM</span>
-                </a>
-              </li>
-              <li class="dropdown-footer">
-                <a class="text-center" href="#"> View All </a>
-              </li>
-            </ul>
-          </li>
+        
           <!-- User Account -->
           <li class="dropdown user-menu">
             <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
               <img src="{{ asset('admin/assets/img/user/user.png') }}" class="user-image" alt="User Image" />
-              <span class="d-none d-lg-inline-block">Abdus Salam</span>
+              <span class="d-none d-lg-inline-block">{{ auth()->user()->name }}</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
               <!-- User image -->
               <li class="dropdown-header">
                 <img src="{{ asset('admin/assets/img/user/user.png') }}" class="img-circle" alt="User Image" />
                 <div class="d-inline-block">
-                  Abdus Salam <small class="pt-1">abdus@gmail.com</small>
+                  {{ auth()->user()->name }} <small class="pt-1">{{ auth()->user()->email  }}</small>
                 </div>
               </li>
 
+             
+             
+             
               <li>
-                <a href="profile.html">
-                  <i class="mdi mdi-account"></i> My Profile
-                </a>
-              </li>
-              <li>
-                <a href="email-inbox.html">
-                  <i class="mdi mdi-email"></i> Message
-                </a>
-              </li>
-              <li>
-                <a href="#"> <i class="mdi mdi-diamond-stone"></i> Projects </a>
-              </li>
-              <li>
-                <a href="#"> <i class="mdi mdi-settings"></i> Account Setting </a>
+                <a href="#"> <i class="mdi mdi-settings"></i> User Profile </a>
               </li>
 
               <li class="dropdown-footer">

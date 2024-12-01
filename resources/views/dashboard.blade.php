@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layout.app')
 @section('title', 'dashboard')
 
 
@@ -77,7 +77,7 @@
 
 
     <script type="text/javascript">
-        $(function() {
+        $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

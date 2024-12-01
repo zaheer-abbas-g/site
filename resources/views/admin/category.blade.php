@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layout.app')
 @section('title', 'category')
 
 
@@ -9,17 +9,12 @@
 </style>
 
 @section('content')
-
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h1>All Categories</h1>
-                        <a class="btn btn-info" href="javascript:void(0)" data-toggle="modal" 
-                           data-target="#exampleModalCenter" id="createCategory">Add Categories</a>
-                    </div>
+<div class="col-lg-12">
+    <div class="card card-default">
+                <div class="card-header card-header-border-bottom d-flex justify-content-between align-items-center">
+                    <span>Categories Listing </span>  
+                        <a class="btn  btn-primary btn-pill" href="javascript:void(0)" data-toggle="modal" 
+                        data-target="#exampleModalCenter" id="createCategory">Add Categories</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -40,8 +35,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+   
+
 
 
 
@@ -52,13 +47,18 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           
             <div class="modal-content">
+                <div class="card card-default">
+                
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Create Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="categoryForm" name="categoryForm">
+                
+                <div class="card-body">
+                <form id="categoryForm" name="categoryForm" class="form-pill">
+                    @csrf
                     <div class="modal-body">
 
                         <div class="form-group">
@@ -72,19 +72,18 @@
                             <input type="hidden" class="form-control" id="id" name='id' aria-describedby="id">
                         </div>
 
-                        
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="saveCategory">Save</button>
-                        <button type="button" class="btn btn-success" id="updateCategory"
-                            style = "display:none">Update</button>
-
-                    </div>
-
                 </form>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-pill" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btn-pill" id="saveCategory">Save</button>
+                <button type="button" class="btn btn-primary btn-pill" id="updateCategory"
+                    style = "display:none">Update</button>
+            </div>
         </div>
+        </div>
+    </div>
     </div>
 
     <script type="text/javascript">

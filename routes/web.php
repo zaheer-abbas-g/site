@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MultiImagesController;
@@ -20,11 +21,24 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('admin.dashboard');
+    return view('dashboard');
+    // return view('admin.dashboard');
 });
 Route::get('/welcome', function () {
     return view('welcome');
 });
+
+// Admin Auth Routes 
+
+Route::get('login', [AuthController::class, 'create'])
+    ->name('login');
+Route::post('login', [AuthController::class, 'store'])->name('login.store');
+
+Route::get('register', [AuthController::class, 'registerCreate'])
+    ->name('register');
+
+Route::post('register-store', [AuthController::class, 'registerStore'])
+    ->name('register.store');
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -40,11 +54,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';
 
-
-// Route::middleware('auth')->group(function () {
-
+// Route::middleware('auth')->group(     () {
 Route::resource('/users', UserController::class);
 Route::resource('/categories', CategoryController::class);
 Route::get('categories-restore/{id}', [CategoryController::class, 'restore']);
@@ -54,5 +66,4 @@ Route::resource('/multipleimages', MultiImagesController::class);
 
 
 // user LogOut 
-
 Route::get('/user-logout', [UserController::class, 'logOut'])->name('user.logout');

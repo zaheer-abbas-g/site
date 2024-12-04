@@ -74,13 +74,13 @@
                     </div>
                 </div>
             </div>
-            
-                        </div>
-                    </div>
-												
-        </div>
-        </div>
-    
+          </div>
+        </div>					
+      </div>
+      </div>
+        
+
+
         <script src="{{asset('admin/assets/plugins/jekyllsearch.min.js') }}"></script>
 
   </body>

@@ -45,7 +45,10 @@
           
             <div class="card-body p-5">
 
-              <h4 class="text-dark text-center">Sign In</h4>
+              <h4 class="text-dark text-center ">Sign In</h4>
+           
+              <div  id="registermsge" > </div>
+
               <h4 class="text-dark text-center" style="margin-bottom: 20px;">
                 <span class="text-danger" id="login_fail" style="display: inline-block; padding-left: 33px;"></span>
               </h4>
@@ -131,6 +134,14 @@
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
       });
+
+
+      const urlParams = new URLSearchParams(window.location.search);
+              const message = urlParams.get("message");
+
+              if (message) {
+                  $('#registermsge').append(` <div class="alert alert-success text-center  mt-2" id="registermsge" role="alert">${message} </div>`);
+              }
 
         $('#signIn').on('click',function(e){
           e.preventDefault();

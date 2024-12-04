@@ -48,36 +48,37 @@
                 </div>
                 <div class="card-body p-5">
                   <h4 class="text-dark mb-5 text-center">Sign Up</h4>
+                  <div id="success-message" class="text-success"></div>
                   <form action="" id="registerForm" class="form-pill">
                     <div class="row">
                       <div class="form-group col-md-12 mb-2">
-                        <input type="text" class="form-control input-lg" id="name" aria-describedby="nameHelp" placeholder="Name">
+                        <input type="text" class="form-control input-lg" name="name" id="name" aria-describedby="nameHelp" placeholder="Name">
                         <span class="text-danger" id="name_error" style="padding-left: 15px;"></span>
                       </div>
                       <div class="form-group col-md-12 mb-2">
-                        <input type="email" class="form-control input-lg" id="email" aria-describedby="emailHelp" placeholder="Username">
-                        <span class="text-danger" id="email_error" style="padding-left: 15px;"></span>
+                        <input type="email" class="form-control input-lg" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        <span class="text-danger" name="email" id="email_error" style="padding-left: 15px;"></span>
                       </div>
                       <div class="form-group col-md-12 mb-2">
-                        <input type="password" class="form-control input-lg" id="password" placeholder="Password">
-                        <span class="text-danger" id="password_error" style="padding-left: 15px;"></span>
+                        <input type="password" class="form-control input-lg" name="password" id="password" placeholder="Password">
+                        <span class="text-danger"  id="password_error" style="padding-left: 15px;"></span>
                       </div>
                       <div class="form-group col-md-12 mb-2">
-                        <input type="password" class="form-control input-lg" id="cpassword" placeholder="Confirm Password">
-                        <span class="text-danger" id="cpassword_error" style="padding-left: 15px;"></span>
+                        <input type="password" class="form-control input-lg" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password">
+                        <span class="text-danger"  id="password_confirmation_error" style="padding-left: 15px;"></span>
                       </div>
                       <div class="col-md-12">
                         <div class="d-inline-block mr-3">
                           <label class="control control-checkbox">
                             <input type="checkbox" />
                             <div class="control-indicator"></div>
-                            I Agree the terms and conditions
+                           <p class="text-secondary"> I Agree the terms and conditions</p>
                           </label>
                     
                         </div>
                         <button type="submit" class="btn btn-lg btn-secondary btn-block mb-4 btn-pill" id="singup">Sign Up</button>
                         <p>Already have an account?
-                          <a class="text-blue" href="{{ route('login') }}">Sign in</a>
+                          <a class="text-blue text-secondary" href="{{ route('login') }}">Sign in</a>
                         </p>
                       </div>
                     </div>
@@ -89,7 +90,7 @@
           </div>
           <div class="copyright pl-0">
             <p class="text-center">&copy; 2018 Copyright Sleek Dashboard Bootstrap Template by
-              <a class="text-primary" href="http://www.iamabdus.com/" target="_blank">Abdus</a>.
+              <a class="text-secondary" href="http://www.iamabdus.com/" target="_blank">Abdus</a>.
             </p>
           </div>
         </div>
@@ -145,10 +146,14 @@
                 success:function(response){
                   console.log(response);
                     if (response.success == true) {
-                      window.location.href = response.redirect_url;
+                      //  window.location.href = response.redirect_url;
+                       const successMessage = response.message;
+                       const redirectUrl = `${response.redirect_url}?message=${encodeURIComponent(successMessage)}`;
+                       window.location.href = redirectUrl;
+
                         console.log('Register success ');
                     } else {
-                       console.log('loign failed '+response.message);
+                       console.log('Register failed '+response.message);
                        $('#login_fail').html(response.message)
                        $('#email_error').html('')
                      
@@ -160,10 +165,13 @@
                     $('#email_error').html(responseErrors.errors.email)
                     $('#name_error').html(responseErrors.errors.name)
                     $('#password_error').html(responseErrors.errors.password)
-                    $('#cpassword_error').html(responseErrors.errors.cpassword)
+                    $('#password_confirmation_error').html(responseErrors.errors.password_confirmation)
                 }
               })
               });
+
+
+
           });
       
         </script>

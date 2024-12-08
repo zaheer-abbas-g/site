@@ -42,7 +42,8 @@ class AuthController extends Controller
         if (Auth()->attempt(["email" => $request->email, "password" => $request->password])) {
             return response()->json([
                 'success' => true,
-                'redirect_url' => '/'
+                'redirect_url' => '/',
+                'message' => 'User Login Successfully'
             ]);
         } else {
             return response()->json([

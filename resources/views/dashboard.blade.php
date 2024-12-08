@@ -13,6 +13,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-12">
+                <div  id="registermsge" > </div>
                 <div class="card">
                     <div class="card-header">
                         <h1 class="mb-0">All Users</h1>
@@ -83,6 +84,19 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get("message");
+            if (message) {
+                $('#registermsge').append(` <div class="alert alert-success text-center  mt-2" id="registermsge" role="alert">${message} </div>`);
+            }
+
+                setTimeout(function() {
+                    document.getElementById('registermsge').style.display = 'none'; // Hides the element after 3 seconds
+            }, 2000);
+
+
 
             var table = $('.data-table').DataTable({
                 processing: true,

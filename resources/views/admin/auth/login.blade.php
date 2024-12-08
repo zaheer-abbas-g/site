@@ -46,7 +46,11 @@
             <div class="card-body p-5">
 
               <h4 class="text-dark text-center ">Sign In</h4>
-           
+              @if(session('message'))
+                <div class="alert {{  session('class') }} text-center  mt-2" id="registermsge" role="alert">{{  session('message') }}</div>
+              @else
+            
+           @endif
               <div  id="registermsge" > </div>
 
               <h4 class="text-dark text-center" style="margin-bottom: 20px;">
@@ -138,10 +142,14 @@
 
       const urlParams = new URLSearchParams(window.location.search);
               const message = urlParams.get("message");
-
               if (message) {
                   $('#registermsge').append(` <div class="alert alert-success text-center  mt-2" id="registermsge" role="alert">${message} </div>`);
               }
+
+
+          setTimeout(function() {
+                 document.getElementById('registermsge').style.display = 'none'; // Hides the element after 3 seconds
+          }, 2000);
 
         $('#signIn').on('click',function(e){
           e.preventDefault();
@@ -158,7 +166,11 @@
           success:function(response){
             console.log(response);
               if (response.success == true) {
-                window.location.href = response.redirect_url;
+                const successMessage = response.message;
+                console.log(successMessage);
+                    const redirectUrl = `${response.redirect_url}?message=${encodeURIComponent(successMessage)}`;
+                    window.location.href = redirectUrl;
+                // window.location.href = response.redirect_url;
                   console.log('loign success ');
               } else {
                  console.log('loign failed '+response.message);

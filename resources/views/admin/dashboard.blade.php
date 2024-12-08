@@ -11,6 +11,8 @@
 @section('content')
  
         <div class="col-lg-12">
+            <div  id="registermsge" > </div>
+             
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">
                     <h2>User listing</h2>
@@ -88,6 +90,8 @@
                 }
             });
 
+            
+        
             var table = $('.data-table').DataTable({
                 serverSide: true,
                 responsive: true, // Enable responsiveness
@@ -212,6 +216,16 @@
 
             })
 
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get("message");
+            if (message) {
+                $('#registermsge').append(` <div class="alert alert-success text-center  mt-2" id="registermsge" role="alert">${message} </div>`);
+            }
+
+            setTimeout(function() {
+                    $('#registermsge').hide('');
+            }, 2000);
 
         });
     </script>

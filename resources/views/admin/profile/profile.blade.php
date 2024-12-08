@@ -4,9 +4,19 @@
 
 
 @section('content')
+    
             <div class="row mt-5">
-                <div class="col-md-2"></div>
+             
+                <div class="col-md-2"> </div>
+           
                 <div class="col-md-6">
+                    @if (session('message'))
+                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                        {{ session('message') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                     @endif
+                
                     <div class="card shadow-lg border-0">
                         <div class="card-header bg-secondary text-center text-white">
                             <h5 class="mb-0">Profile Information</h5>
@@ -22,16 +32,16 @@
 
                                 <div class="form-group mb-4">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" name="name" class="form-control form-control-lg" id="name" placeholder="Enter your Name" required>
+                                    <input type="text" name="name" class="form-control form-control-lg" id="name" value="{{ old('name', $user->name) }}" placeholder="Enter your Name" required>
                                 </div>
 
                                 <div class="form-group mb-4">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="Enter your email" required>
+                                    <input type="email" value="{{ old('email', $user->email) }}" name="email" class="form-control form-control-lg" id="email" placeholder="Enter your email" required>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <button type="submit" class="btn btn-secondary btn-pill btn-lg w-100">
+                                    <button type="submit" id="btn" class="btn btn-secondary btn-pill btn-lg w-100">
                                         save
                                     </button>
                                 </div>
@@ -75,7 +85,7 @@
 
 
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <button type="submit" class="btn btn-secondary btn-pill btn-lg w-100">
+                                    <button type="submit"  id="btn" class="btn btn-secondary btn-pill btn-lg w-100">
                                         save
                                     </button>
                                 </div>
@@ -92,7 +102,7 @@
                     <div class="card shadow-lg border-0">
                         <div class="card-header bg-secondary text-center text-white">
                             <h5 class="mb-0">Delete Account</h5>
-                            <p class="mb-0">Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.
+                            <p class="mb-0">Once your account is deleted, all of its resources and data will be permanently deleted. 
                             </p>
                         </div>
                         <div class="card-body">
@@ -102,7 +112,7 @@
                             @method('delete')
 
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <button type="submit" class="btn btn-secondary btn-pill btn-lg w-100">
+                                    <button type="submit"  id="btn" class="btn btn-secondary btn-pill btn-lg w-100">
                                         Delete Acount
                                     </button>
                                 </div>
@@ -111,4 +121,18 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+               $(document).ready(function() {
+                
+                document.getElementsByClassName('alert-success')[0].style.display = 'none';
+  
+                $('#btn').on('click',function(){
+                        setTimeout(function() {
+                            $('.alert-success').fadeOut('slow');
+                        }, 1000);
+                });   
+            });
+
+            </script>
         @endsection

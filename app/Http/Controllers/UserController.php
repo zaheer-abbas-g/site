@@ -59,7 +59,6 @@ class UserController extends Controller
     {
 
         auth()->logout();
-
-        return redirect()->route('login')->with(['message' => 'user Logout Successfull']);
+        return redirect()->route('login')->with(['message' => 'User Logout Successfully', 'class' => 'alert-danger']);
     }
 }

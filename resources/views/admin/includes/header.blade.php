@@ -61,7 +61,7 @@
              
              
               <li>
-                <a href="#"> <i class="mdi mdi-settings"></i> User Profile </a>
+                <a href="{{ route('profile.edit') }}"> <i class="mdi mdi-settings"></i> User Profile </a>
               </li>
 
               <li class="dropdown-footer">

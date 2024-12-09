@@ -7,7 +7,7 @@
           href="http://www.iamabdus.com/"
           target="_blank"
           >Abdus</a
-        >.
+        >
       </p>
     </div>
     <script>

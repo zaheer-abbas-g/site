@@ -76,19 +76,19 @@
                      ——— LEFT SIDEBAR INCLUDE ——— 
                 ===================================== 
               -->
-                  @include('admin.includes.sidebar');
+                  @include('admin.includes.sidebar')
         
 
-      <div class="page-wrapper">
+            <div class="page-wrapper">
                  
                 <!-- 
                 =======================
                  ——— Header include ———
                 =======================
                 -->
-                @include('admin.includes.header');
+                @include('admin.includes.header')
 
-        <div class="content-wrapper">
+             <div class="content-wrapper">
            
                 <!-- 
                 =======================
@@ -105,7 +105,7 @@
                 ——— Footer include ———
                 =======================
                 -->
-               @include('admin.includes.footer');
+               @include('admin.includes.footer')
       </div>
     </div>
     </div>

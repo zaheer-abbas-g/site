@@ -6,7 +6,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\MultiImagesController;
 use App\Http\Controllers\MultipleImages;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +19,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -92,11 +92,15 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+Route::get('profile', [ProfileController::class, 'create'])->name('profile.edit');
+Route::put('profile-update', [ProfileController::class, 'profileUpdate']);
+Route::put('profile-password-update', [ProfileController::class, 'profileUpdatePassword']);
 
 // require __DIR__ . '/auth.php';
 

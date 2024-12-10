@@ -34,11 +34,15 @@ class ProfileController extends Controller
 
         $user = new User();
 
-        if (!Hash::check($request->new_password, $authUser->password)) {
-            return response()->json(['status' => false, 'message' => 'Entered password is not matched with current password', 'data' => $authUser]);
+        if (!Hash::check($request->current_password, $authUser->password)) {
+            return response()->json(['status' => false, 'message' => 'The current password does not match', 'data' => $authUser], 400);
         }
 
-        // Update the password
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => "required|min|confirmed"
+        ]);
+
         $user->update([
             'password' => Hash::make($request->new_password),
         ]);

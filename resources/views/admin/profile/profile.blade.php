@@ -147,31 +147,31 @@
                 type:'PUT',
                 data:formData,
                 success:function(response){
-                    if (response.status == true) {
-                        $('#flashMessagePassword').html(
-                            `<div class="alert alert-success text-center">${response.message}</div>`
-                        );
-                    } if(response.status == false){
-                        $('#current_password_error').html(response.message);
-                    }
-
-                    console.log(response);
+                    console.log(response,'erer');
+                    if (response.status === true) {
+                    
+                    $('#flashMessagePassword').html(
+                        `<div class="alert alert-success text-center">${response.message}</div>`
+                    );
+                        $('#current_password_error').html(''); 
+            },
+            error: function (xhr) {
+                $('#current_password_error').html(JSON.parse(xhr.responseText).message);
+                $('#new_password_error').html(JSON.parse(xhr.responseText).new_password);
+                    
                 },
-                error:function(xhr){
-                    var errorResponse  = JSON.parse(xhr.responseText);
-                    $('#current_password_error').html(errorResponse.errors.message);
-                }
-            })
-            setTimeout(function(){
-                 $('#flashMessagePassword').html('');
-            },3000);
-          
         });
-
-
-
         
     });
+
+            setTimeout(function(){
+                $('#flashMessagePassword').html('');
+            },3000);
+                
+
+    });
+
+
     </script>
 
 @endsection

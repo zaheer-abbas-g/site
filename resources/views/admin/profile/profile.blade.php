@@ -42,43 +42,43 @@
 
     {{-- user update password --}}
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div id="flashMessagePassword"></div> 
-            <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <p class="text-center">Update Password</p>
-                </div>
-                <div class="card-body">
-                    <form id="updatePasswordForm" class="form-pill">
-                        <!-- Current Password -->
-                        <div class="form-group mb-3">
-                            <label for="current_password" class="form-label">Current Password</label>
-                            <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Enter your current password" required>
-                            <span class="text-danger" id="current_password_error"></span>
-                        </div>
-
-                        <!-- New Password -->
-                        <div class="form-group mb-3">
-                            <label for="new_password" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter your new password" required>
-                            <span id="new_password_error"></span>
-
-                        </div>
-
-                        <!-- Confirm New Password -->
-                        <div class="form-group mb-3">
-                            <label for="confirm_password" class="form-label">Confirm New Password</label>
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Re-enter your new password" required>
-                            <span id="confirm_password_error"></span>
-
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="form-group">
-                            <input type="submit" class="form-control btn btn-sm btn-primary" id="userupdatepasswordbtn"  value="Save" name="userupdatepasswordbtn">
-                        </div>
-                    </form>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div id="flashMessagePassword"></div>
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <p class="text-center">Update Password</p>
+                    </div>
+                    <div class="card-body">
+                        <form id="updatePasswordForm" class="form-pill">
+                            <!-- Current Password -->
+                            <div class="form-group mb-3">
+                                <label for="current_password" class="form-label">Current Password</label>
+                                <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Enter your current password" required>
+                                <span class="text-danger" id="current_password_error"></span>
+                            </div>
+    
+                            <!-- New Password -->
+                            <div class="form-group mb-3">
+                                <label for="new_password" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter your new password" required>
+                                <span class="text-danger" id="new_password_error"></span>
+                            </div>
+    
+                            <!-- Confirm New Password -->
+                            <div class="form-group mb-3">
+                                <label for="confirm_password" class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" placeholder="Re-enter your new password" required>
+                                <span class="text-danger" id="confirm_password_error"></span>
+                            </div>
+    
+                            <!-- Submit Button -->
+                            <div class="form-group">
+                                <input type="submit" class="form-control btn btn-sm btn-primary" id="userupdatepasswordbtn"  value="Save" name="userupdatepasswordbtn">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,45 +131,86 @@
 
 
                 
-        $('#updatePasswordForm').on('submit',function(e){
-            e.preventDefault();
+      
 
-            $.ajaxSetup({
+        $('#updatePasswordForm').on('submit', function (e) {
+             
+        e.preventDefault();
+        $.ajaxSetup({
                 headers:{
                     'X-CSRF-TOKEN':$("meta[name='csrf-token']").attr('content')
                 }
             });
 
-        var formData =  $('#updatePasswordForm').serialize();
-          
-            $.ajax({
-                url:'{{ url("profile-password-update") }}',
-                type:'PUT',
-                data:formData,
-                success:function(response){
-                    console.log(response,'erer');
-                    if (response.status === true) {
-                    
+        // Clear previous error messages
+        $('#current_password_error, #new_password_error, #confirm_password_error').text('');
+
+        // Serialize form data
+        var formData = $(this).serialize();
+
+        // Make AJAX request
+        $.ajax({
+            url: '{{ url("profile-password-update") }}', // Update URL for password change
+            type: 'PUT',
+            data: formData,
+            success: function (response) {
+                if (response.status === true) {
                     $('#flashMessagePassword').html(
                         `<div class="alert alert-success text-center">${response.message}</div>`
                     );
-                        $('#current_password_error').html(''); 
+                    $('#updatePasswordForm')[0].reset(); // Clear form inputs
+                }
             },
+            
             error: function (xhr) {
-                $('#current_password_error').html(JSON.parse(xhr.responseText).message);
-                $('#new_password_error').html(JSON.parse(xhr.responseText).new_password);
-                    
-                },
-        });
+    // Check if the response is a valid JSON
+    try {
+        var response_error = JSON.parse(xhr.responseText); // Manually parse JSON if not already parsed
         
-    });
+        // Check if message exists in the response
+        if (response_error.message) {
+            console.log(response_error.message); // Log the message if it exists
+            $('#current_password_error').text(response_error.message);
 
+        } else {
+            console.log('No message field in response.');
+        }
+
+        // Handle validation errors if any
+        if (response_error.errors) {
+            let errors = response_error.errors;
+
+            // Handle specific field errors
+            if (errors.current_password) {
+                $('#current_password_error').text(errors.current_password[0]);
+            }
+            if (errors.new_password) {
+                $('#new_password_error').text(errors.new_password[0]);
+            }
+            if (errors.new_password_confirmation) {
+                $('#confirm_password_error').text(errors.new_password_confirmation[0]);
+            }
+        }
+
+    } catch (e) {
+        // Handle cases where response is not a valid JSON
+        console.error('Error parsing response:', e);
+        console.error('Raw response:', xhr.responseText);
+    }
+}
+
+        });
+   
             setTimeout(function(){
                 $('#flashMessagePassword').html('');
             },3000);
                 
+   
+
+        });
 
     });
+ 
 
 
     </script>

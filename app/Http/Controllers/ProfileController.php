@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -30,23 +31,33 @@ class ProfileController extends Controller
     public function profileUpdatePassword(Request $request)
     {
 
-        $authUser = auth()->user();
+        // Get the authenticated user
+        $authUser = Auth::user();
 
-        $user = new User();
-
-        if (!Hash::check($request->current_password, $authUser->password)) {
-            return response()->json(['status' => false, 'message' => 'The current password does not match', 'data' => $authUser], 400);
-        }
-
+        // Validate the input fields
         $request->validate([
-            'current_password' => 'required',
-            'new_password' => "required|min|confirmed"
+            'current_password' => 'required|min:6|max:8',
+            'new_password' => 'required|min:6|max:8|confirmed', // This rule automatically checks for matching 
+            'new_password_confirmation' => 'required|min:6|max:8', // If you want to add extra rules for confirmation
         ]);
 
-        $user->update([
+        // Check if the current password matches
+        if (!Hash::check($request->current_password, $authUser->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'The current password does not match with previous password',
+            ], 400);
+        }
+
+        // Update the password
+        $authUser->update([
             'password' => Hash::make($request->new_password),
         ]);
 
-        return response()->json(['status' => true, 'message' => 'User Password successfully updated', 'data' => $authUser]);
+        // Return success response
+        return response()->json([
+            'status' => true,
+            'message' => 'Password successfully updated.',
+        ]);
     }
 }

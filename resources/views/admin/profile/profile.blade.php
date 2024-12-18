@@ -55,21 +55,21 @@
                             <!-- Current Password -->
                             <div class="form-group mb-3">
                                 <label for="current_password" class="form-label">Current Password</label>
-                                <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Enter your current password" required>
+                                <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Enter your current password" >
                                 <span class="text-danger" id="current_password_error"></span>
                             </div>
     
                             <!-- New Password -->
                             <div class="form-group mb-3">
                                 <label for="new_password" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter your new password" required>
+                                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter your new password" >
                                 <span class="text-danger" id="new_password_error"></span>
                             </div>
     
                             <!-- Confirm New Password -->
                             <div class="form-group mb-3">
                                 <label for="confirm_password" class="form-label">Confirm New Password</label>
-                                <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" placeholder="Re-enter your new password" required>
+                                <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" placeholder="Re-enter your new password" >
                                 <span class="text-danger" id="confirm_password_error"></span>
                             </div>
     
@@ -159,44 +159,49 @@
                         `<div class="alert alert-success text-center">${response.message}</div>`
                     );
                     $('#updatePasswordForm')[0].reset(); // Clear form inputs
+                    $('#current_password_error').text('');
+                    $('#current_password_error').text('');
+                    $('#confirm_password_error').text('');
                 }
             },
             
             error: function (xhr) {
-    // Check if the response is a valid JSON
-    try {
-        var response_error = JSON.parse(xhr.responseText); // Manually parse JSON if not already parsed
-        
-        // Check if message exists in the response
-        if (response_error.message) {
-            console.log(response_error.message); // Log the message if it exists
-            $('#current_password_error').text(response_error.message);
+                // Check if the response is a valid JSON
 
-        } else {
-            console.log('No message field in response.');
-        }
+                    console.log(xhr);
+                try {
+                    var response_error = JSON.parse(xhr.responseText); // Manually parse JSON if not already parsed
+                    
+                    // Check if message exists in the response
+                    if (response_error.messagestatus) {
+                        console.log(response_error.messagestatus); // Log the message if it exists
+                         $('#current_password_error').text(response_error.messagestatus);
 
-        // Handle validation errors if any
-        if (response_error.errors) {
-            let errors = response_error.errors;
+                    } else {
+                        console.log('No message field in response.');
+                    }
 
-            // Handle specific field errors
-            if (errors.current_password) {
-                $('#current_password_error').text(errors.current_password[0]);
-            }
-            if (errors.new_password) {
-                $('#new_password_error').text(errors.new_password[0]);
-            }
-            if (errors.new_password_confirmation) {
-                $('#confirm_password_error').text(errors.new_password_confirmation[0]);
-            }
-        }
+                    // Handle validation errors if any
+                    if (response_error.errors) {
+                        let errors = response_error.errors;
 
-    } catch (e) {
-        // Handle cases where response is not a valid JSON
-        console.error('Error parsing response:', e);
-        console.error('Raw response:', xhr.responseText);
-    }
+                        // Handle specific field errors
+                        if (errors.current_password) {
+                            $('#current_password_error').text(errors.current_password[0]);
+                        }
+                        if (errors.new_password) {
+                            $('#new_password_error').text(errors.new_password[0]);
+                        }
+                        if (errors.new_password_confirmation) {
+                            $('#confirm_password_error').text(errors.new_password_confirmation[0]);
+                        }
+                    }
+
+                    } catch (e) {
+                        // Handle cases where response is not a valid JSON
+                        console.error('Error parsing response:', e);
+                        console.error('Raw response:', xhr.responseText);
+                    }
 }
 
         });

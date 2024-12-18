@@ -46,6 +46,13 @@
             <div class="card-body p-5">
 
               <h4 class="text-dark text-center ">Sign In</h4>
+
+              @if (session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
+
               @if(session('message'))
                 <div class="alert {{  session('class') }} text-center  mt-2" id="registermsge" role="alert">{{  session('message') }}</div>
               @else

@@ -1,50 +1,21 @@
-@extends('admin.layout.app')
-@section('title', 'email varification')
-
-
-<style>
-    .center-text {
-        text-align: center;
-    }
-</style>
-
-@section('content')
- 
-    <div class="min-h-screen flex flex-col justify-center items-center">
-        <!-- Main Content -->
-        <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-            <!-- Informational Message -->
-            <div class="mb-4 text-sm text-gray-600">
-                {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-            </div>
-
-            <!-- Status Message -->
-            @if (session('status') == 'verification-link-sent')
-                <div class="mb-4 font-medium text-sm text-green-600">
-                    {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-                </div>
-            @endif
-
-            <!-- Action Buttons -->
-            <div class="mt-4 flex items-center justify-between">
-                <!-- Resend Verification Email Form -->
-                <form method="POST" action="{{ route('verification.send') }}">
-                    @csrf
-                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        {{ __('Resend Verification Email') }}
-                    </button>
-                </form>
-
-                <!-- Logout Form -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        {{ __('Log Out') }}
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset</title>
+</head>
+<body>
+    <h1>Password Reset Request</h1>
+    <p>Hello,</p>
+    <p>You are receiving this email because we received a password reset request for your account.</p>
+    <p>Click the link below to reset your password:</p>
+    <p>
+        <a href="{{ $resetUrl }}" style="color: #3498db; text-decoration: none;">
+            Reset Password
+        </a>
+    </p>
+    <p>If you did not request a password reset, no further action is required.</p>
+    <p>Regards,<br>Your Application Team</p>
 </body>
 </html>
-@endsection

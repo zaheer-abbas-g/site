@@ -45,7 +45,7 @@ class ProfileController extends Controller
         if (!Hash::check($request->current_password, $authUser->password)) {
             return response()->json([
                 'status' => false,
-                'message' => 'The current password does not match with previous password',
+                'messagestatus' => 'The current password does not match with previous password',
             ], 400);
         }
 

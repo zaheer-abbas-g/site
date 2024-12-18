@@ -87,7 +87,7 @@ class AuthController extends Controller
 
 
         // Send email verification link
-        // $user->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification();
 
         return response()->json(['success' => true, 'redirect_url' => 'login', 'message' => 'User Registered successfully', 'data' => $user]);
     }

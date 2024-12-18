@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -5,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Forget Password</title>
+  <title>Reset Password</title>
 
   
   <!-- GOOGLE FONTS -->
@@ -36,50 +37,66 @@
     <div class="mobile-sticky-body-overlay"></div>
 
     <div class="wrapper">
-      
-    
-
       <div class="page-wrapper">
-      
-
-
+ 
         <div class="content-wrapper">
           <div class="content">						
         
             <div class="row mt-5">
-           
                 <div class="col-md-2"></div>
-            
-
                 <div class="col-md-6">
-
-                  @if (session('success'))
-                  <div class="alert alert-success text-center falshmessage">
-                      {{ session('success') }}
-                  </div>
-                  @endif
-                  @if (session('error'))
-                      <div class="alert alert-danger text-center falshmessage">
-                          {{ session('error') }}
-                      </div>
-                  @endif
-              
+                
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                            
                   
                     <div class="card shadow-lg border-0">
                         <div class="card-header bg-secondary text-center text-white">
                             <h5 class="mb-0">Reset Your Password</h5>
-                            <p class="mb-0">Enter your email, and we’ll send you a reset link.</p>
+                          
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="{{ route('password.email') }}" class="form-pill">
+                            <form method="POST" action="{{ route('password.update') }}" class="form-pill">
                                 @csrf
+                                <input type="hidden" name="token" value="{{ $token }}">
+
                                 <div class="form-group mb-4">
                                     <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="Enter your email" required>
+                                    <input type="email" id="email"  class="form-control form-control" name="email"   autofocus>
+                                    @error('email')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
+
+                                {{-- <div class="form-group mb-4">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="Enter your email" required>
+                                </div> --}}
+
+                           
+
+                                <div class="form-group mb-4">
+                                    <label for="password" class="form-label">New Password</label>
+                                    <input type="password" id="password" name="password"  class="form-control form-control"  >
+                                    @error('password')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                               
+                                                            
+                                <div class="form-group mb-4">
+                                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control form-control"   >
+                                </div>
+
+                               
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <button type="submit" class="btn btn-secondary btn-pill btn-lg w-100" id="emailbtn">
-                                        Send Reset Link
+                                    <button type="submit" class="btn btn-secondary btn-pill btn-lg w-100" >
+                                        Reset Password
                                     </button>
                                 </div>
                             </form>

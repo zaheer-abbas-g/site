@@ -33,7 +33,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ], [
             'email.required' => 'The email field is required',
             'password.required' => 'The password field is required'
@@ -72,7 +72,8 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', 'min:6', 'max:8'],
-            'password_confirmation' => 'required'
+            'password_confirmation' => 'required',
+            'terms' => 'required|accepted', // Ensures checkbox is checked
         ]);
 
 
@@ -82,7 +83,7 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
 
 

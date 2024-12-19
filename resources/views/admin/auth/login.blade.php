@@ -30,6 +30,12 @@
     text-align: left;
     display: block; /* Ensures alignment works properly */
 }
+.small-circle-image {
+        width: 100px; /* Adjust size as needed */
+        height: 100px; /* Make height equal to width for a perfect circle */
+        border-radius: 50%; /* Makes the image circular */
+        object-fit: cover; /* Ensures the image fills the circle properly */
+    }
   </style>
 </head>
 
@@ -40,7 +46,8 @@
         <div class="col-xl-5 col-lg-6 col-md-10">
           <div class="card">
             <div class="card-header bg-secondary text-center rounded-pill">
-              <i class="mdi mdi-account-circle" style="font-size: 80px; color: #ffffff;"></i> 
+              {{-- <i class="mdi mdi-account-circle" style="font-size: 80px; color: #ffffff;"></i> --}}
+              <img src="{{ asset('admin/images/login.png') }}" alt="" class="small-circle-image"> 
              </div>
           
             <div class="card-body p-5">
@@ -89,14 +96,14 @@
                       <div class="d-flex my-2 justify-content-between">
                         <div class="d-inline-block mr-3">
                           <label class="control text-secondary control-checkbox">Remember me
-                            <input type="checkbox" />
+                            <input type="checkbox" name="remember" />
                             <div class="control-indicator"></div>
                           </label>
                   
                         </div>
                         <p><a class="text-secondary" href="{{ route('password.request') }}">Forgot Your Password?</a></p>
                       </div>
-                      <button type="submit" class="btn btn-lg btn-secondary btn-block mb-4 btn-pill" id="signIn">Sign In</button>
+                      <button type="submit" class="btn btn-secondary btn-block mb-4 btn-pill" id="signIn">Sign In</button>
                       <p>Don't have an account yet ?
                         <a class="text-secondary" href="{{ route('register') }}">Sign Up</a>
                       </p>
@@ -177,8 +184,6 @@
                 console.log(successMessage);
                     const redirectUrl = `${response.redirect_url}?message=${encodeURIComponent(successMessage)}`;
                     window.location.href = redirectUrl;
-                // window.location.href = response.redirect_url;
-                  console.log('loign success ');
               } else {
                  console.log('loign failed '+response.message);
                  $('#login_fail').html(response.message)

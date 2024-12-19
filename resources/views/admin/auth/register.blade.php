@@ -24,27 +24,27 @@
   <link id="sleek-css" rel="stylesheet" href="{{ asset('admin/assets/css/sleek.css') }}" /> 
   <!-- FAVICON -->
   <link href="{{asset('admin/assets/img/favicon.png') }}" rel="shortcut icon" />
-
-  
-  <!--
-    HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
-  -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
   <script src="assets/plugins/nprogress/nprogress.js"></script>
-</head>
+
+  <style>
+    .small-circle-image {
+        width: 100px; /* Adjust size as needed */
+        height: 100px; /* Make height equal to width for a perfect circle */
+        border-radius: 50%; /* Makes the image circular */
+        object-fit: cover; /* Ensures the image fills the circle properly */
+    }
+</style>
 
 </head>
+
   <body class="bg-light-gray" id="body">
           <div class="container d-flex flex-column justify-content-between vh-100">
           <div class="row justify-content-center mt-5">
             <div class="col-xl-5 col-lg-6 col-md-10">
               <div class="card">
                 <div class="card-header bg-secondary text-center rounded-pill">
-                    <i class="mdi mdi-account-plus"  style="font-size: 80px; color: #ffffff;"></i>
+                    {{-- <i class="mdi mdi-account-plus"  style="font-size: 80px; color: #ffffff;"></i> --}}
+                    <img src="{{ asset('admin/images/register.png') }}" alt="" class="small-circle-image">
                 </div>
                 <div class="card-body p-5">
                   <h4 class="text-dark mb-5 text-center">Sign Up</h4>
@@ -70,13 +70,14 @@
                       <div class="col-md-12">
                         <div class="d-inline-block mr-3">
                           <label class="control control-checkbox">
-                            <input type="checkbox" />
+                            <input type="checkbox"  id="terms" name="terms"/>
                             <div class="control-indicator"></div>
                            <p class="text-secondary"> I Agree the terms and conditions</p>
+                             <span class="text-danger"  id="terms_error" style="padding-left: 15px;"></span>
                           </label>
                     
                         </div>
-                        <button type="submit" class="btn btn-lg btn-secondary btn-block mb-4 btn-pill" id="singup">Sign Up</button>
+                        <button type="submit" class="btn btn-secondary btn-block mb-4 btn-pill" id="singup">Sign Up</button>
                         <p>Already have an account?
                           <a class="text-blue text-secondary" href="{{ route('login') }}">Sign in</a>
                         </p>
@@ -102,13 +103,7 @@
   <script src="{{asset('admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{asset('admin/assets/plugins/toaster/toastr.min.js') }}"></script>
   <script src="{{asset('admin/assets/plugins/slimscrollbar/jquery.slimscroll.min.js') }}"></script>
-  {{-- <script src="{{asset('admin/assets/plugins/charts/Chart.min.js') }}"></script> --}}
-  {{-- <script src="{{asset('admin/assets/plugins/ladda/spin.min.js') }}"></script> --}}
-  {{-- <script src="{{asset('admin/assets/plugins/ladda/ladda.min.js') }}"></script> --}}
-  {{-- <script src="{{asset('admin/assets/plugins/jquery-mask-input/jquery.mask.min.js') }}"></script> --}}
-  {{-- <script src="{{asset('admin/assets/plugins/select2/js/select2.min.js') }}"></script> --}}
   <script src="{{asset('admin/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js') }}"></script>
-  {{-- <script src="{{asset('admin/assets/plugins/jvectormap/jquery-jvectormap-world-mill.js') }}"></script> --}}
   <script src="{{asset('admin/assets/plugins/daterangepicker/moment.min.js') }}"></script>
   <script src="{{asset('admin/assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
   <script src="{{asset('admin/assets/plugins/jekyllsearch.min.js') }}"></script>
@@ -135,37 +130,32 @@
                 e.preventDefault();
       
       
-              var formData = new FormData($('#registerForm')[0]);
-              console.log(formData);
+              var formData = $('#registerForm').serialize();
               $.ajax({
                 url:"{{ route('register.store') }}",
                 type:"POST",
                 data:formData,
-                processData: false, 
-                contentType: false,
                 success:function(response){
-                  console.log(response);
+                  console.time('Redirect');
                     if (response.success == true) {
-                      //  window.location.href = response.redirect_url;
                        const successMessage = response.message;
                        const redirectUrl = `${response.redirect_url}?message=${encodeURIComponent(successMessage)}`;
-                       window.location.href = redirectUrl;
-
-                        console.log('Register success ');
+                       window.location.replace(redirectUrl);
                     } else {
                        console.log('Register failed '+response.message);
                        $('#login_fail').html(response.message)
                        $('#email_error').html('')
                      
                   }
+                  console.timeEnd('Redirect');
                 },
                 error:function(xhr){
                     var responseErrors = JSON.parse(xhr.responseText);
-                    console.log(responseErrors.errors.email); 
                     $('#email_error').html(responseErrors.errors.email)
                     $('#name_error').html(responseErrors.errors.name)
                     $('#password_error').html(responseErrors.errors.password)
                     $('#password_confirmation_error').html(responseErrors.errors.password_confirmation)
+                    $('#terms_error').html(responseErrors.errors.terms)
                 }
               })
               });

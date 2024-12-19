@@ -75,10 +75,10 @@
                                 @csrf
                                 <div class="form-group mb-4">
                                     <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="Enter your email" required>
+                                    <input type="email" name="email" class="form-control form-control" id="email" placeholder="Enter your email" required>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <button type="submit" class="btn btn-secondary btn-pill btn-lg w-100" id="emailbtn">
+                                    <button type="submit" class="btn btn-secondary btn-pill btn w-100" id="emailbtn">
                                         Send Reset Link
                                     </button>
                                 </div>

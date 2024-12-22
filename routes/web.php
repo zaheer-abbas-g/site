@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -43,8 +45,8 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     // return view('dashboard');
-    // return view('admin.dashboard');
-    return view('frontend.home');
+    return view('admin.dashboard');
+    // return view('frontend.home');
 });
 Route::get('/welcome', function () {
     return view('welcome');
@@ -99,6 +101,12 @@ Route::middleware('auth')->group(function () {
     Route::get('categories-restore/{id}', [CategoryController::class, 'restore']);
     Route::resource('/brands', BrandController::class);
     Route::resource('/multipleimages', MultiImagesController::class);
+
+
+    // 
+
+    Route::resource('/admin-home', AdminHomeController::class);
+    Route::resource('/admin-service', ServiceController::class);
 });
 
 
@@ -116,12 +124,16 @@ Route::get('front-home', [HomeController::class, 'index'])->name('front.home');
 Route::get('front-home-about', [HomeController::class, 'about']);
 Route::get('front-home-services', [HomeController::class, 'services']);
 Route::get('front-home-portfolio', [HomeController::class, 'portfolio']);
-Route::get('front-home-clients', [HomeController::class, 'clients']);
+// Route::get('front-home-clients', [HomeController::class, 'clients']);
+Route::get('/front-get-home', [HomeController::class, 'getHome'])->name('front.getHome');
 
 Route::get('front-about', [AboutController::class, 'about'])->name('front.about');
+Route::get('front-about-team', [AboutController::class, 'team'])->name('front.about.team');
+Route::get('front-about-testimonials', [AboutController::class, 'testimonials'])->name('front.about.testimonials');
 Route::get('front-services', [ServicesController::class, 'services'])->name('front.services');
 Route::get('front-portfolio', [PortfolioController::class, 'portfolio'])->name('front.portfolio');
 Route::get('front-portfolio-details', [PortfolioController::class, 'portfolioDetails'])->name('front.portfolio.details');
 Route::get('front-pricing', [PricingController::class, 'pricing'])->name('front.pricing');
 Route::get('front-blog', [BlogController::class, 'blog'])->name('front.blog');
+Route::get('front-blog-single', [BlogController::class, 'singleBlog'])->name('front.blog.single');
 Route::get('front-contact', [ContactController::class, 'contact'])->name('front.contact');

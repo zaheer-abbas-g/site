@@ -12,7 +12,7 @@
       <div class="carousel-inner" role="listbox">
 
         <!-- Slide 1 -->
-        <div class="carousel-item active" style="background-image: url(assets/img/slide/slide-1.jpg);">
+        <div class="carousel-item active" style="background-image: url({{ asset('frontend/assets/img/slide/slide-1.jpg') }});">
           <div class="carousel-container">
             <div class="carousel-content animate__animated animate__fadeInUp">
               <h2>Welcome to <span>Company</span></h2>
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Slide 2 -->
-        <div class="carousel-item" style="background-image: url(assets/img/slide/slide-2.jpg);">
+        <div class="carousel-item" style="background-image: url({{ asset('frontend/assets/img/slide/slide-2.jpg') }});">
           <div class="carousel-container">
             <div class="carousel-content animate__animated animate__fadeInUp">
               <h2>Lorem Ipsum Dolor</h2>
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Slide 3 -->
-        <div class="carousel-item" style="background-image: url(assets/img/slide/slide-3.jpg);">
+        <div class="carousel-item" style="background-image: url({{ asset('frontend/assets/img/slide/slide-3.jpg') }});">
           <div class="carousel-container">
             <div class="carousel-content animate__animated animate__fadeInUp">
               <h2>Sequi ea ut et est quaerat</h2>
@@ -315,64 +315,28 @@
         <div class="container" data-aos="fade-up">
   
           <div class="section-title">
-            <h2>Clients</h2>
+            <h2>Brands</h2>
           </div>
   
-          <div class="row no-gutters clients-wrap clearfix" data-aos="fade-up">
+          <div class="row no-gutters clients-wrap clearfix" data-aos="fade-up" id="brands">
   
-            <div class="col-lg-3 col-md-4 col-6">
+           {{-- <div class="col-lg-3 col-md-4 col-6">
               <div class="client-logo">
                 <img src="{{asset('frontend/assets/img/clients/client-1.png')}}" class="img-fluid" alt="">
               </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{asset('frontend/assets/img/clients/client-2.png')}}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{asset('frontend/assets/img/clients/client-3.png')}}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{asset('frontend/assets/img/clients/client-4.png')}}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{asset('frontend/assets/img/clients/client-5.png')}}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{asset('frontend/assets/img/clients/client-6.png')}}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{asset('frontend/assets/img/clients/client-7.png')}}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{asset('frontend/assets/img/clients/client-8.png')}}" class="img-fluid" alt="">
-              </div>
-            </div>
+            </div>  --}}
+        
   
           </div>
-  
+          <p class="text-center" id="brand_error"></p>
         </div>
       </section>
       <!-- End Our Clients Section -->
   
+    
+      @push('script')
+     
 
+        <script src="{{ asset('frontend/assets/js/home/home.js') }}"></script>
+      @endpush
 @endsection

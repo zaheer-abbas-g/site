@@ -12,10 +12,10 @@
 
           <li class="drop-down"><a href="">About</a>
             <ul>
-              <li><a href="about.html">About Us</a></li>
-              <li><a href="team.html">Team</a></li>
-              <li><a href="testimonials.html">Testimonials</a></li>
-              <li class="drop-down"><a href="#">Deep Drop Down</a>
+              <li><a href="{{ route('front.about') }}">About Us</a></li>
+              <li><a href="{{ route('front.about.team') }}">Team</a></li>
+              <li><a href="{{ route('front.about.testimonials') }}">Testimonials</a></li>
+              {{-- <li class="drop-down"><a href="#">Deep Drop Down</a>
                 <ul>
                   <li><a href="#">Deep Drop Down 1</a></li>
                   <li><a href="#">Deep Drop Down 2</a></li>
@@ -23,7 +23,7 @@
                   <li><a href="#">Deep Drop Down 4</a></li>
                   <li><a href="#">Deep Drop Down 5</a></li>
                 </ul>
-              </li>
+              </li> --}}
             </ul>
           </li>
           <li class="{{ request()->routeIs('front.services')? 'active':'' }}"><a href="{{ route('front.services') }}">services </a></li>

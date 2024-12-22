@@ -45,6 +45,24 @@
               </div>
             </ul>
           </li>
+
+            <!-- Home Section -->
+            <li class="has-sub {{ request()->routeIs('admin-home.*') ? 'active expand' : '' }}">
+              <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#home"
+                aria-expanded="{{ request()->routeIs('admin-home.*') ? 'true' : 'false' }}" aria-controls="home">
+                <i class="mdi mdi-view-dashboard-outline"></i>
+                <span class="nav-text">Home</span> <b class="caret"></b>
+              </a>
+              <ul class="collapse {{ request()->routeIs('admin-home.index') ? 'show' : '' }}" id="home" data-parent="#sidebar-menu">
+                <div class="sub-menu">
+                  <li class="{{ request()->routeIs('admin-home.index') ? 'active' : '' }}">
+                    <a class="sidenav-item-link" href="{{ route('admin-home.index') }}">
+                      <span class="nav-text">Services</span>
+                    </a>
+                  </li>
+                </div>
+              </ul>
+            </li>
         
           <!-- Categories Section -->
           <li class="has-sub {{ request()->routeIs('categories.*') ? 'active expand' : '' }}">

@@ -40,7 +40,16 @@ class ServiceController extends Controller
 
     public function edit($id)
     {
-        return "ddd";
+        try {
+            $service = Service::find($id);
+
+            if (!$service) {
+                return response()->json(['message' => 'Service is not found'], 404);
+            }
+            return response()->json(['data' => $service], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 500);
+        }
     }
 
     public function destroy($id)

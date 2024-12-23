@@ -52,14 +52,14 @@
 							<div class="modal-dialog modal-lg" role="document">
 								<div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title " id="exampleModalLongTitle">Create Services</h5>
+                                            <h5 class="modal-title " id="exampleModalLongTitle" class="createTitle">Create Services</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                                         
                                     <div class="modal-header">
-                                        <p class="modal-title " id="exampleModalLongTitle">Create Services</p>
+                                        <p class="modal-title " id="exampleModalLongTitle1" >Create Services</p>
                                     </div>
                                 
 									<div class="modal-body">
@@ -141,101 +141,12 @@
 									<div class="modal-footer">
 										<button type="button" class="btn btn-danger btn-pill" data-dismiss="modal">Close</button>
 										<button type="button" class="btn btn-primary btn-pill" id="saveBtn">Save Changes</button>
+										<button type="button" class="btn btn-primary btn-pill" id="updateBtn" style="display: none">Update</button>
 									</div>
 								</div>
 							</div>
 						</div>
                 
-    <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="card card-default">
-        
-                    <div class="modal-header">
-                        <h5 class="modal-title " id="exampleModalLongTitle">Create Services</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                
-
-                    {{-- <div class="modal-header">
-                        <p class="modal-title " id="exampleModalLongTitle">Create Features</p>
-                    </div> --}}
-
-
-                    <div class="modal-header">
-                        <p class="modal-title " id="exampleModalLongTitle">Create Services</p>
-                    </div>
-                 
-                  
-
-                <div class="card-body">
-                    <form id="servicesForm"  class="form-pill">
-                        @csrf
-                        <div class="form-group">
-                            <label for="formGroupServiceDescriptionInput" class="form-label">Short Description</label>
-                            <input type="text" class="form-control" id="servicedescription" name="servicedescription"
-                                placeholder="service description">
-                            <span><small id="servicedescription_error" class="text-danger"></small></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formGroupServiceIconInput" class="form-label">Service Icon</label>
-                         <textarea  cols="50" rows="2" class="form-control" id="serviceicon" name="serviceicon"></textarea> 
-                            <span><small id="serviceicon_error" class="text-danger"></small></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formGroupServiceTitleInput" class="form-label">Service title</label>
-                            <input type="text" class="form-control" id="servicetitle" name="servicetitle"
-                                placeholder="service title">
-                            <span><small id="servicetitle_error" class="text-danger"></small></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formGroupServiceIconInput" class="form-label">Service Icon</label>
-                            <textarea  cols="50" rows="2" class="form-control" id="serviceicon" name="serviceicon"></textarea> 
-                            <span><small id="serviceicon_error" class="text-danger"></small></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formGroupLongDescriptionInput" class="form-label">Long Description</label>
-                         <textarea  cols="50" rows="2" class="form-control" id="longdescription" name="longdescription"></textarea> 
-                            <span><small id="longdescription_error" class="text-danger"></small></span>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="brandimage">Brand Image</label>
-                            <input type="file" class="form-control-file" id="brandimage" name="brandimage">
-                            <span><small id="brandimage_error" class="text-danger"></small></span>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" id="brandid" name="brandid">
-                        </div>
-
-                        <div class="form-group">
-                            <img src="{{ asset('admin/images/preview.jpg') }}" id="imagepreivew" name="imagepreivew"
-                                class="rounded float-left " alt="no image found"
-                                style="width: 100px; height: 100px; object-fit: cover;">
-                        </div>
-                    </form>
-                </div>
-            
-                <div class="modal-footer">
-                    <button type="button" class="btn btn btn-danger btn-pill" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn btn-success btn-pill" id="brandSave">Save</button>
-                    <button type="button" class="btn btn-primary btn-pill" id="brandUpdate">Update</button>
-
-                </div>
-            </div>
-        </div>
-        </div>
-        </div>
 
 
         <script>
@@ -260,7 +171,8 @@
                         e.preventDefault();
                         
                         $(this).html('Saving...')
-
+                        
+                        
                         $.ajaxSetup({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -324,9 +236,8 @@
                                                     <td> ${items.feature_description} </td>   
                                                     <td> ${items.featur_icon} </td>   
                                                     <td> ${items.feature_title} </td>   
-                                                    <td>   <a href="javascript:void(0);" class="edit-link" data-id="${items.id}">Edit</a>
-                                                        
-                                                    </td>   
+                                                    <td> <a href="javascript:void(0);" class="editService" data-id="${items.id}">Edit</a></td>
+
                                                  </tr>`;
 
                                 $('#tablerows').append(table_rows);
@@ -336,7 +247,6 @@
                     },
                     error:function(xhr,status,error){
                         alert('fail');
-
                     }
 
                 });
@@ -345,11 +255,45 @@
 
              /////////////////// edit service ////////////////
 
-             $('.edit-link').on('click',function(){
-                // var item_id = $(this).data(id);
-                    alert('dsd');
-             })
+            //  $(body).on('click',".editService",  function () {
+            //     const serviceId = $(this).data('id');
+            //     alert(serviceId);
+            // });
 
+            $(body).on('click','.editService',function(){
+                var serviceid = $(this).data('id');
+                
+                $.ajax({
+                    url:"{{ route('admin-service.edit',':id') }}".replace(':id',serviceid),
+                    type:'GET',
+                    dataType:'json',
+                    success:function(response,status,jqXHR){
+                        if (jqXHR.status === 200) {
+                            $('#exampleModalGrid').modal('show');
+                            $('#exampleModalLongTitle').text('Edit Service');
+                            $('#exampleModalLongTitle1').text('Edit Service');
+                            $('#saveBtn').hide();
+                            $('#updateBtn').show();
+                            $('#servicedescription').val(response.data.short_description);
+                            $('#featuredescription').val(response.data.feature_description);
+                            $('#serviceicon').val(response.data.service_icon);
+                            $('#featureicon').val(response.data.featur_icon);
+                            $('#servicetitle').val(response.data.service_title);
+                            $('#featuretitle').val(response.data.feature_title);
+                            $('#longdescription').val(response.data.service_description);
+                        }
+                    },
+                    error:function(xhr,status,error){
+                        console.log("Message = "+xhr.responseText);
+                    }
+                });
+            });
+
+            ///////////////// Update ////////////////
+            $('#updateBtn').on('click',function(){
+                    $(this).html('Updating...');
+                    
+            })
         })
         </script>
 

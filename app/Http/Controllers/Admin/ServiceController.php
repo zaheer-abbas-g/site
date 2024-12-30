@@ -52,6 +52,20 @@ class ServiceController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        $service = Service::findOrFail($id);
+        $service->short_description = $request->servicedescription;
+        $service->service_icon = $request->serviceicon;
+        $service->service_title = $request->servicetitle;
+        $service->service_description = $request->longdescription;
+        $service->feature_description = $request->featuredescription;
+        $service->featur_icon    = $request->featureicon;
+        $service->feature_title  = $request->featuretitle;
+        $service->update();
+        return response()->json(['success' => true, 'message' => 'Service successfully updated', 'data' => $service]);
+    }
+
     public function destroy($id)
     {
         return "dsddsds";

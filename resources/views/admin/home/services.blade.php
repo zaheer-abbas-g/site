@@ -122,6 +122,13 @@
                                                             <span><small id="featuretitle_error" class="text-danger"></small></span>
                                                         </div>                                
                                                     </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group"> 
+                                                            <input type="text" class="form-control" id="serviceid" name="serviceid"
+                                                              > 
+                                                        </div>                                
+                                                    </div>
 												</div>
 												
 												<div class="row">
@@ -155,6 +162,12 @@
 
                     serviceIndex();
 
+
+                    ///////////// after click on edit button reset the form /////////////
+
+                 
+
+
                     //////////// clear error messages /////////////
                     $('#createService').on('click',function(){
                         $('#featuredescription_error').html(' ');
@@ -164,6 +177,7 @@
                         $('#servicedescription_error').html(' ');
                         $('#serviceicon_error').html(' ');
                         $('#servicetitle_error').html(' ');
+                        $('#serviceForm')[0].reset();
                     });
                     
                     /////////////// Add Service /////////////
@@ -236,7 +250,9 @@
                                                     <td> ${items.feature_description} </td>   
                                                     <td> ${items.featur_icon} </td>   
                                                     <td> ${items.feature_title} </td>   
-                                                    <td> <a href="javascript:void(0);" class="editService" data-id="${items.id}">Edit</a></td>
+                                                    <td> <a href="javascript:void(0);" class="edit btn btn-primary btn-sm editService"   data-id="${items.id}"><i  class="mdi mdi-pencil-box"></i> </a>
+                                                        <a href="javascript:void(0);" data-id="${items.id}" class="btn btn-danger btn-sm"><i class="mdi mdi-trash-can" aria-hidden="true"></i></a>
+                                                    </td>
 
                                                  </tr>`;
 
@@ -254,11 +270,6 @@
 
 
              /////////////////// edit service ////////////////
-
-            //  $(body).on('click',".editService",  function () {
-            //     const serviceId = $(this).data('id');
-            //     alert(serviceId);
-            // });
 
             $(body).on('click','.editService',function(){
                 var serviceid = $(this).data('id');
@@ -281,6 +292,7 @@
                             $('#servicetitle').val(response.data.service_title);
                             $('#featuretitle').val(response.data.feature_title);
                             $('#longdescription').val(response.data.service_description);
+                            $('#serviceid').val(response.data.id);
                         }
                     },
                     error:function(xhr,status,error){
@@ -292,6 +304,35 @@
             ///////////////// Update ////////////////
             $('#updateBtn').on('click',function(){
                     $(this).html('Updating...');
+
+                    serviceid = $('#serviceid').val();
+                
+                    var formdata = $('#serviceForm').serialize();
+
+                    $.ajax({
+                        url :"{{ route('admin-service.update',':id') }}".replace(':id',serviceid),
+                        type : "PUT",
+                        data : formdata,
+                        success:function(response){
+                            serviceIndex();
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+                            $('#exampleModalGrid').modal('hide');
+                            console.log(response);
+                            $('#updateBtn').html('Update');
+
+                            
+                        },
+                        error:function(xhr,status,error){
+                            console.log(error);
+                        }
+                    });
                     
             })
         })

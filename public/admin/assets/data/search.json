@@ -9,20 +9,14 @@
         "location": "Dashboard"
       },
       
-    
-      
+  
       {
         "label": "Analytics",
         "link": "analytics.html",
         "tags": "users, charts, notifications, maps",
         "location": "Dashboard"
       },
-      
-    
 
-  
-    
-      
       
       {
         "label": "Alert",
@@ -257,11 +251,7 @@
         "location": "Widgets"
       } ,
       
-      
-    
 
-  
-    
       
       {
         "label": "ChartJS",
@@ -269,11 +259,7 @@
         "tags": "",
         "location": "Charts"
       },
-      
-    
 
-  
-    
       
       {
         "label": "User Profile",
@@ -442,9 +428,7 @@
         "tags": "",
         "location": "layout Sidebars"
       } ,
-      
-      
-    
+
       
       {
         "label": "RTL Direction",
@@ -453,7 +437,5 @@
         "location": "Documentation"
       }
       
-    
 
-  
   ]

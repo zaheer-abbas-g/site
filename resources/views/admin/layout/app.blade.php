@@ -112,7 +112,7 @@
 
     
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM" defer></script>
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM" defer></script> --}}
  {{-- <script src="{{asset('admin/assets/plugins/jquery/jquery.min.js') }}"></script> --}}
 <script src="{{asset('admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{asset('admin/assets/plugins/toaster/toastr.min.js') }}"></script>
@@ -130,6 +130,7 @@
 <script src="{{asset('admin/assets/js/sleek.js') }}"></script>
 <script src="{{asset('admin/assets/js/chart.js') }}"></script>
 <script src="{{asset('admin/assets/js/date-range.js') }}"></script>
+
 
 <script src="{{asset('admin/assets/js/map.js') }}"></script>
 <script src="{{asset('admin/assets/js/custom.js') }}"></script> 

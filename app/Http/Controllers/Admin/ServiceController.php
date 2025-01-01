@@ -30,12 +30,23 @@ class ServiceController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
 
-        $service = Service::orderBy('id', 'DESC')->get();
+        $perPage = 5;
+        $page = $request->page;
+        $service = Service::orderBy('id', 'DESC')->paginate($perPage, ['*'], 'p~', $page);
 
-        return response()->json(['data' => $service], 200);
+        return response()->json(
+            [
+                'data' => $service->items(),
+                'total' => $service->total(),
+                'current_page' => $service->currentPage(),
+                'last_page' => $service->lastPage(),
+                'pages' => $request->page
+            ],
+            200
+        );
     }
 
     public function edit($id)

@@ -4,8 +4,16 @@
 
 
 
+
 @section('content')
 
+<style>
+    /* Custom class to make the 'Next' button smaller */
+.small-button {
+    padding: 0.25rem 0.5rem; /* Adjust padding as needed */
+    font-size: 0.875rem; /* Adjust font size as needed */
+}
+</style>
 
       
 <div class="col-lg-12">
@@ -39,10 +47,17 @@
                                     
                                 </tbody>
 
-                                
                             </table>
+                            
                         </div>
+                        <nav >
+                            <ul class="pagination justify-content-center" id="pagination">
+                         
+                                <!-- Pagination controls will be dynamically added here -->
+                            </ul>
+                        </nav>
                     </div>
+                    
                 </div>
             </div>
 
@@ -125,7 +140,7 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group"> 
-                                                            <input type="text" class="form-control" id="serviceid" name="serviceid"
+                                                            <input type="hidden" class="form-control" id="serviceid" name="serviceid"
                                                               > 
                                                         </div>                                
                                                     </div>
@@ -151,6 +166,7 @@
 										<button type="button" class="btn btn-primary btn-pill" id="updateBtn" style="display: none">Update</button>
 									</div>
 								</div>
+                               
 							</div>
 						</div>
                 
@@ -160,7 +176,7 @@
                 $(document).ready(function(){
 
 
-                    serviceIndex();
+                    serviceIndex(1);
 
 
                     ///////////// after click on edit button reset the form /////////////
@@ -178,6 +194,11 @@
                         $('#serviceicon_error').html(' ');
                         $('#servicetitle_error').html(' ');
                         $('#serviceForm')[0].reset();
+                        $('#exampleModalLongTitle').html('Create Services');
+                        $('#exampleModalLongTitle1').html('Create Services');
+                        $('#updateBtn').html('Save Changes');
+                       
+                        
                     });
                     
                     /////////////// Add Service /////////////
@@ -211,7 +232,7 @@
                                     timer: 1500
                                 });
 
-                                serviceIndex();
+                                // serviceIndex();
                             },
                             error:function(xhr,status,error){
                                var error_s =  JSON.parse(xhr.responseText);
@@ -231,16 +252,20 @@
 
             ////////////////  show Service //////////////
          
-             function serviceIndex(){
+             function serviceIndex(page = 1){
                 
                 $.ajax({
                     url:"{{ route('admin-service.index') }}",
                     type:"get",
                     dataType:"json",
+                    data: { page: page }, 
                     success:function(response,status,jqXHR){
+                        console.log(response.pages);
                         if (jqXHR.status === 200) {
-                            var Serial_no = 1;
+                            let Serial_no = (response.current_page - 1) * 5 + 1;
+                            $('#tablerows').empty();
                             $.each(response.data, function(index, items) {
+                               
                                 var table_rows = `<tr>
                                                     <td> ${Serial_no++} </td>   
                                                     <td> ${items.short_description} </td>   
@@ -259,7 +284,36 @@
                                 $('#tablerows').append(table_rows);
                             });
                         }
+
                         
+                        var htmlPagination = '';
+
+                        // Previous button (disabled if on first page)
+                        htmlPagination += `
+                     
+                                <li class="page-item ${response.current_page === 1 ? 'disabled' : ''}">
+                                    <a class="page-link small-button" href="javascript:void(0);" data-page="${response.current_page - 1}">Previous</a>
+                                </li>
+                     
+                        `;
+
+                                        // Page number buttons
+                        for (var i = 1; i <= response.last_page; i++) {
+                            htmlPagination += `
+                                <li class="page-item ${i === response.current_page ? 'active' : ''}">
+                                    <a class="page-link" href="javascript:void(0);" data-page="${i}">${i}</a>
+                                </li>
+                            `;
+                        }
+
+                            // Next button (disabled if on last page)
+                        htmlPagination += `
+                            <li class="page-item ${response.current_page === response.last_page ? 'disabled' : ''} ">
+                                <a class="page-link small-button" href="javascript:void(0);" data-page="${response.current_page + 1} ">Next</a>
+                            </li>`;
+
+                    $('#pagination').html(htmlPagination);
+                    
                     },
                     error:function(xhr,status,error){
                         alert('fail');
@@ -268,6 +322,10 @@
                 });
              }
 
+             $(body).on('click', '.page-link', function () {
+                const page = $(this).data('page'); 
+                serviceIndex(page); 
+            });
 
              /////////////////// edit service ////////////////
 
@@ -314,7 +372,7 @@
                         type : "PUT",
                         data : formdata,
                         success:function(response){
-                            serviceIndex();
+                            // serviceIndex();
                             Swal.fire({
                                 position: "top-end",
                                 icon: "success",
@@ -338,5 +396,7 @@
         })
         </script>
 
+
+        
 @endsection
 

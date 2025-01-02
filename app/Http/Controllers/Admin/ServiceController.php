@@ -79,6 +79,8 @@ class ServiceController extends Controller
 
     public function destroy($id)
     {
-        return "dsddsds";
+        $service = Service::find($id);
+        $service->delete();
+        return response()->json(['success' => true, 'message' => 'Service deleted successfully', 'data' => $service]);
     }
 }

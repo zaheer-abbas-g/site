@@ -4,18 +4,7 @@
 
 
 
-
 @section('content')
-
-<style>
-    /* Custom class to make the 'Next' button smaller */
-.small-button {
-    padding: 0.25rem 0.5rem; /* Adjust padding as needed */
-    font-size: 0.875rem; /* Adjust font size as needed */
-}
-</style>
-
-      
 <div class="col-lg-12">
     <div class="card card-default">
         <div class="card-header card-header-border-bottom d-flex justify-content-between align-items-center">
@@ -50,10 +39,9 @@
                             </table>
                             
                         </div>
-                        <nav >
-                            <ul class="pagination justify-content-center" id="pagination">
-                         
-                                <!-- Pagination controls will be dynamically added here -->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination pagination-seperated pagination-seperated-rounded" id="pagination">
+                             
                             </ul>
                         </nav>
                     </div>
@@ -176,12 +164,13 @@
                 $(document).ready(function(){
 
 
+                    $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+
                     serviceIndex(1);
-
-
-                    ///////////// after click on edit button reset the form /////////////
-
-                 
 
 
                     //////////// clear error messages /////////////
@@ -208,11 +197,7 @@
                         $(this).html('Saving...')
                         
                         
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
+                 
 
                         var formData = $('#serviceForm').serialize();
                         $.ajax({
@@ -232,7 +217,7 @@
                                     timer: 1500
                                 });
 
-                                // serviceIndex();
+                              serviceIndex();
                             },
                             error:function(xhr,status,error){
                                var error_s =  JSON.parse(xhr.responseText);
@@ -276,7 +261,7 @@
                                                     <td> ${items.featur_icon} </td>   
                                                     <td> ${items.feature_title} </td>   
                                                     <td> <a href="javascript:void(0);" class="edit btn btn-primary btn-sm editService"   data-id="${items.id}"><i  class="mdi mdi-pencil-box"></i> </a>
-                                                        <a href="javascript:void(0);" data-id="${items.id}" class="btn btn-danger btn-sm"><i class="mdi mdi-trash-can" aria-hidden="true"></i></a>
+                                                        <a href="javascript:void(0);" data-id="${items.id}" class="btn btn-danger btn-sm deleteService"><i class="mdi mdi-trash-can" aria-hidden="true"></i></a>
                                                     </td>
 
                                                  </tr>`;
@@ -285,32 +270,32 @@
                             });
                         }
 
-                        
+                       
                         var htmlPagination = '';
 
                         // Previous button (disabled if on first page)
-                        htmlPagination += `
-                     
-                                <li class="page-item ${response.current_page === 1 ? 'disabled' : ''}">
-                                    <a class="page-link small-button" href="javascript:void(0);" data-page="${response.current_page - 1}">Previous</a>
-                                </li>
-                     
-                        `;
+                        htmlPagination += `<li class="page-item ${response.current_page === 1 ? 'disabled' : ''}">
+                                    <a class="page-link" href="javascript:void(0);" data-page="${response.current_page - 1}" 
+                                    style="border-radius: 50%;">
+                                           <span aria-hidden="true" class="mdi mdi-chevron-left mr-1"></span> Prev
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                </li>`;
 
-                                        // Page number buttons
                         for (var i = 1; i <= response.last_page; i++) {
-                            htmlPagination += `
-                                <li class="page-item ${i === response.current_page ? 'active' : ''}">
+                            htmlPagination += `<li class="page-item ${i === response.current_page ? 'active' : ''}">
                                     <a class="page-link" href="javascript:void(0);" data-page="${i}">${i}</a>
-                                </li>
-                            `;
+                                </li>`;
                         }
-
-                            // Next button (disabled if on last page)
-                        htmlPagination += `
-                            <li class="page-item ${response.current_page === response.last_page ? 'disabled' : ''} ">
-                                <a class="page-link small-button" href="javascript:void(0);" data-page="${response.current_page + 1} ">Next</a>
-                            </li>`;
+                                   
+                           
+                        htmlPagination += `<li class="page-item ${response.current_page === response.last_page ? 'disabled' : ''}">
+                            <a class="page-link" href="javascript:void(0);" aria-label="Next" data-page="${response.current_page + 1}" style="border-radius: 50%;">
+                                Next
+                                <span aria-hidden="true" class="mdi mdi-chevron-right ml-1"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>`;
 
                     $('#pagination').html(htmlPagination);
                     
@@ -372,7 +357,7 @@
                         type : "PUT",
                         data : formdata,
                         success:function(response){
-                            // serviceIndex();
+                            serviceIndex();
                             Swal.fire({
                                 position: "top-end",
                                 icon: "success",
@@ -393,10 +378,51 @@
                     });
                     
             })
-        })
+
+
+              ///////////////// Delete ////////////////
+
+              $(body).on('click','.deleteService',function(){
+                    var serviceid = $(this).data('id');    
+
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "You won't be able to revert this!",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "delete"
+                                }).then((result) => {
+                                if (result.isConfirmed) {
+
+                                $.ajax({
+                                    url:"{{ route('admin-service.destroy',':id') }}".replace(':id',serviceid),
+                                    type: "DELETE",
+                                    success:function(response){
+                                      
+                                        Swal.fire({
+                                            title: "Deleted!",
+                                            text: response.message,
+                                            icon: "success",
+                                            timer: 2000,
+                                            showConfirmButton: false 
+                                        });
+                                        
+                                        serviceIndex();
+                        },
+                        error:function(xhr,status,error){
+                            console.log(xhr);
+                        }
+
+                    });
+                }
+            });
+        });     
+    })
         </script>
 
 
-        
+
 @endsection
 

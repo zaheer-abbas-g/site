@@ -16,11 +16,15 @@
                         <div class="table-responsive">
                             <table class="table table-bordered data-table">
                                 <thead>
-                                    <tr> 
+                                    <tr class="text-center"> 
+                                     
+                                        <td colspan="10">Search :<input type="text" ></td> 
+                                    </tr>
+                                    <tr class="text-center"> 
                                         <th colspan="5">Service</th> 
                                         <th colspan="5">Feature</th> 
                                     </tr>
-                                    <tr>
+                                    <tr class="text-center">
                                         <th>No</th>
                                         <th>Short Description</th>
                                         <th>title</th>
@@ -251,7 +255,7 @@
                             $('#tablerows').empty();
                             $.each(response.data, function(index, items) {
                                
-                                var table_rows = `<tr>
+                                var table_rows = `<tr class="text-center">
                                                     <td> ${Serial_no++} </td>   
                                                     <td> ${items.short_description} </td>   
                                                     <td> ${items.service_title} </td>   
@@ -408,7 +412,7 @@
                                             timer: 2000,
                                             showConfirmButton: false 
                                         });
-                                        
+
                                         serviceIndex();
                         },
                         error:function(xhr,status,error){

@@ -33,7 +33,7 @@
                                         <th>Description</th>
                                         <th>Icon</th>
                                         <th>title</th>
-                                        <th width="280px">Action</th>
+                                        <th >Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tablerows">
@@ -44,8 +44,8 @@
                             
                         </div>
                         <nav aria-label="Page navigation example">
-                            <ul class="pagination pagination-seperated pagination-seperated-rounded" id="pagination">
-                             
+                            <ul class="pagination pagination-seperated pagination-seperated-rounded float-left mt-3" id="showingMessage"></ul>
+                            <ul class="pagination pagination-seperated pagination-seperated-rounded float-right mt-2" id="pagination">
                             </ul>
                         </nav>
                     </div>
@@ -189,8 +189,9 @@
                         $('#serviceForm')[0].reset();
                         $('#exampleModalLongTitle').html('Create Services');
                         $('#exampleModalLongTitle1').html('Create Services');
-                        $('#updateBtn').html('Save Changes');
-                       
+                        $('#saveBtn').html('Save');
+                        $('#saveBtn').show();
+                        $('#updateBtn').hide();
                         
                     });
                     
@@ -199,8 +200,7 @@
                         e.preventDefault();
                         
                         $(this).html('Saving...')
-                        
-                        
+                  
                  
 
                         var formData = $('#serviceForm').serialize();
@@ -225,7 +225,7 @@
                             },
                             error:function(xhr,status,error){
                                var error_s =  JSON.parse(xhr.responseText);
-                                       $('#saveBtn').html('Save Changes');
+                               
                                        $('#featuredescription_error').html(error_s.errors.featuredescription[0]);
                                        $('#featureicon_error').html(error_s.errors.featureicon[0]);
                                        $('#featuretitle_error').html(error_s.errors.featuretitle[0]);
@@ -233,7 +233,9 @@
                                        $('#servicedescription_error').html(error_s.errors.servicedescription[0]);
                                        $('#serviceicon_error').html(error_s.errors.serviceicon[0]);
                                        $('#servicetitle_error').html(error_s.errors.servicetitle[0]);         
-                                      $('#saveBtn').html('Save Changes')
+                                       $('#updateBtn').hide();
+                                       $('#saveBtn').html('Save Changes')
+                                      
                             }
                         });
                     })
@@ -264,50 +266,75 @@
                                                     <td> ${items.feature_description} </td>   
                                                     <td> ${items.featur_icon} </td>   
                                                     <td> ${items.feature_title} </td>   
-                                                    <td> <a href="javascript:void(0);" class="edit btn btn-primary btn-sm editService"   data-id="${items.id}"><i  class="mdi mdi-pencil-box"></i> </a>
-                                                        <a href="javascript:void(0);" data-id="${items.id}" class="btn btn-danger btn-sm deleteService"><i class="mdi mdi-trash-can" aria-hidden="true"></i></a>
+                                                    <td >
+                                                        <div class="d-flex">
+                                                        <a href="javascript:void(0);" class="edit btn btn-primary btn-sm editService"   data-id="${items.id}"><i  class="mdi mdi-pencil-box"></i> </a>
+                                                        <a href="javascript:void(0);" data-id="${items.id}" class="btn btn-danger btn-sm ml-1 deleteService"><i class="mdi mdi-trash-can" aria-hidden="true"></i></a>
+                                                         </div>
                                                     </td>
-
                                                  </tr>`;
 
                                 $('#tablerows').append(table_rows);
                             });
                         }
 
-                       
                         var htmlPagination = '';
 
                         // Previous button (disabled if on first page)
                         htmlPagination += `<li class="page-item ${response.current_page === 1 ? 'disabled' : ''}">
-                                    <a class="page-link" href="javascript:void(0);" data-page="${response.current_page - 1}" 
-                                    style="border-radius: 50%;">
-                                           <span aria-hidden="true" class="mdi mdi-chevron-left mr-1"></span> Prev
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                </li>`;
+                                            <a class="page-link" href="javascript:void(0);" data-page="${response.current_page - 1}">
+                                                <span aria-hidden="true" class="mdi mdi-chevron-left mr-1"></span> Prev
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>`;
 
-                        for (var i = 1; i <= response.last_page; i++) {
-                            htmlPagination += `<li class="page-item ${i === response.current_page ? 'active' : ''}">
-                                    <a class="page-link" href="javascript:void(0);" data-page="${i}">${i}</a>
-                                </li>`;
+                        // Check the range of pages to display
+                        var startPage = Math.max(1, response.current_page - 1); // Ensure the start page is not less than 1
+                        var endPage = Math.min(response.last_page, response.current_page + 1); // Ensure the end page does not exceed the last page
+
+                     
+
+                        // Show ellipsis if there are skipped pages before the current page
+                        if (startPage > 2) {
+                            htmlPagination += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
                         }
-                                   
-                           
-                        htmlPagination += `<li class="page-item ${response.current_page === response.last_page ? 'disabled' : ''}">
-                            <a class="page-link" href="javascript:void(0);" aria-label="Next" data-page="${response.current_page + 1}" style="border-radius: 50%;">
-                                Next
-                                <span aria-hidden="true" class="mdi mdi-chevron-right ml-1"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>`;
 
-                    $('#pagination').html(htmlPagination);
-                    
+                        // Add page buttons for the current and neighboring pages (show only 3)
+                        for (var i = startPage; i <= endPage; i++) {
+                            htmlPagination += `<li class="page-item ${i === response.current_page ? 'active' : ''}">
+                                                <a class="page-link" href="javascript:void(0);" data-page="${i}">${i}</a>
+                                            </li>`;
+                        }
+
+                        // Show ellipsis if there are skipped pages after the current page
+                        if (endPage < response.last_page - 1) {
+                            htmlPagination += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                        }
+
+                        // Next button (disabled if on the last page)
+                        htmlPagination += `<li class="page-item ${response.current_page === response.last_page ? 'disabled' : ''}">
+                                            <a class="page-link" href="javascript:void(0);" aria-label="Next" data-page="${response.current_page + 1}">
+                                                Next
+                                                <span aria-hidden="true" class="mdi mdi-chevron-right ml-1"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>`;
+                                        
+                                        
+                               
+                            var entriesPerPage = 5; // Show 5 entries per page
+
+                            // Calculate the starting and ending record numbers for the current page
+                            var startRecord = (response.current_page - 1) * entriesPerPage + 1;
+                            var endRecord = Math.min(response.current_page * entriesPerPage, response.total);
+                            var showingMessage = `Showing ${startRecord} to ${endRecord} of ${response.total} entries`;
+
+                            $('#showingMessage').text(showingMessage);  
+                            $('#pagination').html(htmlPagination);
                     },
                     error:function(xhr,status,error){
                         alert('fail');
                     }
-
                 });
              }
 
@@ -317,10 +344,17 @@
             });
 
              /////////////////// edit service ////////////////
-
             $(body).on('click','.editService',function(){
                 var serviceid = $(this).data('id');
-                
+                                    
+                    $('#featuredescription_error').html('');
+                    $('#featureicon_error').html('');
+                    $('#featuretitle_error').html('');
+                    $('#longdescription_error').html('');
+                    $('#servicedescription_error').html('');
+                    $('#serviceicon_error').html('');
+                    $('#servicetitle_error').html('');   
+
                 $.ajax({
                     url:"{{ route('admin-service.edit',':id') }}".replace(':id',serviceid),
                     type:'GET',
@@ -353,7 +387,6 @@
                     $(this).html('Updating...');
 
                     serviceid = $('#serviceid').val();
-                
                     var formdata = $('#serviceForm').serialize();
 
                     $.ajax({
@@ -373,22 +406,17 @@
                             $('#exampleModalGrid').modal('hide');
                             console.log(response);
                             $('#updateBtn').html('Update');
-
-                            
                         },
                         error:function(xhr,status,error){
                             console.log(error);
                         }
                     });
-                    
             })
 
 
               ///////////////// Delete ////////////////
-
               $(body).on('click','.deleteService',function(){
                     var serviceid = $(this).data('id');    
-
                             Swal.fire({
                                 title: "Are you sure?",
                                 text: "You won't be able to revert this!",
@@ -418,7 +446,6 @@
                         error:function(xhr,status,error){
                             console.log(xhr);
                         }
-
                     });
                 }
             });

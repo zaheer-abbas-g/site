@@ -35,7 +35,7 @@ class ServiceController extends Controller
 
         $perPage = 5;
         $page = $request->page;
-        $service = Service::orderBy('id', 'DESC')->paginate($perPage, ['*'], 'p~', $page);
+        $service = Service::select(['id', 'short_description', 'service_icon', 'service_title', 'service_description', 'feature_description', 'featur_icon', 'feature_title', 'service_icon'])->orderBy('id', 'DESC')->paginate($perPage, ['*'], 'p~', $page);
 
         return response()->json(
             [

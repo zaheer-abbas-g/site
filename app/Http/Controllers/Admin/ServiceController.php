@@ -32,10 +32,20 @@ class ServiceController extends Controller
 
     public function index(Request $request)
     {
+        $search = $request->get('search');
 
         $perPage = 5;
         $page = $request->page;
-        $service = Service::select(['id', 'short_description', 'service_icon', 'service_title', 'service_description', 'feature_description', 'featur_icon', 'feature_title', 'service_icon'])->orderBy('id', 'DESC')->paginate($perPage, ['*'], 'p~', $page);
+        $service = Service::select(['id', 'short_description', 'service_icon', 'service_title', 'service_description', 'feature_description', 'featur_icon', 'feature_title', 'service_icon'])
+            ->where('short_description', 'like', '%' . $search . '%')
+            ->orWhere('service_icon', 'like', '%' . $search . '%')
+            ->orWhere('service_title', 'like', '%' . $search . '%')
+            ->orWhere('service_description', 'like', '%' . $search . '%')
+            ->orWhere('feature_description', 'like', '%' . $search . '%')
+            ->orWhere('featur_icon', 'like', '%' . $search . '%')
+            ->orWhere('feature_title', 'like', '%' . $search . '%')
+            ->orWhere('service_icon', 'like', '%' . $search . '%')
+            ->orderBy('id', 'DESC')->paginate($perPage, ['*'], 'p~', $page);
 
         return response()->json(
             [
@@ -82,5 +92,11 @@ class ServiceController extends Controller
         $service = Service::find($id);
         $service->delete();
         return response()->json(['success' => true, 'message' => 'Service deleted successfully', 'data' => $service]);
+    }
+
+    public function serviceSearch(Request $request)
+    {
+
+        return response()->json(['success' => true,  'data' => 'search']);
     }
 }

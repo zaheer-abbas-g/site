@@ -14,12 +14,20 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered data-table">
-                                <thead>
-                                    <tr class="text-center"> 
-                                     
-                                        <td colspan="10">Search :<input type="text" ></td> 
-                                    </tr>
+                            <table class="table table-bordered data-table">    
+                                <tr class="text-center float-right">
+                                    <p class="float-right" style="position: relative;">
+                                        Search:
+                                        <label style="position: relative;">
+                                            <input type="text" class="form-control" id="search" placeholder="Search...">
+                                            <span id="cancelSearch" style="position: absolute; top: 10px; right: 10px; display: none; cursor: pointer;">
+                                                <i class="mdi mdi-close-circle"></i>
+                                            </span>
+                                        </label>
+                                    </p>                                    
+                                    
+                                 </tr>
+                                <thead>     
                                     <tr class="text-center"> 
                                         <th colspan="5">Service</th> 
                                         <th colspan="5">Feature</th> 
@@ -243,13 +251,16 @@
 
             ////////////////  show Service //////////////
          
-             function serviceIndex(page = 1){
+         
+             function serviceIndex(page = 1, search = ''){
                 
                 $.ajax({
                     url:"{{ route('admin-service.index') }}",
                     type:"get",
                     dataType:"json",
-                    data: { page: page }, 
+                    data: { page: page ,
+                            search: search
+                     }, 
                     success:function(response,status,jqXHR){
                         console.log(response.pages);
                         if (jqXHR.status === 200) {
@@ -450,6 +461,47 @@
                 }
             });
         });     
+
+
+        ///////////////////// Search Service ///////////////////
+        
+
+                            
+        // $('#search').on('input',function(){
+        //                     // alert('ok');
+        //     var search = $(this).val();
+        //     serviceIndex(1,search);
+                                
+        //  });
+
+
+        // Listen for input event on the search field
+$('#search').on('input', function() {
+    var search = $(this).val(); // Get the current value of the input field
+    
+    // Show the cancel icon when there's text in the search field
+    if (search) {
+        $('#cancelSearch').show(); // Show the cancel icon
+    } else {
+        $('#cancelSearch').hide(); // Hide the cancel icon when input is empty
+    }
+
+    // Call the function to load data with the search query
+    serviceIndex(1, search);
+});
+
+// Cancel the search when the "X" icon is clicked
+$('#cancelSearch').on('click', function() {
+    // Clear the search input field
+    $('#search').val('');
+
+    // Hide the cancel icon
+    $(this).hide();
+
+    // Reload the data without the search query
+    serviceIndex(1, ''); // Pass an empty string to fetch all data
+});
+
     })
         </script>
 

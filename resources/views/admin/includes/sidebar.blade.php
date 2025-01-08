@@ -63,6 +63,50 @@
                 </div>
               </ul>
             </li>
+
+        <!-- About Section -->
+        <li class="has-sub {{ request()->routeIs('admin-about.*') ? 'active expand' : '' }}">
+          <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#about"
+            aria-expanded="{{ request()->routeIs('admin-about.*') ? 'true' : 'false' }}" aria-controls="about">
+            <i class="mdi mdi-information-outline"></i>
+            <span class="nav-text">About</span> <b class="caret"></b>
+          </a>
+          <ul class="collapse {{ request()->routeIs('admin-about.index') ? 'show' : '' }}" id="about" data-parent="#sidebar-menu">
+            <div class="sub-menu">
+              <li class="{{ request()->routeIs('admin-about.index') ? 'active' : '' }}">
+                <a class="sidenav-item-link" href="{{ route('admin-about.index') }}">
+                  <span class="nav-text">About</span>
+                </a>
+              </li>
+
+              <li class="{{ request()->routeIs('admin-team.index') ? 'active' : '' }}">
+                <a class="sidenav-item-link" href="{{ route('admin-team.index') }}">
+                  <span class="nav-text">Team</span>
+                </a>
+              </li>
+
+              <li class="{{ request()->routeIs('admin-skill.index') ? 'active' : '' }}">
+                <a class="sidenav-item-link" href="{{ route('admin-skill.index') }}">
+                  <span class="nav-text">Skills</span>
+                </a>
+              </li>
+
+              <li>
+                <a class="sidenav-item-link" href="{{ route('admin-client.index') }}">
+                  <span class="nav-text">Clients</span>
+                </a>
+              </li>
+
+              <li>
+                <a class="sidenav-item-link" href="{{ route('admin-testimonial.index') }}">
+                  <span class="nav-text">Testimonials</span>
+                </a>
+              </li>
+            </div>
+          </ul>
+        </li>
+
+            
         
           <!-- Categories Section -->
           <li class="has-sub {{ request()->routeIs('categories.*') ? 'active expand' : '' }}">

@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController as AdminAboutController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -103,11 +107,19 @@ Route::middleware('auth')->group(function () {
     Route::resource('/multipleimages', MultiImagesController::class);
 
 
-    // 
+    /////////// Admin Services /////////// 
 
     Route::resource('/admin-home', AdminHomeController::class);
     Route::resource('/admin-service', ServiceController::class);
     Route::get('/admin-service-serarch', [ServiceController::class, 'serviceSearch'])->name('admin-service.search');
+
+
+    /////////// Admin About /////////// 
+    Route::resource('/admin-about', AdminAboutController::class);
+    Route::resource('/admin-team', AdminAboutController::class);
+    Route::resource('/admin-client', ClientsController::class);
+    Route::resource('/admin-skill', SkillController::class);
+    Route::resource('/admin-testimonial', TestimonialController::class);
 });
 
 

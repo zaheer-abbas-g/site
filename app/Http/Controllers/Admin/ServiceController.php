@@ -89,14 +89,21 @@ class ServiceController extends Controller
 
     public function destroy($id)
     {
-        $service = Service::find($id);
-        $service->delete();
-        return response()->json(['success' => true, 'message' => 'Service deleted successfully', 'data' => $service]);
+        try {
+            $service = Service::find($id);
+            if (!$service) {
+                return response()->json(['success' => false, 'message' => 'Service not found'], 404);
+            }
+            $service->delete();
+            return response()->json(['success' => true, 'message' => 'Service deleted successfully', 'data' => $service]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
     }
+
 
     public function serviceSearch(Request $request)
     {
-
         return response()->json(['success' => true,  'data' => 'search']);
     }
 }

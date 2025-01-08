@@ -16,7 +16,7 @@
                         <div class="table-responsive">
                             <table class="table table-bordered data-table">    
                                 <tr class="text-center float-right">
-                                    <p class="float-right" style="position: relative;">
+                                    <p class="float-right ml-5" style="position: relative;">
                                         Search:
                                         <label style="position: relative;">
                                             <input type="text" class="form-control" id="search" placeholder="Search...">
@@ -169,12 +169,8 @@
                                
 							</div>
 						</div>
-                
-
-
-        <script>
+            <script>
                 $(document).ready(function(){
-
 
                     $.ajaxSetup({
                             headers: {
@@ -183,7 +179,6 @@
                         });
 
                     serviceIndex(1);
-
 
                     //////////// clear error messages /////////////
                     $('#createService').on('click',function(){
@@ -208,9 +203,7 @@
                         e.preventDefault();
                         
                         $(this).html('Saving...')
-                  
-                 
-
+ 
                         var formData = $('#serviceForm').serialize();
                         $.ajax({
                             url:"{{ route('admin-service.store') }}",
@@ -219,7 +212,15 @@
                             success:function(response){
                                 $('#saveBtn').html('Save Changes');
                                 $('#exampleModalGrid').modal('hide');
-                                $('#serviceForm')[0].reset()
+
+                                $('#featuredescription_error').html(' ');
+                                $('#featureicon_error').html(' ');
+                                $('#featuretitle_error').html(' ');
+                                $('#longdescription_error').html(' ');
+                                $('#servicedescription_error').html(' ');
+                                $('#serviceicon_error').html(' ');
+                                $('#servicetitle_error').html(' ');
+                                $('#serviceForm')[0].reset();
                                
                                 Swal.fire({
                                     position: "top-end",
@@ -233,7 +234,7 @@
                             },
                             error:function(xhr,status,error){
                                var error_s =  JSON.parse(xhr.responseText);
-                               
+                                    console.log(error_s);
                                        $('#featuredescription_error').html(error_s.errors.featuredescription[0]);
                                        $('#featureicon_error').html(error_s.errors.featureicon[0]);
                                        $('#featuretitle_error').html(error_s.errors.featuretitle[0]);
@@ -242,7 +243,7 @@
                                        $('#serviceicon_error').html(error_s.errors.serviceicon[0]);
                                        $('#servicetitle_error').html(error_s.errors.servicetitle[0]);         
                                        $('#updateBtn').hide();
-                                       $('#saveBtn').html('Save Changes')
+                                       $('#saveBtn').html('Save')
                                       
                             }
                         });

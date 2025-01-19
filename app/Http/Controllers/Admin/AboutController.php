@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
 
 class AboutController extends Controller
 {
@@ -28,7 +30,23 @@ class AboutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string',
+            'short_description' => 'required',
+            'long_description' => 'required'
+        ]);
+
+        try {
+            $about = new About();
+            $about->about_title = $request->title;
+            $about->about_short_description = $request->short_description;
+            $about->about_long_description = $request->long_description;
+            $about->save();
+
+            return response()->json(['status' => true, 'message' => 'Data successfully added', 'data' => $about], 201);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'meesage' => "Data could not be inserted" . $th->getMessage()], 500);
+        }
     }
 
     /**

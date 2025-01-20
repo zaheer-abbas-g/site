@@ -95,6 +95,8 @@
                                     }
                                 });
 
+                                getAboutData();
+
                                 $('#submitAbout').on('click',function(e){
                                     e.preventDefault();
                                     var formData = $('#aboutForm').serialize();
@@ -104,7 +106,26 @@
                                         data:formData,
                                         dataType:'JSON',
                                         success:function(response){
-                                        console.log(response);
+                                            console.log(response);
+
+                                            $('#title_error').html('');
+                                            $('#short_description_error').html('');
+                                            $('#long_description_error').html('');
+                                            $('#exampleModalForm').modal('hide');
+
+                                            Swal.fire({
+                                                position: "top-end",
+                                                icon: "success",
+                                                title: response.message,
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            });
+
+                                            $('#aboutForm')[0].reset();
+
+                                            /////// call index function //////////
+                                            getAboutData();
+
                                         },
                                             error:function(xhr){
                                                 var errors = JSON.parse(xhr.responseText);
@@ -121,6 +142,46 @@
                                             }
                                     })
                                 });
+                                
+                    ///////////////// Clear Errors when re-click on button ///////////////////
+                                $('#createAbout').on('click',function(){
+                                    $('#title_error').html('');
+                                    $('#short_description_error').html('');
+                                    $('#long_description_error').html('');
+                                });
+
+                                function getAboutData(){
+
+                                    $.ajax({
+                                        url : '{{ url("admin-about") }}',
+                                        type: 'GET',
+                                        dataType:'JSON',
+                                        success:function(response){
+                                            console.log(response.data);
+                                        
+                                            var   tablerows = '';
+                                            var no = 1;
+                                            $.each(response.data,function(index,items){
+                                                   tablerows  +=`<tr> 
+                                                                    <td>${no++}</td> 
+                                                                    <td>${items.about_title}</td> 
+                                                                    <td>${items.about_short_description}</td> 
+                                                                    <td>${items.about_long_description}</td> 
+                                                                    <td>Action</td> 
+                                                                </tr>`;
+                                            
+                                                              
+                                            })
+                                            $('#tablerows').append(tablerows);
+                                        },
+                                        error:function(xhr){
+                                            console.log(xhr);
+                                        }
+                                    })
+                                }
+
+
+
                             })
                     </script>
 @endsection

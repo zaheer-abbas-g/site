@@ -71,10 +71,10 @@
             <i class="mdi mdi-information-outline"></i>
             <span class="nav-text">About</span> <b class="caret"></b>
           </a>
-          <ul class="collapse {{ request()->routeIs('admin-about.index') ? 'show' : '' }}" id="about" data-parent="#sidebar-menu">
+          <ul class="collapse {{ request()->routeIs('admin-about.create') ? 'show' : '' }}" id="about" data-parent="#sidebar-menu">
             <div class="sub-menu">
-              <li class="{{ request()->routeIs('admin-about.index') ? 'active' : '' }}">
-                <a class="sidenav-item-link" href="{{ route('admin-about.index') }}">
+              <li class="{{ request()->routeIs('admin-about.create') ? 'active' : '' }}">
+                <a class="sidenav-item-link" href="{{ route('admin-about.create') }}">
                   <span class="nav-text">About</span>
                 </a>
               </li>

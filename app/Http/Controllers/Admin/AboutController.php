@@ -14,7 +14,8 @@ class AboutController extends Controller
      */
     public function index()
     {
-        return view('admin.about.about');
+        $about = About::select('id', 'about_title', 'about_short_description', 'about_long_description')->orderBy('id')->get();
+        return response()->json(['data' => $about]);
     }
 
     /**
@@ -22,7 +23,7 @@ class AboutController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.about.index');
     }
 
     /**

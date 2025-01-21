@@ -167,7 +167,13 @@
                                                                     <td>${items.about_title}</td> 
                                                                     <td>${items.about_short_description}</td> 
                                                                     <td>${items.about_long_description}</td> 
-                                                                    <td>Action</td> 
+                                                                    <td>
+                                                                        
+                                                                                <a href="javascript:void(0)" data-id=${items.id}  class="edit btn btn-primary btn-sm editService"  
+                                                                                id="aboutedit"><i  class="mdi mdi-pencil-box"></i> </a>
+                                                                        
+                                                                                <a href="javascript:void(0)" data-id="${items.id}"  class="btn btn-danger btn-sm ml-1 deleteService"><i class="mdi mdi-trash-can" aria-hidden="true"></i></a>
+                                                                    </td> 
                                                                 </tr>`;
                                             
                                                               
@@ -181,6 +187,14 @@
                                 }
 
 
+                                ////////////// Edit About  /////////////
+                                // $(body).on('click','#aboutedit',function(){
+                                //     const about_id = $(this).data('id');
+                                //     $.ajax({
+                                //         url:"{{  }}",
+
+                                //     });
+                                // });
 
                             })
                     </script>

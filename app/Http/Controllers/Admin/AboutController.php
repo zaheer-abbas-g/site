@@ -61,9 +61,11 @@ class AboutController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
-        //
+        $about['about_data'] =  About::find($id);
+        $about['about_id'] =  encrypt($about['about_data']['id']);
+        return response()->json($about);
     }
 
     /**
@@ -71,7 +73,13 @@ class AboutController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $about_id =  decrypt($id);
+        $about = About::find($about_id);
+        $about->about_title = $request->title;
+        $about->about_short_description = $request->short_description;
+        $about->about_long_description = $request->short_description;
+        $about->save();
+        return response()->json(['status' => true, 'message' => 'About data updated successfully', 'data' => $about], 200);
     }
 
     /**

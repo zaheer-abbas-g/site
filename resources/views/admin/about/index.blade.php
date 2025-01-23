@@ -73,13 +73,20 @@
                                                      <textarea name="long_description" id="long_description" cols="20" rows="5" class="form-control"  aria-describedby="long_description" ></textarea>
 												<small id="long_description_error" class="form-text text-danger ms-2 ml-3"></small>
 											</div>
+
+                                            <div class="form-group mb-4">
+												<input type="hidden" class="form-control" id="hidden_id"  name="hidden_id" aria-describedby="hidden_id">
+											</div>
+
 										</form>
 									</div>
 									<div class="modal-footer">
 										<button type="submit" class="btn btn-danger btn-pill " data-dismiss="modal">Close</button>
-                                        <button class="ladda-button btn btn-success btn-pill btn-square btn-ladda" data-style="contract"  id="submitAbout">
-                                            <span class="ladda-label">Submit!</span>
-                                            <span class="ladda-spinner"></span>
+                                        <button class="button btn btn-success btn-pill"   id="submitAbout">
+                                            <span class="ladda-label">Save</span>
+                                        </button>
+                                        <button class="button btn btn-primary btn-pill"   id="updateAbout">
+                                            <span class="ladda-label">Update</span>
                                         </button>
 									</div>
 								</div>
@@ -96,9 +103,10 @@
                                 });
 
                                 getAboutData();
-
+                        ///////////////// Inser About Data /////////////////////////
                                 $('#submitAbout').on('click',function(e){
                                     e.preventDefault();
+                                    $('#submitAbout').html('Saving...');
                                     var formData = $('#aboutForm').serialize();
                                     $.ajax({
                                         url:"{{ url('admin-about') }}",
@@ -134,6 +142,7 @@
                                                     $('#title_error').html(errors.errors.title[0]);
                                                     $('#short_description_error').html(errors.errors.short_description[0]);
                                                     $('#long_description_error').html(errors.errors.long_description[0]);
+                                                    $('#submitAbout').html('Save');
                                                     console.log(errors.errors.title);
                                                 }else{
                                                     console.log('unexpected error formate :', errors);
@@ -148,8 +157,14 @@
                                     $('#title_error').html('');
                                     $('#short_description_error').html('');
                                     $('#long_description_error').html('');
+                                    $('#updateAbout').hide();
+                                    $('#submitAbout').show();
+                                    $('#title').val('');
+                                    $('#short_description').val('');
+                                    $('#long_description').val('');
                                 });
 
+                    ////////////////// Listing About Data ////////////////////
                                 function getAboutData(){
 
                                     $.ajax({
@@ -162,7 +177,7 @@
                                             var   tablerows = '';
                                             var no = 1;
                                             $.each(response.data,function(index,items){
-                                                   tablerows  +=`<tr> 
+                                                var   tablerows  +=`<tr> 
                                                                     <td>${no++}</td> 
                                                                     <td>${items.about_title}</td> 
                                                                     <td>${items.about_short_description}</td> 
@@ -188,14 +203,63 @@
 
 
                                 ////////////// Edit About  /////////////
-                                // $(body).on('click','#aboutedit',function(){
-                                //     const about_id = $(this).data('id');
-                                //     $.ajax({
-                                //         url:"{{  }}",
+                                $(body).on('click','#aboutedit',function(){
+                                    const about_id = $(this).data('id');
+                                    $.ajax({
+                                        url:"{{ url('admin-about') }}"+'/'+about_id+'/edit',
+                                        type:'get',
+                                        success:function(response){
+                                            console.log(response);
+                                            $('#exampleModalForm').modal('show');
+                                            $('#exampleModalFormTitle').html('Edit About');
+                                            if (response.about_data) {
+                                                console.log('found'); 
+                                                $('#hidden_id').val(response.about_id);
+                                                $('#title').val(response.about_data.about_title);
+                                                $('#short_description').val(response.about_data.about_short_description);
+                                                $('#long_description').val(response.about_data.about_long_description);
+                                                $('#submitAbout').hide();
+                                                $('#updateAbout').show();
+                                                $('#title_error').html('');
+                                                $('#short_description_error').html('');
+                                                $('#long_description_error').html('');
+                                            }else{
+                                                console.log('no data found');
+                                            }
+                                        },
+                                        error:function(xhr){
+                                            console.log(xhr);
+                                        }
+                                    });
+                                });
 
-                                //     });
-                                // });
+                                  ////////////// Update About  /////////////
+                                $('#updateAbout').on('click',function(e){
+                                    e.preventDefault();
+                                    $(this).html('Updating...');
 
+                                    var about_id = $('#hidden_id').val();
+                                    var formData = $('#aboutForm').serialize();
+
+                                    $.ajax({
+                                        url: "{{ url('admin-about') }}"+"/"+about_id,
+                                        type:'PUT',
+                                        data:formData,
+                                        dataType:'JSON',
+                                        success:function(response){
+                                            console.log("ddddd");
+                                           
+
+                                            $('#updateAbout').html('Update');
+                                             $('#exampleModalForm').modal('hide');
+                                            $('#aboutForm')[0].reset();
+                                                getAboutData();
+                                        },
+                                        error:function(xhr){
+                                            console.log(xhr);
+                                        }
+                                    });
+                                });
                             })
                     </script>
 @endsection

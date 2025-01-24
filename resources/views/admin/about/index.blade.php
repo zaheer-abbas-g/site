@@ -120,7 +120,7 @@
                                             $('#short_description_error').html('');
                                             $('#long_description_error').html('');
                                             $('#exampleModalForm').modal('hide');
-
+                                            $('#submitAbout').html('Save');
                                             Swal.fire({
                                                 position: "top-end",
                                                 icon: "success",
@@ -174,10 +174,11 @@
                                         success:function(response){
                                             console.log(response.data);
                                         
-                                            var   tablerows = '';
+                                          
                                             var no = 1;
+                                            $('#tablerows').html(''); 
                                             $.each(response.data,function(index,items){
-                                                var   tablerows  +=`<tr> 
+                                                var   tablerows  =`<tr> 
                                                                     <td>${no++}</td> 
                                                                     <td>${items.about_title}</td> 
                                                                     <td>${items.about_short_description}</td> 
@@ -192,8 +193,8 @@
                                                                 </tr>`;
                                             
                                                               
+                                                                $('#tablerows').append(tablerows);
                                             })
-                                            $('#tablerows').append(tablerows);
                                         },
                                         error:function(xhr){
                                             console.log(xhr);
@@ -260,8 +261,49 @@
                                         }
                                     });
                                 });
-                            })
-                    </script>
+
+
+                ////////////////  Delete About ////////////////
+                $(body).on('click','.deleteService',function(){
+                    var about_id = $(this).data('id');
+                   
+                    Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to delete this data",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "delete"
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: '{{ url("admin-about") }}'+"/"+about_id,
+                        type: 'delete',
+                        dataType: 'JSON',
+                        success:function(response){
+                            console.log(response);
+                            if (response.status == true) {
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: response.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                        }
+                        getAboutData();
+                        },
+                        error :function(error){
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        });
+         })
+        </script>
 @endsection
 
           

@@ -20,6 +20,7 @@ class AboutController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * @author zaheer
      */
     public function create()
     {
@@ -28,6 +29,8 @@ class AboutController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @param $request
+     * @author zaheer
      */
     public function store(Request $request)
     {
@@ -87,6 +90,12 @@ class AboutController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $about = About::find($id);
+        $about->delete();
+
+        if (!$about) {
+            return response()->json(['status' => false, 'message' => 'Record not Found!'], 404);
+        }
+        return response()->json(['status' => true, 'message' => 'About data deleted successfully'], 200);
     }
 }

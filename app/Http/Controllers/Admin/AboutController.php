@@ -12,10 +12,23 @@ class AboutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $about = About::select('id', 'about_title', 'about_short_description', 'about_long_description')->orderBy('id')->get();
-        return response()->json(['data' => $about]);
+        $search = $request->search_data;
+        $pagelink = $request->pagelink;
+        $perpage = 5;
+        $about = About::select('id', 'about_title', 'about_short_description', 'about_long_description')
+            ->where('about_title', 'like', "%$search%")
+            ->whereOr('about_short_description', 'like',  "%$search%")
+            ->whereOr('about_long_description', 'like',  "%$search%")
+            ->orderBy('id')->paginate($perpage, ['*'], 'p~', $pagelink);
+        return response()->json([
+            'data' => $about,
+            'per_page' =>  $perpage,
+            'total' => $about->total(),
+            'current_page' => $about->currentPage(),
+            'last_page' => $about->lastPage(),
+        ]);
     }
 
     /**
@@ -97,5 +110,10 @@ class AboutController extends Controller
             return response()->json(['status' => false, 'message' => 'Record not Found!'], 404);
         }
         return response()->json(['status' => true, 'message' => 'About data deleted successfully'], 200);
+    }
+
+    public function search(Request $request)
+    {
+        return response()->json($request);
     }
 }

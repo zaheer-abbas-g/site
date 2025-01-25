@@ -116,6 +116,7 @@ Route::middleware('auth')->group(function () {
 
     /////////// Admin About /////////// 
     Route::resource('/admin-about', AdminAboutController::class);
+    Route::get('admin-about-search', [AdminAboutController::class, 'search']);
     Route::resource('/admin-team', AdminAboutController::class);
     Route::resource('/admin-client', ClientsController::class);
     Route::resource('/admin-skill', SkillController::class);

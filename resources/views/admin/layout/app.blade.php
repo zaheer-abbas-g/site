@@ -116,6 +116,7 @@
  {{-- <script src="{{asset('admin/assets/plugins/jquery/jquery.min.js') }}"></script> --}}
 <script src="{{asset('admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{asset('admin/assets/plugins/toaster/toastr.min.js') }}"></script>
+<script src="{{asset('admin/assets/js/mycustom.js') }}"></script>
 <script src="{{asset('admin/assets/plugins/slimscrollbar/jquery.slimscroll.min.js') }}"></script>
 <script src="{{asset('admin/assets/plugins/charts/Chart.min.js') }}"></script>
 <script src="{{asset('admin/assets/plugins/ladda/spin.min.js') }}"></script>

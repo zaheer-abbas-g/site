@@ -465,15 +465,6 @@
 
 
         ///////////////////// Search Service ///////////////////
-        
-
-                            
-        // $('#search').on('input',function(){
-        //                     // alert('ok');
-        //     var search = $(this).val();
-        //     serviceIndex(1,search);
-                                
-        //  });
 
 
         // Listen for input event on the search field
@@ -505,8 +496,6 @@ $('#cancelSearch').on('click', function() {
 
     })
         </script>
-
-
 
 @endsection
 

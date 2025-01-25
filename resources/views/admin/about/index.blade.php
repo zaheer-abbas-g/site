@@ -17,7 +17,7 @@
                                     <p class="float-right ml-5" style="position: relative;">
                                         Search:
                                         <label style="position: relative;">
-                                            <input type="text" class="form-control" id="search" placeholder="Search...">
+                                            <input type="text" class="form-control" id="search" name="search"  placeholder="Search...">
                                             <span id="cancelSearch" style="position: absolute; top: 10px; right: 10px; display: none; cursor: pointer;">
                                                 <i class="mdi mdi-close-circle"></i>
                                             </span>
@@ -40,7 +40,13 @@
 
                             </table>  
                         </div>
-                    </div>
+                            <nav aria-label="Page navigation example" >
+                                <ul class="pagination pagination-seperated pagination-seperated-rounded float-left mt-3" id="showingMessage"></ul>
+                                <ul class="pagination pagination-seperated pagination-seperated-rounded float-right mt-2" id="pagination">
+                                    
+                                </ul>
+                            </nav>
+                     </div>
                 </div>
             </div>
 
@@ -165,21 +171,23 @@
                                 });
 
                     ////////////////// Listing About Data ////////////////////
-                                function getAboutData(){
+                                function getAboutData(searchdata = null , pagelink){
 
                                     $.ajax({
                                         url : '{{ url("admin-about") }}',
                                         type: 'GET',
+                                        data:{
+                                            search_data:searchdata,
+                                            pagelink : pagelink
+                                        },
                                         dataType:'JSON',
                                         success:function(response){
-                                            console.log(response.data);
-                                        
-                                          
-                                            var no = 1;
+                                            console.log(response);
+                                            let Serial_no = (response.current_page - 1) * 5 + 1;
                                             $('#tablerows').html(''); 
-                                            $.each(response.data,function(index,items){
+                                            $.each(response.data.data,function(index,items){
                                                 var   tablerows  =`<tr> 
-                                                                    <td>${no++}</td> 
+                                                                    <td>${Serial_no++}</td> 
                                                                     <td>${items.about_title}</td> 
                                                                     <td>${items.about_short_description}</td> 
                                                                     <td>${items.about_long_description}</td> 
@@ -195,6 +203,16 @@
                                                               
                                                                 $('#tablerows').append(tablerows);
                                             })
+
+                                                //////////////  Pagination  ////////////
+                                                // Use the helper function to generate pagination and showing message
+                                                const paginationData = generatePagination(response);
+
+                                                // Update pagination and showing message in the DOM
+                                                $('#pagination').html(paginationData.paginationHtml);
+                                                $('#showingMessage').text(paginationData.showingMessage);
+                                              
+                                           
                                         },
                                         error:function(xhr){
                                             console.log(xhr);
@@ -248,9 +266,6 @@
                                         data:formData,
                                         dataType:'JSON',
                                         success:function(response){
-                                            console.log("ddddd");
-                                           
-
                                             $('#updateAbout').html('Update');
                                              $('#exampleModalForm').modal('hide');
                                             $('#aboutForm')[0].reset();
@@ -302,7 +317,41 @@
                 }
             });
         });
-         })
+
+                //////////////// Search data ////////////////
+                $('#search').on('change',function(){
+                
+                    var searchdata = $(this).val();
+                    alert(searchdata);
+                    $.ajax({
+                        url: '{{ url("admin-about-search") }}',
+                        type: 'get',
+                        data:{
+                            search_data : searchdata,
+                        },
+                        dataType : 'JSON',
+                        success:function(response){
+                            console.log(response);
+                            var searchdata = response.search_data;
+                            getAboutData(searchdata);
+                        },
+                        error:function(xhr){
+                            var error  = JSON.parse(xhr.responseText);
+                            console.log(error);
+                        }
+                    })
+                });
+
+                ///////////////// Pagination page link /////////////
+                $(body).on('click', '.page-link', function () {
+                    var pagelink = $(this).data('page'); 
+                    getAboutData(null, pagelink);
+                });
+
+             
+
+
+        })
         </script>
 @endsection
 

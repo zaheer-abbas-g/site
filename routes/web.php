@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
@@ -116,8 +117,7 @@ Route::middleware('auth')->group(function () {
 
     /////////// Admin About /////////// 
     Route::resource('/admin-about', AdminAboutController::class);
-    Route::get('admin-about-search', [AdminAboutController::class, 'search']);
-    Route::resource('/admin-team', AdminAboutController::class);
+    Route::resource('/admin-team', TeamController::class);
     Route::resource('/admin-client', ClientsController::class);
     Route::resource('/admin-skill', SkillController::class);
     Route::resource('/admin-testimonial', TestimonialController::class);

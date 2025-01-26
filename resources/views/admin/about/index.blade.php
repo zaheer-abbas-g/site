@@ -171,22 +171,24 @@
                                 });
 
                     ////////////////// Listing About Data ////////////////////
-                                function getAboutData(searchdata = null , pagelink){
+                                function getAboutData(search = null , pagelink=null){
 
                                     $.ajax({
                                         url : '{{ url("admin-about") }}',
                                         type: 'GET',
                                         data:{
-                                            search_data:searchdata,
+                                            search_data:search,
                                             pagelink : pagelink
                                         },
                                         dataType:'JSON',
                                         success:function(response){
                                             console.log(response);
+
                                             let Serial_no = (response.current_page - 1) * 5 + 1;
                                             $('#tablerows').html(''); 
+                                            var   tablerows = '';
                                             $.each(response.data.data,function(index,items){
-                                                var   tablerows  =`<tr> 
+                                                   tablerows  =`<tr> 
                                                                     <td>${Serial_no++}</td> 
                                                                     <td>${items.about_title}</td> 
                                                                     <td>${items.about_short_description}</td> 
@@ -199,21 +201,23 @@
                                                                                 <a href="javascript:void(0)" data-id="${items.id}"  class="btn btn-danger btn-sm ml-1 deleteService"><i class="mdi mdi-trash-can" aria-hidden="true"></i></a>
                                                                     </td> 
                                                                 </tr>`;
-                                            
-                                                              
                                                                 $('#tablerows').append(tablerows);
                                             })
 
                                                 //////////////  Pagination  ////////////
                                                 // Use the helper function to generate pagination and showing message
                                                 const paginationData = generatePagination(response);
-
                                                 // Update pagination and showing message in the DOM
                                                 $('#pagination').html(paginationData.paginationHtml);
                                                 $('#showingMessage').text(paginationData.showingMessage);
-                                              
-                                           
-                                        },
+                                                if (response.data.total === 0) {
+                                                    tablerows = `<tr><td colspan="5" class="text-center"><b>No Record Found</b></td></tr>`;
+                                                        // $('#errorMessage').html('No Record Found')
+                                                        $('#tablerows').append(tablerows);
+
+                                                }
+                                        }
+                                        ,
                                         error:function(xhr){
                                             console.log(xhr);
                                         }
@@ -318,29 +322,6 @@
             });
         });
 
-                //////////////// Search data ////////////////
-                $('#search').on('change',function(){
-                
-                    var searchdata = $(this).val();
-                    alert(searchdata);
-                    $.ajax({
-                        url: '{{ url("admin-about-search") }}',
-                        type: 'get',
-                        data:{
-                            search_data : searchdata,
-                        },
-                        dataType : 'JSON',
-                        success:function(response){
-                            console.log(response);
-                            var searchdata = response.search_data;
-                            getAboutData(searchdata);
-                        },
-                        error:function(xhr){
-                            var error  = JSON.parse(xhr.responseText);
-                            console.log(error);
-                        }
-                    })
-                });
 
                 ///////////////// Pagination page link /////////////
                 $(body).on('click', '.page-link', function () {
@@ -349,7 +330,27 @@
                 });
 
              
+                /////////////// search /////////////
+                $('#search').on('input',function(){
+                    var search = $(this).val();
+                   
+                    console.log(search);
+                    if (search) {
+                        $('#cancelSearch').show();
+                    }else{
+                        $('#cancelSearch').hide();
+                    }
+                    getAboutData(search,null);
+                });
 
+                
+                // Cancel the search when the "X" icon is clicked
+                $('#cancelSearch').on('click', function() {
+                    $('#search').val('');
+                    $(this).hide();
+
+                    getAboutData(null,'');
+                });
 
         })
         </script>

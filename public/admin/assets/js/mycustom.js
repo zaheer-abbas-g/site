@@ -47,3 +47,17 @@ function generatePagination(response) {
 
     return { paginationHtml: aboutPagination, showingMessage: showingMessage };
 }
+
+
+
+
+
+
+/////////////////////////  Image Preview    //////////////////////
+function imagePreview(fileImage,previewImage){
+  $(fileImage).on('change',function(){
+            document.getElementById(previewImage).src = window.URL.createObjectURL(this.files[0]);
+    });
+}
+
+            

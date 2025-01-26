@@ -89,6 +89,12 @@ class AboutController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'title' => 'required|string',
+            'short_description' => 'required',
+            'long_description' => 'required'
+        ]);
+
         $about_id =  decrypt($id);
         $about = About::find($about_id);
         $about->about_title = $request->title;
@@ -110,10 +116,5 @@ class AboutController extends Controller
             return response()->json(['status' => false, 'message' => 'Record not Found!'], 404);
         }
         return response()->json(['status' => true, 'message' => 'About data deleted successfully'], 200);
-    }
-
-    public function search(Request $request)
-    {
-        return response()->json($request);
     }
 }

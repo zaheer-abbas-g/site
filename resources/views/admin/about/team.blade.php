@@ -64,7 +64,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="form-pill" id="teamForm">
+                        <form class="form-pill" id="teamForm" enctype="multipart/form-data">
                        
                             <div class="form-group mb-4">
                                 <label for="short_description" class="ml-3">Team Description	</label>
@@ -90,10 +90,15 @@
                                 <small id="image_error" class="form-text text-danger ms-2 ml-3"></small>
                             </div>
 
-                            <div class="form-group mb-4 ml-3">
-                                    <img src="{{ asset('admin/images/preview.jpg') }}" class="rounded" alt="" width="150" height="150" id="imagePreview" name="imagePreview">   
+                            <div class="form-group mb-4 ml-3 position-relative" style="display: inline-block;">
+                                    <img src="{{ asset('admin/images/preview.jpg') }}" class="rounded" alt="" width="150" height="150" id="imagePreview" name="imagePreview">
+                                    <span id="corssRemove" 
+                                    class="position-absolute bg-danger text-white rounded-circle" 
+                                    style="top: -5px; right: -5px; width: 24px; height: 24px; cursor: pointer; font-size: 14px; display: none; text-align: center; line-height: 24px;">
+                                &times;
+                              </span>
                             </div>
-                          
+                         
                             
                         </form>
                     </div>
@@ -115,6 +120,14 @@
     <script>
        $(document).ready(function(){
            
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
             ///////////////// Create About //////////////////
             $('#createTeam').on('click',function(){
                 $('#exampleModalFormTitle').html('Create Team')
@@ -122,11 +135,33 @@
             });
            
             ///////////////// image  preview //////////////////
-            imagePreview('#image','imagePreview');
+            imagePreview('#image','imagePreview','#corssRemove');
           
-            $('#submitAbout').on('click',function(){
-                alert('ddd');
+            $('#submitAbout').on('click',function(e){
+                e.preventDefault();
+                $('#submitAbout').html('Saving...');
+
+                const  formdata = new FormData($('#teamForm')[0]);
+                
+                $.ajax({
+                    url: '{{ url("admin-team") }}',
+                    type: 'POST',
+                    data : formdata, 
+                    dataType: "JSON",
+                    processData:false,
+                    contentType:false,
+                    success:function(response){
+                        console.log(response);
+                    $('#submitAbout').html('Save');
+                    },
+                    error:function(xhr){
+                        var error = JSON.parse(xhr.responseText);
+                        console.log(error);
+                    }
+                });
             });
-       });
+        
+
+        });
     </script>
 @endsection

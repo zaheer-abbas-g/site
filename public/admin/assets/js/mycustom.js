@@ -54,10 +54,25 @@ function generatePagination(response) {
 
 
 /////////////////////////  Image Preview    //////////////////////
-function imagePreview(fileImage,previewImage){
+function imagePreview(fileImage,previewImage, corssRemove){
+    $(corssRemove).hide();
   $(fileImage).on('change',function(){
             document.getElementById(previewImage).src = window.URL.createObjectURL(this.files[0]);
+            $(corssRemove).show();
     });
+
+    ///////////////// Cross icon on preview image //////////////////
+    $(corssRemove).on('click',function(){
+        previewimage = false;
+       var  previewimage = document.getElementById(previewImage).src = ' ';
+            $(fileImage).val(''); ////// clear selected image
+       if (previewimage == ' ' &&  previewimage) {
+            previewimage = true;
+            image = document.getElementById(previewImage).src = 'admin/images/preview.jpg';  
+      }
+      $(corssRemove).hide();
+    });
+
 }
 
             

@@ -132,6 +132,12 @@
             $('#createTeam').on('click',function(){
                 $('#exampleModalFormTitle').html('Create Team')
                 $('#updateAbout').hide()
+
+                $('#team_description_error').html('');
+                $('#name_error').html('');
+                $('#designation_error').html('');
+                $('#image_error').html('');
+                   
             });
            
             ///////////////// image  preview //////////////////
@@ -142,7 +148,7 @@
                 $('#submitAbout').html('Saving...');
 
                 const  formdata = new FormData($('#teamForm')[0]);
-                
+                console.log(formdata);
                 $.ajax({
                     url: '{{ url("admin-team") }}',
                     type: 'POST',
@@ -152,11 +158,17 @@
                     contentType:false,
                     success:function(response){
                         console.log(response);
-                    $('#submitAbout').html('Save');
+                       $('#submitAbout').html('Save');
                     },
                     error:function(xhr){
                         var error = JSON.parse(xhr.responseText);
-                        console.log(error);
+                        console.log(error.errors);
+                        $('#team_description_error').html(error.errors.team_description[0]);
+                        $('#name_error').html(error.errors.name[0]);
+                        $('#designation_error').html(error.errors.designation[0]);
+                        $('#image_error').html(error.errors.image[0]);
+                        
+                        $('#submitAbout').html('Save');
                     }
                 });
             });

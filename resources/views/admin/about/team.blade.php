@@ -121,23 +121,23 @@
        $(document).ready(function(){
            
 
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
+            getTeamData();
 
             ///////////////// Create About //////////////////
             $('#createTeam').on('click',function(){
                 $('#exampleModalFormTitle').html('Create Team')
                 $('#updateAbout').hide()
-
                 $('#team_description_error').html('');
                 $('#name_error').html('');
-                $('#designation_error').html('');
                 $('#image_error').html('');
-                   
+                document.getElementById('imagePreview').src ='/admin/images/preview.jpg';
             });
            
             ///////////////// image  preview //////////////////
@@ -158,7 +158,15 @@
                     contentType:false,
                     success:function(response){
                         console.log(response);
-                       $('#submitAbout').html('Save');
+                     
+                        $('#submitAbout').html('Save');
+                       $('#exampleModalForm').modal('hide');
+                       $('#teamForm')[0].reset();
+                       $('#tablerows').html('');
+                       $('#corssRemove').hide();
+
+                       getTeamData();  
+
                     },
                     error:function(xhr){
                         var error = JSON.parse(xhr.responseText);
@@ -173,7 +181,54 @@
                 });
             });
         
+            ///////////////// Team Index //////////////////
 
+            function getTeamData(){
+
+                $.ajax({
+                    url: '{{ url("admin-team") }}',
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success:function(response){
+                        console.log(response);
+                        if (response.success === true) {
+                            var teamTeble = '';
+                            var base_url = '/admin/upload/team';
+                            $SN = 1;
+                                $.each(response.data,function(index,items){
+                                    teamTeble = `<tr>
+                                                    <td>${$SN++}</td>
+                                                    <td>${items.about_team_description}</td>
+                                                    <td>${items.name}</td>
+                                                    <td>${items.designation}</td>
+                                                    <td><img src="${base_url+'/'+items.image}" class="rounded mx-auto d-block" width="100" height="100"  alt="no img" /></td>
+                                                    <td>
+                                                        <a href="${items.id}" class="edit btn btn-primary btn-sm editService">
+                                                            <i class="mdi mdi-pencil-box"></i>
+                                                        </a>
+                                                        <a href="${items.id}" class="btn btn-danger btn-sm ml-1 deleteService">
+                                                            <i class="mdi mdi-trash-can" aria-hidden="true"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>`; 
+                                    $('#tablerows').append(teamTeble);
+                                    
+                                });
+
+
+                                ///////////////////// Pagination ///////////////
+                                // generatePagination(response);
+
+                        }else{
+                          console.log('No Record Found');
+                        }
+                    },
+                    error:function(xhr){
+                        var error  = xhr.responseText;
+                        console.log(error);
+                    }
+                });
+            }
         });
     </script>
 @endsection

@@ -79,26 +79,26 @@
                 </a>
               </li>
 
-              <li class="{{ request()->routeIs('admin-team.index') ? 'active' : '' }}">
-                <a class="sidenav-item-link" href="{{ route('admin-team.index') }}">
+              <li class="{{ request()->routeIs('admin-team.create') ? 'active' : '' }}">
+                <a class="sidenav-item-link" href="{{ route('admin-team.create') }}">
                   <span class="nav-text">Team</span>
                 </a>
               </li>
 
-              <li class="{{ request()->routeIs('admin-skill.index') ? 'active' : '' }}">
-                <a class="sidenav-item-link" href="{{ route('admin-skill.index') }}">
+              <li class="{{ request()->routeIs('admin-skill.create') ? 'active' : '' }}">
+                <a class="sidenav-item-link" href="{{ route('admin-skill.create') }}">
                   <span class="nav-text">Skills</span>
                 </a>
               </li>
 
               <li>
-                <a class="sidenav-item-link" href="{{ route('admin-client.index') }}">
+                <a class="sidenav-item-link" href="{{ route('admin-client.create') }}">
                   <span class="nav-text">Clients</span>
                 </a>
               </li>
 
               <li>
-                <a class="sidenav-item-link" href="{{ route('admin-testimonial.index') }}">
+                <a class="sidenav-item-link" href="{{ route('admin-testimonial.create') }}">
                   <span class="nav-text">Testimonials</span>
                 </a>
               </li>

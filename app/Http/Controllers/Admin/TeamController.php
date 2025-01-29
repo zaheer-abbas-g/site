@@ -14,8 +14,8 @@ class TeamController extends Controller
      */
     public function index()
     {
-
-        return view('admin.about.team');
+        $team = Team::get();
+        return response()->json(['success' => true, 'data' => $team], 200);
     }
 
     /**
@@ -23,7 +23,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.about.team');
     }
 
     /**
@@ -39,18 +39,15 @@ class TeamController extends Controller
         $abouteam->designation = $request->designation;
 
         if ($request->hasFile('image')) {
-
-            $imageName = $request->image;
-            $originalName = $imageName->getClientOriginalName();
+            $imageName = $request->file('image');
             $image = time() . '.' . $imageName->extension();
-            // $imageName->move(public_path('admin/upload/team'), $image);
-            // $imageName->store(public_path('admin/upload/team'));
-            $imageName->storeAs('admin/upload/team', $originalName);
-            // echo $image;
-            die;
+            $imageName->move(public_path('admin/upload/team'), $image);
+            $abouteam->image       = $image;
+        } else {
+            $abouteam->image       = '';
         }
-        $abouteam->image       = $request->image;
-        return response()->json($request);
+        $abouteam->save();
+        return response()->json(['success' => true, 'message' => 'Team member added successfully', 'data' => $abouteam], 201);
     }
 
     /**
@@ -64,10 +61,7 @@ class TeamController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+    public function edit(string $id) {}
 
     /**
      * Update the specified resource in storage.

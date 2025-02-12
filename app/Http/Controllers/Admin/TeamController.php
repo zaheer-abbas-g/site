@@ -12,10 +12,23 @@ class TeamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $team = Team::get();
-        return response()->json(['success' => true, 'data' => $team], 200);
+
+        $currentPage = $request->currentPage;
+        $perpage = 10;
+        $team = Team::paginate($perpage, ['*'], 'p~', $currentPage);
+
+        return response()->json(
+            [
+                'success' => true,
+                'data' => $team->items(),
+                'total' => $team->total(),
+                'current_page' => $team->currentPage(),
+                'last_page' => $team->lastPage(),
+            ],
+            200
+        );
     }
 
     /**

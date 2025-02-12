@@ -183,11 +183,14 @@
         
             ///////////////// Team Index //////////////////
 
-            function getTeamData(){
+            function getTeamData(currentpage){
 
                 $.ajax({
                     url: '{{ url("admin-team") }}',
                     type: 'GET',
+                    data: {
+                        currentPage : currentpage,
+                    },
                     dataType: 'JSON',
                     success:function(response){
                         console.log(response);
@@ -218,6 +221,18 @@
 
                                 ///////////////////// Pagination ///////////////
                                 // generatePagination(response);
+                                  //////////////  Pagination  ////////////
+                                                // Use the helper function to generate pagination and showing message
+                                                const paginationData = generatePagination(response);
+                                                // Update pagination and showing message in the DOM
+                                                $('#pagination').html(paginationData.paginationHtml);
+                                                $('#showingMessage').text(paginationData.showingMessage);
+
+                                                if (response.data.total === 0) {
+                                                    tablerows = `<tr><td colspan="5" class="text-center"><b>No Record Found</b></td></tr>`;
+                                                        // $('#errorMessage').html('No Record Found')
+                                                        $('#tablerows').append(tablerows);
+                                                }
 
                         }else{
                           console.log('No Record Found');
@@ -229,6 +244,14 @@
                     }
                 });
             }
+
+
+                ///////////////// Pagination page link /////////////
+                $(body).on('click', '.page-link', function () {
+                    var currentpage = $(this).data('page'); 
+                    getTeamData(currentpage);
+                });
+
         });
     </script>
 @endsection

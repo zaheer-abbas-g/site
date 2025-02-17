@@ -137,11 +137,13 @@
                 $('#team_description_error').html('');
                 $('#name_error').html('');
                 $('#image_error').html('');
+                $('#designation_error').html('');
                 document.getElementById('imagePreview').src ='/admin/images/preview.jpg';
             });
            
             ///////////////// image  preview //////////////////
-            imagePreview('#image','imagePreview','#corssRemove');
+            var base_url = "<?php echo 'http://localhost:8000/'; ?>";
+            imagePreview('#image','imagePreview','#corssRemove',base_url);
           
             $('#submitAbout').on('click',function(e){
                 e.preventDefault();
@@ -206,10 +208,10 @@
                                                     <td>${items.designation}</td>
                                                     <td><img src="${base_url+'/'+items.image}" class="rounded mx-auto d-block" width="100" height="100"  alt="no img" /></td>
                                                     <td>
-                                                        <a href="${items.id}" class="edit btn btn-primary btn-sm editService">
+                                                        <a href="javascript:void(0)" class="edit btn btn-primary btn-sm  editTeam" data-id=${items.id}>
                                                             <i class="mdi mdi-pencil-box"></i>
                                                         </a>
-                                                        <a href="${items.id}" class="btn btn-danger btn-sm ml-1 deleteService">
+                                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm ml-1 deleteTeam" data-id=${items.id} >
                                                             <i class="mdi mdi-trash-can" aria-hidden="true"></i>
                                                         </a>
                                                     </td>
@@ -250,6 +252,38 @@
                 $(body).on('click', '.page-link', function () {
                     var currentpage = $(this).data('page'); 
                     getTeamData(currentpage);
+                });
+
+
+                /////////////// Edit Team ///////////////////
+                $(body).on('click','.editTeam',function(){
+
+                    $('#submitAbout').hide();
+                    $('#updateAbout').show();
+                    $('#team_description_error').html('');
+                    $('#name_error').html('');
+                    $('#image_error').html('');
+                    $('#designation_error').html('');
+
+                    var teamid = $(this).data('id');
+                    // alert(teamid);
+
+                    $.ajax({
+                        url: '{{ url("admin-team") }}'+'/'+teamid+'/edit',
+                        type: 'GET',
+                        dataType:'JSON',
+                        success:function(response){ 
+                            console.log(response);
+                        },
+                        error:function(xhr,status){
+                            var error = xhr.responseText;
+                            console.log(error.errors);  
+                        }
+                    });
+                    $('#exampleModalForm').modal('show');
+                    $('#exampleModalFormTitle').html('Edit Team');
+
+
                 });
 
         });

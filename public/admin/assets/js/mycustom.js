@@ -54,7 +54,7 @@ function generatePagination(response) {
 
 
 /////////////////////////  Image Preview    //////////////////////
-function imagePreview(fileImage,previewImage, corssRemove){
+function imagePreview(fileImage,previewImage, corssRemove, base_url){
     $(corssRemove).hide();
   $(fileImage).on('change',function(){
             document.getElementById(previewImage).src = window.URL.createObjectURL(this.files[0]);
@@ -63,16 +63,18 @@ function imagePreview(fileImage,previewImage, corssRemove){
 
     ///////////////// Cross icon on preview image //////////////////
     $(corssRemove).on('click',function(){
-        previewimage = false;
-       var  previewimage = document.getElementById(previewImage).src = ' ';
-            $(fileImage).val(''); ////// clear selected image
-       if (previewimage == ' ' &&  previewimage) {
-            previewimage = true;
-            image = document.getElementById(previewImage).src = 'admin/images/preview.jpg';  
-      }
-      $(corssRemove).hide();
+        $(fileImage).val(''); ////// clear selected image
+        var  previewimage = document.getElementById(previewImage).src=" ";
+
+        
+        var  previewimages = document.getElementById(previewImage);
+             previewimages.src = base_url+'admin/images/preview.jpg';  
+
+        $(corssRemove).hide();
     });
 
+
+    
 }
 
             

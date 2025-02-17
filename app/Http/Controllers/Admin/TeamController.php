@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AboutTeam;
 use App\Models\Team;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -17,7 +19,7 @@ class TeamController extends Controller
 
         $currentPage = $request->currentPage;
         $perpage = 10;
-        $team = Team::paginate($perpage, ['*'], 'p~', $currentPage);
+        $team = Team::orderBy('id', 'desc')->paginate($perpage, ['*'], 'p~', $currentPage);
 
         return response()->json(
             [
@@ -74,7 +76,28 @@ class TeamController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) {}
+    public function edit(int $id)
+    {
+
+        try {
+            $team = Team::findOrFail($id);
+            return response()->json([
+                'success' => true,
+                'data' => $team,
+                'message' => 'Team retrieved successfully',
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Team not found'
+            ], 404);
+        } catch (Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve team',
+            ], 500);
+        }
+    }
 
     /**
      * Update the specified resource in storage.

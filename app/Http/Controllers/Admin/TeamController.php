@@ -102,9 +102,33 @@ class TeamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AboutTeam $request, string $id)
     {
-        //
+
+
+        $team =  Team::find($id);
+        $team->about_team_description = $request->team_description;
+        $team->name = $request->name;
+        $team->designation = $request->designation;
+
+        if ($request->hasFile('image')) {
+
+            if (!empty($team->image)) {
+                $imagePath = public_path('admin/upload/team/');
+                $image_exist =  $imagePath . $team->image;
+                if (file_exists($image_exist)) {
+                    unlink($image_exist);
+                }
+            }
+            $image = $request->image;
+            $originalName = $image->getClientOriginalName();
+            $imageName = $originalName . '_' . time() . '.' . $image->extension();
+            $image->move(public_path('admin/upload/team/'), $imageName);
+            $team->image = $imageName;
+        }
+
+        $team->save();
+        return response()->json(['message' => 'Team updated successfully', 'data' => $team]);
     }
 
     /**

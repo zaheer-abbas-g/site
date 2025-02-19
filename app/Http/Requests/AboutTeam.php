@@ -21,21 +21,23 @@ class AboutTeam extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('admin_team');
         return [
             'team_description' => 'required',
             'name' => 'required',
             'designation' => 'required',
-            'image' => 'required|mimes:jpg,jpeg,png|max:1024'
+            'image' =>  $id ? 'nullable|image|mimes:jpg,jpeg,png|max:1024' : 'required|image|mimes:jpg,jpeg,png|max:1024',
         ];
     }
 
     public function messages()
     {
+
         return [
             'team_description.required' => 'Please provide team a description for team',
             'name.required' => 'The name field is required and must be string',
             'designation.required' => 'The designation field is required and must be string',
-            'image' => [
+            'image' =>  [
                 'required' => 'Please upload image',
                 'mimes' => 'File type must be jpg png or jpeg',
                 'size' => 'File size must be less than 1mb',

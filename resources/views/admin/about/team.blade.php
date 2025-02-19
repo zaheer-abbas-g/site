@@ -90,6 +90,10 @@
                                 <small id="image_error" class="form-text text-danger ms-2 ml-3"></small>
                             </div>
 
+                            <div class="form-group mb-2">
+                                     <input type="hidden" id="id"  name="id">
+                            </div>
+
                             <div class="form-group mb-4 ml-3 position-relative" style="display: inline-block;">
                                     <img src="{{ asset('admin/images/preview.jpg') }}" class="rounded" alt="" width="150" height="150" id="imagePreview" name="imagePreview">
                                     <span id="corssRemove" 
@@ -138,6 +142,9 @@
                 $('#name_error').html('');
                 $('#image_error').html('');
                 $('#designation_error').html('');
+                $('#teamForm')[0].reset();
+                $('#submitAbout').show();
+                $('#corssRemove').hide();
                 document.getElementById('imagePreview').src ='/admin/images/preview.jpg';
             });
            
@@ -160,14 +167,23 @@
                     contentType:false,
                     success:function(response){
                         console.log(response);
-                     
-                        $('#submitAbout').html('Save');
+
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+                       $('#submitAbout').html('Save');
                        $('#exampleModalForm').modal('hide');
                        $('#teamForm')[0].reset();
                        $('#tablerows').html('');
                        $('#corssRemove').hide();
 
                        getTeamData();  
+
 
                     },
                     error:function(xhr){
@@ -199,7 +215,8 @@
                         if (response.success === true) {
                             var teamTeble = '';
                             var base_url = '/admin/upload/team';
-                            $SN = 1;
+                              $SN = 1;
+                              $('#tablerows').empty();
                                 $.each(response.data,function(index,items){
                                     teamTeble = `<tr>
                                                     <td>${$SN++}</td>
@@ -230,8 +247,8 @@
                                                 $('#pagination').html(paginationData.paginationHtml);
                                                 $('#showingMessage').text(paginationData.showingMessage);
 
-                                                if (response.data.total === 0) {
-                                                    tablerows = `<tr><td colspan="5" class="text-center"><b>No Record Found</b></td></tr>`;
+                                                if (response.total === 0) {
+                                                    tablerows = `<tr><td colspan="6" class="text-center"><b>No Record Found</b></td></tr>`;
                                                         // $('#errorMessage').html('No Record Found')
                                                         $('#tablerows').append(tablerows);
                                                 }
@@ -273,7 +290,17 @@
                         type: 'GET',
                         dataType:'JSON',
                         success:function(response){ 
-                            console.log(response);
+                            if (response.success == true) {
+                                var imageURL  = '{{ asset("admin/upload/team/") }}'+"/"+response.data.image;
+                                console.log(imageURL);
+                                $('#team_description').val(response.data.about_team_description);
+                                $('#designation').val(response.data.designation);
+                                $('#name').val(response.data.name);
+                                $('#id').val(response.data.id);
+                                $('#imagePreview').attr("src",imageURL); 
+                            }else{
+                                console.log('No DATA fOUND');
+                            }
                         },
                         error:function(xhr,status){
                             var error = xhr.responseText;
@@ -282,10 +309,62 @@
                     });
                     $('#exampleModalForm').modal('show');
                     $('#exampleModalFormTitle').html('Edit Team');
-
-
                 });
 
+
+                    /////////////// Uodate Team ///////////////////
+                    $('#updateAbout').on('click',function(e){
+                        e.preventDefault();
+                      
+                        $('#updateAbout').html('Updating...');
+                         var formData = new  FormData($('#teamForm')[0]);
+                            const teamId = $('#id').val();
+                      
+                        // Add _method for proper RESTful routing
+                        formData.append('_method', 'PUT');
+
+                        
+
+                        $.ajax({
+                            url:"{{ url('admin-team') }}/"+teamId,
+                            type: 'POST' ,
+                            data: formData,
+                            processData : false,
+                            contentType :false,
+                            success: function(response){
+                                console.log(response);
+
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: response.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+
+                                $('#team_description_error').text('');
+                                $('#name_error').text('');
+                                $('#designation_error').text('');
+                                $('#image_error').text('');
+                                $('#updateAbout').html('Update');
+                                $('#exampleModalForm').modal('hide');
+                                $('#teamForm')[0].reset();
+                                getTeamData();
+                            },
+                            error:function(xhr,status){
+                                const errors = JSON.parse(xhr.responseText);
+                                if (errors.errors) {
+                                    $('#team_description_error').text(errors.errors.team_description ? errors.errors.team_description[0] : '');
+                                    $('#name_error').text(errors.errors.name ? errors.errors.name[0] : '');
+                                    $('#designation_error').text(errors.errors.designation ? errors.errors.designation[0] : '');
+                                    $('#image_error').text(errors.errors.image ? errors.errors.image[0] : '');
+                                } else {
+                                    console.log("Unexpected error format:", errors);
+                                }
+                                 $('#updateAbout').html('Update');
+                            }
+                        });
+                    });
         });
     </script>
 @endsection

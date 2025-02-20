@@ -136,6 +136,21 @@ class TeamController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+        try {
+            $team = Team::findOrFail($id);
+
+            if (!empty($team->image)) {
+                $filePath = public_path('admin/upload/team/') . $team->image;
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+
+            $team->delete();
+            return response()->json(['status' => true, 'data' => $team, 'message' => 'Data Successfully deleted'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'error' => $th->getMessage()], 404);
+        }
     }
 }

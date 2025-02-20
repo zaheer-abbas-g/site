@@ -365,6 +365,35 @@
                             }
                         });
                     });
+
+
+                    ///////////// Destroy Team //////////////
+                    $(body).on('click','.deleteTeam',function(){
+                      
+                        var teamid = $(this).data('id');
+
+                        $.ajax({
+                            url:'{{ url("admin-team") }}'+"/"+teamid,
+                            type: 'delete',
+                            dataType:'json',
+                            success:function(response){
+
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: response.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+
+                                getTeamData();
+                            },error:function(xhr){
+                                
+                                console.log(error);
+                            }
+                        })
+                        
+                    });
         });
     </script>
 @endsection

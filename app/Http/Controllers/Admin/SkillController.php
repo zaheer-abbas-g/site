@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AboutSkill;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
@@ -20,15 +22,25 @@ class SkillController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('admin.about.skill');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AboutSkill $request)
     {
-        //
+
+        try {
+            $skill = new Skill();
+            $skill->skill_name       = $request->name;
+            $skill->skill_percentage = $request->skill_percentage;
+            $skill->save();
+            return response()->json(['status' => true, 'message' => 'Skill data successfully added']);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'message' => 'Some thing went wrong', 'error' => $th->getMessage()]);
+        }
     }
 
     /**

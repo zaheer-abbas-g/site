@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('skills', function (Blueprint $table) {
             $table->id();
             $table->string('skill_name', 150);
-            $table->integer('skill_percentage', 100)->default(0);
+            $table->string('skill_percentage', 100);
             $table->timestamps();
         });
     }

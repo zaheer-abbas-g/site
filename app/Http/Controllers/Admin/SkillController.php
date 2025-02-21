@@ -12,9 +12,18 @@ class SkillController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return "skills";
+        $page = $request->page;
+        $pager = 5;
+        $skill = Skill::paginate($pager, ['id', 'skill_name', 'skill_percentage'], 'p~', $page);
+
+        return response()->json([
+            'items'        =>  $skill->items(),
+            'total'       =>  $skill->total(),
+            'current_page' =>  $skill->currentPage(),
+            'last_page'    =>  $skill->lastPage(),
+        ]);
     }
 
     /**

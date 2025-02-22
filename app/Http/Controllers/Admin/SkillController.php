@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AboutSkill;
 use App\Models\Skill;
+use Exception;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
@@ -16,7 +17,7 @@ class SkillController extends Controller
     {
         $page = $request->page;
         $pager = 5;
-        $skill = Skill::paginate($pager, ['id', 'skill_name', 'skill_percentage'], 'p~', $page);
+        $skill = Skill::orderBy('id', 'desc')->paginate($pager, ['id', 'skill_name', 'skill_percentage'], 'p~', $page);
 
         return response()->json([
             'items'        =>  $skill->items(),
@@ -65,15 +66,32 @@ class SkillController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        try {
+            $skill = Skill::find($id);
+            return response()->json(['status' => true, 'data' => $skill], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $th) {
+            return response()->json(['status' => false, 'message' => "Skill Not found"], 404);
+        } catch (Exception $e) {
+            return response()->json(['status' => false, 'message' => 'An error occoured'], 500);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AboutSkill $request, string $id)
     {
-        //
+
+        try {
+            $skill = Skill::find($id);
+            $skill->skill_name       = $request->name;
+            $skill->skill_percentage = $request->skill_percentage;
+            $skill->save();
+            return response()->json(['status' => true, 'message' => "Skill data updated successfully "], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'message' => 'An error occoured'], 500);
+        }
     }
 
     /**
@@ -81,6 +99,12 @@ class SkillController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $skill = Skill::findOrFail($id);
+            $skill->delete();
+            return response()->json(['status' => true, 'message' => "Skill data  successfully Deleted"], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'message' => 'An error occoured'], 500);
+        }
     }
 }

@@ -18,7 +18,7 @@ class TeamController extends Controller
     {
 
         $currentPage = $request->currentPage;
-        $perpage = 10;
+        $perpage = 5;
         $team = Team::orderBy('id', 'desc')->paginate($perpage, ['*'], 'p~', $currentPage);
 
         return response()->json(

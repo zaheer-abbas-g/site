@@ -202,7 +202,6 @@
             ///////////////// Team Index //////////////////
 
             function getTeamData(currentpage){
-
                 $.ajax({
                     url: '{{ url("admin-team") }}',
                     type: 'GET',
@@ -237,11 +236,7 @@
                                     
                                 });
 
-
-                                ///////////////////// Pagination ///////////////
-                                // generatePagination(response);
-                                  //////////////  Pagination  ////////////
-                                                // Use the helper function to generate pagination and showing message
+                                                 ///////////////////// Pagination ///////////////
                                                 const paginationData = generatePagination(response);
                                                 // Update pagination and showing message in the DOM
                                                 $('#pagination').html(paginationData.paginationHtml);

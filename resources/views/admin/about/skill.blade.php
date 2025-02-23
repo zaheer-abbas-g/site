@@ -6,7 +6,7 @@
 
 <div class="col-lg-12">
     <div class="card card-default">
-        <div class="card-header card-header-border-bottom d-flex justify-content-between align-items-center">
+                    <div class="card-header card-header-border-bottom d-flex justify-content-between align-items-center">
                         <span>Skill Listing </span>
                             <a href="javascript:void(0)" class="btn btn-primary btn-pill float-right createbrand"
                                 data-toggle="modal" data-target="#exampleModalForm" id="createSkill"> Create Skill</a>
@@ -49,53 +49,54 @@
                      </div>
 
                      
-                </div>
+    </div>
 
                 
-    	<!-- Form Modal -->
-        <div class="modal fade" id="exampleModalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalFormTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalFormTitle">Modal Title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-pill" id="FormSkill" >
-                       
-                            <div class="form-group mb-4">
-                                <label for="name" class="ml-3">Skill Name</label>
-                                     <input type="text" class="form-control" id="name"  name="name" aria-describedby="skill_name" placeholder="Enter name">
-                                    <small id="name_error" class="form-text text-danger ms-2 ml-3"></small>
-                            </div>
+    <!-- Form Modal -->
+    <div class="modal fade" id="exampleModalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalFormTitle"   aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalFormTitle">Modal Title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-pill" id="FormSkill" >
+                        
+                                <div class="form-group mb-4">
+                                    <label for="name" class="ml-3">Skill Name</label>
+                                        <input type="text" class="form-control" id="name"  name="name" aria-describedby="skill_name" placeholder="Enter name">
+                                        <small id="name_error" class="form-text text-danger ms-2 ml-3"></small>
+                                </div>
 
-                            <div class="form-group mb-4">
-                                <label for="skill_percentage" class="ml-3"> Skill Percentage	</label>
-                                <input type="text" class="form-control" id="skill_percentage"  name="skill_percentage" aria-describedby="skill_percentage" placeholder="Enter team Percentage">
-                                <small id="skill_percentage_error" class="form-text text-danger ms-2 ml-3"></small>
-                            </div>
+                                <div class="form-group mb-4">
+                                    <label for="skill_percentage" class="ml-3"> Skill Percentage	</label>
+                                    <input type="text" class="form-control" id="skill_percentage"  name="skill_percentage" aria-describedby="skill_percentage" placeholder="Enter team Percentage">
+                                    <small id="skill_percentage_error" class="form-text text-danger ms-2 ml-3"></small>
+                                </div>
 
-                            <div class="form-group mb-4">
-                                <input type="hidden" class="form-control" id="id"  name="id" aria-describedby="id" >
-                            </div>
-                            
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger btn-pill " data-dismiss="modal">Close</button>
-                        <button class="button btn btn-success btn-pill"   id="submitSkill">
-                            <span class="ladda-label">Save</span>
-                        </button>
-                        <button class="button btn btn-primary btn-pill"   id="updateSkill" style="display: none">
-                            <span class="ladda-label">Update</span>
-                        </button>
+                                <div class="form-group mb-4">
+                                    <input type="hidden" class="form-control" id="id"  name="id" aria-describedby="id" >
+                                </div>
+                                
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-pill " data-dismiss="modal">Close</button>
+                            <button class="button btn btn-success btn-pill"   id="submitSkill">
+                                <span class="ladda-label">Save</span>
+                            </button>
+                            <button class="button btn btn-primary btn-pill"   id="updateSkill" style="display: none">
+                                <span class="ladda-label">Update</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </div>
+        
+</div>
 </div>
 
 

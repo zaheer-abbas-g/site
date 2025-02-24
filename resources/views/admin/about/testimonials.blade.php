@@ -132,7 +132,7 @@
                 $('#designation_error').html('');
                 $('#long_description_error').html('');
                 $('#image_error').html('');
-                $('#TestimonialsForm')[0].reset();
+                $('#testimonialsForm')[0].reset();
                 $('#submitAbout').show();
                 $('#corssRemove').hide();
                 document.getElementById('imagePreview').src ='/admin/images/preview.jpg';
@@ -323,8 +323,8 @@
                     });
             });
 
-              ///////////// Destroy Team //////////////
-              $(body).on('click','.deletetestimonials',function(){
+            ///////////// Destroy Team //////////////
+            $(body).on('click','.deletetestimonials',function(){
                       var testimonialsid = $(this).data('id');
                       $.ajax({
                           url:'{{ url("admin-testimonial") }}'+"/"+testimonialsid,
@@ -343,8 +343,7 @@
                               console.log(error);
                           }
                       })
-                  });
-
+            });
     });
 
 </script>

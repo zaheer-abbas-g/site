@@ -110,7 +110,7 @@ Route::middleware('auth')->group(function () {
 
     /////////// Admin Services /////////// 
 
-    Route::resource('/admin-home', AdminHomeController::class);
+    // Route::resource('/admin-home', AdminHomeController::class);
     Route::resource('/admin-service', ServiceController::class);
     Route::get('/admin-service-serarch', [ServiceController::class, 'serviceSearch'])->name('admin-service.search');
 

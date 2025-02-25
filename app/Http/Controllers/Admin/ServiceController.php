@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
+    public function create()
+    {
+
+        return view('admin.home.services');
+    }
 
     public function store(ServiceRequest $request)
     {
@@ -24,7 +29,7 @@ class ServiceController extends Controller
             $service->feature_title = $request->featuretitle;
             $service->feature_description = $request->featuredescription;
             $service->save();
-            return response()->json(['status' => 'success', 'message' => 'Service successfully added'], 200);
+            return response()->json(['status' => 'success', 'message' => 'Service successfully added', 'data' => $service], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'fail', 'message' => 'Service not added', 'error_message' => $th->getMessage()], 500);
         }

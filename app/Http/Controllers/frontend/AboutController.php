@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
 use Illuminate\Http\Request;
 
 class AboutController extends Controller
@@ -10,7 +11,8 @@ class AboutController extends Controller
 
     public function about()
     {
-        return view('frontend.about');
+        $about['about'] =  About::orderBy('id')->get()->first();
+        return view('frontend.about', compact('about'));
     }
 
 

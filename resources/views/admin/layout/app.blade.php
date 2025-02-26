@@ -45,6 +45,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
       integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
       crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+   
 
   <!-- FAVICON -->
   <link href="{{asset('admin/assets/img/favicon.png') }}" rel="shortcut icon" />
@@ -111,9 +112,9 @@
     </div>
 
     
-
+  
 {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM" defer></script> --}}
- {{-- <script src="{{asset('admin/assets/plugins/jquery/jquery.min.js') }}"></script> --}}
+<script src="{{asset('admin/assets/plugins/jquery/jquery.min.js') }}"></script> 
 <script src="{{asset('admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{asset('admin/assets/plugins/toaster/toastr.min.js') }}"></script>
 <script src="{{asset('admin/assets/js/mycustom.js') }}"></script>
@@ -136,6 +137,10 @@
 <script src="{{asset('admin/assets/js/map.js') }}"></script>
 <script src="{{asset('admin/assets/js/custom.js') }}"></script> 
 
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
 
     

@@ -113,7 +113,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+            var table  = '';
 
             /////////// Image Preview ////////////////
             $('#brandimage').on('change', function() {
@@ -139,7 +139,7 @@
             ///////////////// Save Brand /////////////////
             $('#brandSave').on('click', function(e) {
                 e.preventDefault();
-
+             
                 $(this).html('Saving...');
                 var formData = new FormData($('#brandForm')[0]);
 
@@ -172,7 +172,6 @@
                         var response = JSON.parse(xhr.responseText);
                         $('#brandSave').html('Save');
 
-
                         if (response.errors) {
                             if (response.errors.brandname) {
                                 $('#brandname_error').html(response.errors.brandname[0]);
@@ -197,12 +196,11 @@
 
 
             ///////////////// list Brand /////////////////
-
-            var table = $('.data-table').DataTable({
+             table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('brands') }}", // Correctly placed inside the `ajax` object
+                    url: "{{ url('brands') }}",  // Ensure this URL is correct and accessible
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -232,7 +230,6 @@
 
 
             //////////// Edit Brand /////////////
-
             $('body').on('click', '.editbrand', function() {
                 var brand_id = $(this).data('id');
                 $.ajax({
@@ -258,12 +255,11 @@
             });
 
             /////////////// Update Brand ///////////////
-
             $('#brandUpdate').on('click', function() {
 
                 var brand_id = $('#brandid').val();
                 $('#brandUpdate').html('Updating...');
-
+               
                 var formData = new FormData($('#brandForm')[0]);
                 formData.append('_method', 'PUT'); // Spoof PUT method for Laravel
 

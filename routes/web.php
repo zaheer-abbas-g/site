@@ -50,8 +50,8 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     // return view('dashboard');
-    return view('admin.dashboard');
-    // return view('frontend.home');
+    // return view('admin.dashboard');
+    return view('frontend.home');
 });
 Route::get('/welcome', function () {
     return view('welcome');

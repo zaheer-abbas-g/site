@@ -70,7 +70,7 @@ class MultiImagesController extends Controller
 
             ############ unlink existing image ############
             $multimage = $multimages->image;
-            $filePath = public_path('admin/images/multipleImages/') . $multimage;
+            $filePath = public_path('admin/images/multipleImages') ."/". $multimage;
             if (file_exists($filePath)) {
                 unlink($filePath);
             }

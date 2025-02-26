@@ -48,9 +48,13 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
-Route::get('/', function () {
-    // return view('dashboard');
-    return view('admin.dashboard');
+Route::middleware('isAdmin')->group(function () {
+   
+
+    Route::get('/dashboard',function(){
+         return view('admin.dashboard');
+    })->name('admin.dashboard');
+    // ->name('admin.dashboard');
     // return view('frontend.home');
 });
 Route::get('/welcome', function () {
@@ -87,9 +91,9 @@ Route::PUT('/reset-password', [PasswordController::class, 'reset'])
 
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 // require __DIR__ . '/auth.php';

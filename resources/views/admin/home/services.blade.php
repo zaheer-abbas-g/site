@@ -230,6 +230,8 @@
                                     timer: 1500
                                 });
 
+                             
+
                               serviceIndex();
                             },
                             error:function(xhr,status,error){
@@ -285,9 +287,16 @@
                                                          </div>
                                                     </td>
                                                  </tr>`;
-
+                                
                                 $('#tablerows').append(table_rows);
                             });
+                            if (response.total === 0 ) {
+                                    var table_rows_count = `<tr class="text-center">
+                                                         <td colspan="10"><p> No Record Found </p></td>   
+                                                      </tr>`;
+                                
+                                $('#tablerows').append(table_rows_count);
+                            }
                         }
 
                         var htmlPagination = '';

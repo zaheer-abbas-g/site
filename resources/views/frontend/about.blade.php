@@ -47,14 +47,13 @@
             <h2>Our <strong>Team</strong></h2>
             <p>{{ $about['team_description']['about_team_description'] }}</p>
           </div>
-          
               @isset($about['team'])
                   <div class="row">
                   @foreach ($about['team'] as $items)
                     <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                           <div class="member" data-aos="fade-up">
                             <div class="">
-                              <img src="{{ asset('frontend/assets/img/team/team-1.jpg') }}" class="img-fluid" alt="">
+                              <img src="{{ asset('admin/upload/team/'.$items->image) }}" class="img-fluid" alt="">
                               <div class="social">
                                 <a href=""><i class="icofont-twitter"></i></a>
                                 <a href=""><i class="icofont-facebook"></i></a>
@@ -83,34 +82,17 @@
   
           <div class="section-title" data-aos="fade-up">
             <h2>Our <strong>Skills</strong></h2>
-            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+            <p id="skill_title"></p>
           </div>
   
           <div class="row skills-content">
-  
-            <div class="col-lg-6" data-aos="fade-up">
-              <div class="mb-3">
-                <span>HTML <i>100%</i></span>
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                    <span class="visually-hidden">100%</span>
-                  </div>
-                </div>
-              </div> 
+            <div class="col-lg-6" data-aos="fade-up" id="leftbar">
             </div>
   
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-              <div class="mb-3">
-                <span>Photoshop <i>55%</i></span>
-                <div class="progress" id="myProgress">
-                  <div id="myBar" class="progress-bar" role="progressbar" style="width: 55%" 
-                       aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
-                    <span class="visually-hidden">55%</span>
-                  </div>
-                </div>
-              </div>
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" id="rightbar">
             </div>
           </div>
+
         </div>
       </section><!-- End Our Skills Section -->
   
@@ -123,91 +105,101 @@
           </div>
   
           <div class="row no-gutters clients-wrap clearfix" data-aos="fade-up">
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{ asset('frontend/assets/img/clients/client-1.png') }}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{ asset('frontend/assets/img/clients/client-2.png') }}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{ asset('frontend/assets/img/clients/client-3.png') }}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{ asset('frontend/assets/img/clients/client-4.png') }}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{ asset('frontend/assets/img/clients/client-5.png') }}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{ asset('frontend/assets/img/clients/client-6.png') }}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{ asset('frontend/assets/img/clients/client-7.png') }}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
-            <div class="col-lg-3 col-md-4 col-6">
-              <div class="client-logo">
-                <img src="{{ asset('frontend/assets/img/clients/client-8.png') }}" class="img-fluid" alt="">
-              </div>
-            </div>
-  
+                 @if (isset($about))
+                 @foreach ($about['client'] as $items)
+                  <div class="col-lg-3 col-md-4 col-6">
+                    <div class="client-logo">
+                      <img src="{{ asset('admin/upload/client/'.$items->client_logo) }}" class="img-fluid" alt="">
+                      </div>
+                    </div>
+                  @endforeach
+                 @else
+                 <p class="text-center"> No Record Found</p>
+                 @endif
           </div>
-  
-        </div>
-      </section><!-- End Our Clients Section -->
-
+        </div><!-- End Our Clients Section -->
+      </section>
 
       <style>
         .myProgress {
           width: 100%;
           background-color: #000000;
         }
-        
         .myBar {
           width: 1%;
           height: 30px;
           background-color: #45ff07;
         }
       </style>
-
-      <h1>JavaScript Progress Bar</h1>
-
       <script>
-        $(document).ready(function(){
-          
-            let width = 1;
-            const elem = document.getElementById("myBar");
-            const id = setInterval(frame, 10);
-        
-            function frame() {
-                if (width >= 60) {
-                    clearInterval(id);
+
+    $(document).ready(function() {
+        var client = []; 
+        function getSkills() {
+            $.ajax({
+                url: "{{ url('front-about-getSkills') }}",
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                  $('#skill_title').html(response.data.skill.title);
+                    client = response.data.skill.map(element => ({ 
+                        skill_name: element.skill_name, 
+                        skill_percentage: element.skill_percentage 
+                    }));
+                    processbar(); 
+                },
+                error: function(xhr) {
+                    console.error('Error fetching skills:', xhr);
+                }
+            });
+        }
+
+        function processbar() {
+          const middleIndex = Math.ceil(client.length / 2); 
+          $('#leftbar').empty();
+          $('#rightbar').empty();
+            client.forEach((element, index) => {
+                const progressBarId = `progressBar${index}`; 
+                const progressBarHtml = `
+                    <div class="mb-3">
+                        <span>${element.skill_name} <i>${element.skill_percentage}%</i></span>
+                        <div class="progress">
+                            <div id="${progressBarId}" 
+                                class="progress-bar" 
+                                role="progressbar" 
+                                style="width: 0%;" 
+                                aria-valuenow="0" 
+                                aria-valuemin="0" 
+                                aria-valuemax="100">
+                                <span class="visually-hidden">${element.skill_percentage}%</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                if (index<middleIndex) {
+                  $('#leftbar').append(progressBarHtml);
+                }else{
+                  $('#rightbar').append(progressBarHtml);
+                }
+                animateProgressBar(progressBarId, element.skill_percentage);
+            });
+        }
+
+        function animateProgressBar(progressBarId, targetWidth) {
+            let width = 0; // Start from 0%
+            const progressBar = document.getElementById(progressBarId);
+            const interval = setInterval(() => {
+                if (width >= targetWidth) {
+                    clearInterval(interval);
                 } else {
                     width++;
-                    elem.style.width = width + "%";
+                    progressBar.style.width = width + '%';
+                    progressBar.setAttribute('aria-valuenow', width);
                 }
-            }
-        });
-        </script>
+            }, 10); // Adjust timing for smoother/faster animation
+        }
+        getSkills(); // Initialize the process
+    });
+</script>
+ 
 @endsection

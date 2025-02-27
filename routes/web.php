@@ -48,24 +48,9 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
-<<<<<<< HEAD
 Route::get('/', function () {
-    // return view('dashboard');
     // return view('admin.dashboard');
     return view('frontend.home');
-=======
-Route::middleware('isAdmin')->group(function () {
-   
-
-    Route::get('/dashboard',function(){
-         return view('admin.dashboard');
-    })->name('admin.dashboard');
-    // ->name('admin.dashboard');
-    // return view('frontend.home');
->>>>>>> fc1df20a0229c598a55baba4319eecb6017536cc
-});
-Route::get('/welcome', function () {
-    return view('welcome');
 });
 
 
@@ -144,7 +129,6 @@ Route::get('/user-logout', [UserController::class, 'logOut'])->name('user.logout
 
 
 //////////////  Home Controller //////////////
-
 Route::get('front-home', [HomeController::class, 'index'])->name('front.home');
 Route::get('front-home-about', [HomeController::class, 'about']);
 Route::get('front-home-services', [HomeController::class, 'services']);
@@ -153,6 +137,7 @@ Route::get('front-home-portfolio', [HomeController::class, 'portfolio']);
 Route::get('/front-get-home', [HomeController::class, 'getHome'])->name('front.getHome');
 
 Route::get('front-about', [AboutController::class, 'about'])->name('front.about');
+Route::get('front-about-getSkills', [AboutController::class, 'getSkills']);
 Route::get('front-about-team', [AboutController::class, 'team'])->name('front.about.team');
 Route::get('front-about-testimonials', [AboutController::class, 'testimonials'])->name('front.about.testimonials');
 Route::get('front-services', [ServicesController::class, 'services'])->name('front.services');

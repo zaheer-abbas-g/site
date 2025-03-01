@@ -9,7 +9,7 @@
                         <span>Client Listing </span>
                             <a href="javascript:void(0)" class="btn btn-primary btn-pill float-right createbrand"
                                 data-toggle="modal" data-target="#exampleModalForm" id="createSkill"> Create Client</a>
-                    </div>
+        </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered data-table">    
@@ -44,8 +44,8 @@
                                 <ul class="pagination pagination-seperated pagination-seperated-rounded float-right mt-2" id="pagination">   
                                 </ul>
                             </nav>
-                     </div>
-                </div>
+                    </div>
+     </div>
                 
     	<!-- Form Modal -->
         <div class="modal fade" id="exampleModalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalFormTitle" aria-hidden="true">

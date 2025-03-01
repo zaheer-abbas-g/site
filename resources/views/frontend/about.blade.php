@@ -45,7 +45,7 @@
           
           <div class="section-title" data-aos="fade-up">
             <h2>Our <strong>Team</strong></h2>
-            <p>{{ $about['team_description']['about_team_description'] }}</p>
+            <p>{{ $about['team_description'] }}</p>
           </div>
               @isset($about['team'])
                   <div class="row">
@@ -141,7 +141,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                  $('#skill_title').html(response.data.skill.title);
+                  $('#skill_title').html(response.data.skill_title);
                     client = response.data.skill.map(element => ({ 
                         skill_name: element.skill_name, 
                         skill_percentage: element.skill_percentage 

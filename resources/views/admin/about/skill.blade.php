@@ -168,61 +168,61 @@
             });
 
             //////////////// Listing of team //////////////
-                function getSkill(currentpage){
-                    $.ajax({
-                        url:"{{ url('admin-skill') }}",
-                        type: 'GET',
-                        data:{
-                            'page' : currentpage
-                        },
-                        dataType:'JSON',
-                        success:function(response){
-                            var serial_no = 1;
-                            $('#tablerows').empty();
-                            let Serial_no = (response.current_page - 1) * 5 + 1;
-                            $.each(response.items, function(index,items){
-                                // console.log(items);
-                                var tablerows = `
-                                <tr> 
-                                    <td class="text-center"> ${Serial_no++} </td>    
-                                    <td class="text-center"> ${items.skill_name} </td>    
-                                    <td class="text-center"> ${items.skill_percentage} </td>    
-                                    <td class="text-center">
-                                            <a href="javascript:void(0)" data-id='${items.id}' class="editSkill btn btn-sm btn-primary" >  
-                                                <i class="mdi mdi-pencil-box"></i>
-                                            </a> 
-                                            <a href="javascript:void(0)" data-id='${items.id}' class="deleteSkill btn btn-sm  ml-1 btn-danger" > 
-                                                <i class="mdi mdi-trash-can" aria-hidden="true"></i>
-                                            </a> 
-                                    </td>    
-                                </tr>`;
-                                $('#tablerows').append(tablerows);
-                            })
+            function getSkill(currentpage){
+                $.ajax({
+                    url:"{{ url('admin-skill') }}",
+                    type: 'GET',
+                    data:{
+                        'page' : currentpage
+                    },
+                    dataType:'JSON',
+                    success:function(response){
+                        var serial_no = 1;
+                        $('#tablerows').empty();
+                        let Serial_no = (response.current_page - 1) * 5 + 1;
+                        $.each(response.items, function(index,items){
+                            // console.log(items);
+                            var tablerows = `
+                            <tr> 
+                                <td class="text-center"> ${Serial_no++} </td>    
+                                <td class="text-center"> ${items.skill_name} </td>    
+                                <td class="text-center"> ${items.skill_percentage} </td>    
+                                <td class="text-center">
+                                        <a href="javascript:void(0)" data-id='${items.id}' class="editSkill btn btn-sm btn-primary" >  
+                                            <i class="mdi mdi-pencil-box"></i>
+                                        </a> 
+                                        <a href="javascript:void(0)" data-id='${items.id}' class="deleteSkill btn btn-sm  ml-1 btn-danger" > 
+                                            <i class="mdi mdi-trash-can" aria-hidden="true"></i>
+                                        </a> 
+                                </td>    
+                            </tr>`;
+                            $('#tablerows').append(tablerows);
+                        })
 
 
-                            //////////////// Pagination /////////////
+                        //////////////// Pagination /////////////
 
-                        var pagination =  generatePagination(response);
-                        $('#pagination').html(pagination.paginationHtml);
-                        $('#showingMessage').text(pagination.showingMessage);
-                        
-                        
-                        if (response.total === 0) {
-                            tablerows = `<tr>
-                                    <td colspan="4" class="text-center"><b>No Record Found</b></td>
-                                </tr>`;
-                                $('#tablerows').append(tablerows);
-                        }
+                    var pagination =  generatePagination(response);
+                    $('#pagination').html(pagination.paginationHtml);
+                    $('#showingMessage').text(pagination.showingMessage);
+                    
+                    
+                    if (response.total === 0) {
+                        tablerows = `<tr>
+                                <td colspan="4" class="text-center"><b>No Record Found</b></td>
+                            </tr>`;
+                            $('#tablerows').append(tablerows);
+                    }
 
-                        },
-                        error:function(xhr){
-                            console.log(xhr);
+                    },
+                    error:function(xhr){
+                        console.log(xhr);
 
-                        }
+                    }
 
-                    })
+                })
 
-                }
+            }
              
             ///////////////// Pagination page link /////////////
             $(body).on('click', '.page-link', function () {

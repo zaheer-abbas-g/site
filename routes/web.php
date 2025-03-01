@@ -29,6 +29,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\frontend\BlogController;
 use App\Http\Controllers\frontend\ContactController;
+use App\Http\Controllers\frontend\FaqController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\PortfolioController;
 use App\Http\Controllers\frontend\PricingController;
@@ -49,8 +50,8 @@ use Illuminate\Support\Facades\Mail;
 */
 
 Route::get('/', function () {
-    // return view('admin.dashboard');
-    return view('frontend.home');
+    return view('dashboard');
+    // return view('frontend.home');
 });
 
 
@@ -83,9 +84,9 @@ Route::PUT('/reset-password', [PasswordController::class, 'reset'])
 
 
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 // require __DIR__ . '/auth.php';
@@ -106,7 +107,7 @@ Route::middleware('auth')->group(function () {
 
     /////////// Admin Services /////////// 
 
-    // Route::resource('/admin-home', AdminHomeController::class);
+    Route::resource('/admin-home', AdminHomeController::class);
     Route::resource('/admin-service', ServiceController::class);
     Route::get('/admin-service-serarch', [ServiceController::class, 'serviceSearch'])->name('admin-service.search');
 
@@ -117,6 +118,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('/admin-client', ClientsController::class);
     Route::resource('/admin-skill', SkillController::class);
     Route::resource('/admin-testimonial', TestimonialController::class);
+
+    /////////// Admin Faq /////////// 
+    Route::resource('/admin-faq', FaqController::class);
+    Route::patch('/update-status/{id}', [FaqController::class, 'updateStatus']);
 });
 
 

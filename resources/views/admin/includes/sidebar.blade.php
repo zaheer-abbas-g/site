@@ -162,6 +162,24 @@
             </ul>
           </li>
         
+            <!-- Faq Section -->
+            <li class="has-sub{{ request()->routeIs('admin-faq.*') ? 'active expand' : '' }}">
+              <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#faq"
+                aria-expanded="{{ request()->routeIs('admin-faq.*') ? 'true' : 'false' }}" aria-controls="faq">
+                <i class="mdi mdi-view-dashboard-outline"></i>
+                <span class="nav-text">Faq</span> <b class="caret"></b>
+              </a>
+              <ul class="collapse {{ request()->routeIs('admin-faq.create') ? 'show' : '' }}" id="faq" data-parent="#sidebar-menu">
+                <div class="sub-menu">
+                  <li class="{{ request()->routeIs('admin-faq.create') ? 'active' : '' }}">
+                    <a class="sidenav-item-link" href="{{ route('admin-faq.create') }}">
+                      <span class="nav-text">Faq</span>
+                    </a>
+                  </li>
+                </div>
+              </ul>
+            </li>
+
         </ul>
         
       </div>

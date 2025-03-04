@@ -262,7 +262,75 @@
                 });
             });
 
-        });
+            //////// Edit Faq /////////
+            $(body).on('click','.editfaq',function(){
+                var faqid = $(this).data('id');
+                    $.ajax({
+                        url : "{{url('admin-faq')}}"+"/"+faqid+"/edit",
+                        type: 'get',
+                        dataType:"JSON",
+                        success:function(response){
+                            console.log(response);
+                            if (response.status === 'success') {
+                                $('#exampleModalForm').modal('show');
+                                $('#question').val(response.result.question);
+                                $('#answer').val(response.result.answer);
+                                $('#status').val(response.result.status === 'active'?'1':'0');
+                                $('#id').val(response.result.id);
+                            }
+                            $('#updateFaq').show();
+                            $('#submitFaq').hide();
+                            editfaq
+                        },error:function(xhr){
+                            var error = JSON.parse(xhr.responseText);
+                            console.log(error);
+                        }
+                    })
+            });
+
+            
+            /////////////// Uodate Faq ///////////////////
+            $('#updateFaq').on('click',function(e){
+                   e.preventDefault();
+                   $('#updateFaq').html('Updating...');
+                   var formData = $('#FaqForm').serialize();
+                   formData +='&_method=PUT';
+                   const faqid = $('#id').val();
+                    $.ajax({
+                            url:"{{ url('admin-faq') }}/"+faqid,
+                            type: 'POST' ,
+                            data: formData,
+                            success: function(response){
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: response.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                $('#question_error').text('');
+                                $('#answer_error').text('');
+                                $('#updateFaq').html('Update');
+                                $('#exampleModalForm').modal('hide');
+                                $('#FaqForm')[0].reset();
+                                getFaq();
+                            },
+                            error:function(xhr,status){
+                                const errors = JSON.parse(xhr.responseText);
+                                if (errors.errors) {
+                                    $('#answer_error').text(errors.errors.answer ? errors.errors.answer[0] : '');
+                                    $('#question_error').text(errors.errors.question ? errors.errors.question[0] : '');
+                                } else {
+                                    console.log("Unexpected error format:", errors);
+                                }
+                                 $('#updateFaq').html('Update');
+                            }
+                    });
+            });
+
+
+
+        }); 
 
 </script>
 @endsection

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\frontend;
 
+use App\Helpers\MessageResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FaqRequest;
 use App\Models\Faq;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
@@ -68,7 +70,14 @@ class FaqController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        try {
+            $faqedit = Faq::FindOrFail($id);
+            return MessageResponse::sendResponse('success', $faqedit,  'Data is retrieving', 200);
+        } catch (ModelNotFoundException $e) {
+            return MessageResponse::sendError(false, 'Record not found', $e->getMessage(), 404);
+        } catch (\Throwable $th) {
+            return MessageResponse::sendError(false, 'An error occurred while retrieving the record.', $th->getMessage(), 500);
+        }
     }
 
     /**
@@ -76,16 +85,22 @@ class FaqController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $faq = Faq::find($id);
+            $faq->question       = $request->question;
+            $faq->answer = $request->answer;
+            $faq->status = ($request->status == '1' ? 'active' : 'inactive');
+            $faq->save();
+            return MessageResponse::sendResponse(true, $faq, 'Faq data  updated successfully', 200);
+        } catch (\Throwable $th) {
+            return MessageResponse::sendError(false, 'An error occurred while retrieving the record.', $th->getMessage(), 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    public function destroy(string $id) {}
 
     // app/Http/Controllers/YourController.php
     public function updateStatus(Request $request, $id)

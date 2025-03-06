@@ -42,8 +42,6 @@ class FaqController extends Controller
      */
     public function store(FaqRequest $request)
     {
-        // dd($request->all());
-        // return response()->json(['status' => true, 'message' => 'Faq data successfully added']);
 
         try {
             $faq = new Faq();
@@ -83,7 +81,7 @@ class FaqController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(FaqRequest $request, string $id)
     {
         try {
             $faq = Faq::find($id);
@@ -97,17 +95,9 @@ class FaqController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id) {}
 
-    // app/Http/Controllers/YourController.php
     public function updateStatus(Request $request, $id)
     {
-        // $validated = $request->validate([
-        //     'status' => 'required|in:active,inactive'
-        // ]);
 
         $faq = Faq::findOrFail($id);
         $faq->status = $request->status;
@@ -117,5 +107,20 @@ class FaqController extends Controller
             'new_status' => $faq->status,
             'id' => $faq->id
         ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        try {
+            $faq = Faq::findOrFail($id);
+            $faq->delete();
+            return MessageResponse::sendResponse(true, $faq, 'Data Successfully deleted', 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'error' => $th->getMessage()], 404);
+            return MessageResponse::sendError(false, 'An error occurred while retrieving the record.', $th->getMessage(), 500);
+        }
     }
 }

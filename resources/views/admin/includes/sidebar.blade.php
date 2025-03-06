@@ -180,6 +180,23 @@
               </ul>
             </li>
 
+               <!-- Price Section -->
+               <li class="has-sub{{ request()->routeIs('admin-price.*') ? 'active expand' : '' }}">
+                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#price"
+                  aria-expanded="{{ request()->routeIs('admin-price.*') ? 'true' : 'false' }}" aria-controls="price">
+                  <i class="mdi mdi-view-dashboard-outline"></i>
+                  <span class="nav-text">Price</span> <b class="caret"></b>
+                </a>
+                <ul class="collapse {{ request()->routeIs('admin-price.create') ? 'show' : '' }}" id="price" data-parent="#sidebar-menu">
+                  <div class="sub-menu">
+                    <li class="{{ request()->routeIs('admin-price.create') ? 'active' : '' }}">
+                      <a class="sidenav-item-link" href="{{ route('admin-price.create') }}">
+                        <span class="nav-text">Price</span>
+                      </a>
+                    </li>
+                  </div>
+                </ul>
+              </li>
         </ul>
         
       </div>

@@ -116,12 +116,21 @@
                     }
             }); 
 
-            //////////// Create faqs ///////////
+         
+
+            ///////////////// Create Faq //////////////////
             $('#createFaq').on('click',function(){
-                $('#question_error').text('');
-                $('#answer_error').text('');
-                $('#submitfaq').show();
-                $('#updatefaq').hide();
+                $('#exampleModalFormTitle').html('Create Faq')
+                $('#updateFaq').hide();
+                $('#submitFaq').show();
+                $('#question_error').html('');
+                $('#answer_error').html('');
+                $('#answer').val('');
+                $('#question').val('');
+                $('#status').prop('selectedIndex', 0);
+                $('#faqForm')[0].reset();
+                $('#corssRemove').hide();
+                document.getElementById('imagePreview').src ='/admin/images/preview.jpg';
             });
 
            ///////////// Store faqs //////////
@@ -280,6 +289,8 @@
                             }
                             $('#updateFaq').show();
                             $('#submitFaq').hide();
+                            $('#question_error').html('');
+                            $('#answer_error').html('');
                             editfaq
                         },error:function(xhr){
                             var error = JSON.parse(xhr.responseText);
@@ -329,7 +340,27 @@
             });
 
 
-
+                ///////////// Destroy Team //////////////
+            $(body).on('click','.deletefaq',function(){
+                      var faqid = $(this).data('id');
+                      $.ajax({
+                          url:'{{ url("admin-faq") }}'+"/"+faqid,
+                          type: 'delete',
+                          dataType:'json',
+                          success:function(response){
+                              Swal.fire({
+                                  position: "top-end",
+                                  icon: "success",
+                                  title: response.message,
+                                  showConfirmButton: false,
+                                  timer: 1500
+                              });
+                              getFaq();
+                          },error:function(xhr){
+                              console.log(error);
+                          }
+                      })
+            });
         }); 
 
 </script>

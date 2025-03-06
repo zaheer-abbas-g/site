@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AboutController as AdminAboutController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\TeamController;
@@ -122,6 +123,9 @@ Route::middleware('auth')->group(function () {
     /////////// Admin Faq /////////// 
     Route::resource('/admin-faq', FaqController::class);
     Route::patch('/update-status/{id}', [FaqController::class, 'updateStatus']);
+
+    /////////// Admin Price /////////// 
+    Route::resource('/admin-price', PriceController::class);
 });
 
 

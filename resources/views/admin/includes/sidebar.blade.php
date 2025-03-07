@@ -46,23 +46,23 @@
             </ul>
           </li>
 
-            <!-- Home Section -->
-            <li class="has-sub {{ request()->routeIs('admin-service.*') ? 'active expand' : '' }}">
-              <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#home"
-                aria-expanded="{{ request()->routeIs('admin-service.*') ? 'true' : 'false' }}" aria-controls="home">
-                <i class="mdi mdi-view-dashboard-outline"></i>
-                <span class="nav-text">Home</span> <b class="caret"></b>
-              </a>
-              <ul class="collapse {{ request()->routeIs('admin-service.create') ? 'show' : '' }}" id="home" data-parent="#sidebar-menu">
-                <div class="sub-menu">
-                  <li class="{{ request()->routeIs('admin-service.create') ? 'active' : '' }}">
-                    <a class="sidenav-item-link" href="{{ route('admin-service.create') }}">
-                      <span class="nav-text">Services</span>
-                    </a>
-                  </li>
-                </div>
-              </ul>
-            </li>
+        <!-- Home Section -->
+        <li class="has-sub {{ request()->routeIs('admin-service.*') ? 'active expand' : '' }}">
+          <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#home"
+            aria-expanded="{{ request()->routeIs('admin-service.*') ? 'true' : 'false' }}" aria-controls="home">
+            <i class="mdi mdi-view-dashboard-outline"></i>
+            <span class="nav-text">Home</span> <b class="caret"></b>
+          </a>
+          <ul class="collapse {{ request()->routeIs('admin-service.create') ? 'show' : '' }}" id="home" data-parent="#sidebar-menu">
+            <div class="sub-menu">
+              <li class="{{ request()->routeIs('admin-service.create') ? 'active' : '' }}">
+                <a class="sidenav-item-link" href="{{ route('admin-service.create') }}">
+                  <span class="nav-text">Services</span>
+                </a>
+              </li>
+            </div>
+          </ul>
+        </li>
 
         <!-- About Section -->
         <li class="has-sub {{ request()->routeIs('admin-about.*') ? 'active expand' : '' }}">
@@ -162,41 +162,61 @@
             </ul>
           </li>
         
-            <!-- Faq Section -->
-            <li class="has-sub{{ request()->routeIs('admin-faq.*') ? 'active expand' : '' }}">
-              <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#faq"
-                aria-expanded="{{ request()->routeIs('admin-faq.*') ? 'true' : 'false' }}" aria-controls="faq">
-                <i class="mdi mdi-view-dashboard-outline"></i>
-                <span class="nav-text">Faq</span> <b class="caret"></b>
-              </a>
-              <ul class="collapse {{ request()->routeIs('admin-faq.create') ? 'show' : '' }}" id="faq" data-parent="#sidebar-menu">
-                <div class="sub-menu">
-                  <li class="{{ request()->routeIs('admin-faq.create') ? 'active' : '' }}">
-                    <a class="sidenav-item-link" href="{{ route('admin-faq.create') }}">
-                      <span class="nav-text">Faq</span>
-                    </a>
-                  </li>
-                </div>
-              </ul>
-            </li>
+          <!-- Faq Section -->
+          <li class="has-sub{{ request()->routeIs('admin-faq.*') ? 'active expand' : '' }}">
+            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#faq"
+              aria-expanded="{{ request()->routeIs('admin-faq.*') ? 'true' : 'false' }}" aria-controls="faq">
+              <i class="mdi mdi-view-dashboard-outline"></i>
+              <span class="nav-text">Faq</span> <b class="caret"></b>
+            </a>
+            <ul class="collapse {{ request()->routeIs('admin-faq.create') ? 'show' : '' }}" id="faq" data-parent="#sidebar-menu">
+              <div class="sub-menu">
+                <li class="{{ request()->routeIs('admin-faq.create') ? 'active' : '' }}">
+                  <a class="sidenav-item-link" href="{{ route('admin-faq.create') }}">
+                    <span class="nav-text">Faq</span>
+                  </a>
+                </li>
+              </div>
+            </ul>
+          </li>
 
-               <!-- Price Section -->
-               <li class="has-sub{{ request()->routeIs('admin-price.*') ? 'active expand' : '' }}">
-                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#price"
-                  aria-expanded="{{ request()->routeIs('admin-price.*') ? 'true' : 'false' }}" aria-controls="price">
-                  <i class="mdi mdi-view-dashboard-outline"></i>
-                  <span class="nav-text">Price</span> <b class="caret"></b>
+          <!-- Price Section -->
+          <li class="has-sub{{ request()->routeIs('admin-price.*') ? 'active expand' : '' }}">
+          <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#price"
+            aria-expanded="{{ request()->routeIs('admin-price.*') ? 'true' : 'false' }}" aria-controls="price">
+            <i class="mdi mdi-view-dashboard-outline"></i>
+            <span class="nav-text">Price</span> <b class="caret"></b>
+          </a>
+          <ul class="collapse {{ request()->routeIs('admin-price.create') ? 'show' : '' }}" id="price" data-parent="#sidebar-menu">
+            <div class="sub-menu">
+              <li class="{{ request()->routeIs('admin-price.create') ? 'active' : '' }}">
+                <a class="sidenav-item-link" href="{{ route('admin-price.create') }}">
+                  <span class="nav-text">Price</span>
                 </a>
-                <ul class="collapse {{ request()->routeIs('admin-price.create') ? 'show' : '' }}" id="price" data-parent="#sidebar-menu">
-                  <div class="sub-menu">
-                    <li class="{{ request()->routeIs('admin-price.create') ? 'active' : '' }}">
-                      <a class="sidenav-item-link" href="{{ route('admin-price.create') }}">
-                        <span class="nav-text">Price</span>
-                      </a>
-                    </li>
-                  </div>
-                </ul>
               </li>
+            </div>
+          </ul>
+          </li>
+
+
+          <!-- Section Contact -->
+          <li class="has-sub{{ request()->routeIs('admin-contact.*') ? 'active expand' : '' }}">
+            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#contact"
+              aria-expanded="{{ request()->routeIs('admin-contact.*') ? 'true' : 'false' }}" aria-controls="contact">
+              <i class="mdi mdi-view-dashboard-outline"></i>
+              <span class="nav-text">Contact</span> <b class="caret"></b>
+            </a>
+            <ul class="collapse {{ request()->routeIs('admin-contact.create') ? 'show' : '' }}" id="contact" data-parent="#sidebar-menu">
+              <div class="sub-menu">
+                <li class="{{ request()->routeIs('admin-contact.create') ? 'active' : '' }}">
+                  <a class="sidenav-item-link" href="{{ route('admin-contact.create') }}">
+                    <span class="nav-text">Contact</span>
+                  </a>
+                </li>
+              </div>
+            </ul>
+          </li>
+
         </ul>
         
       </div>

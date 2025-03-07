@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AboutController as AdminAboutController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ClientsController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -51,13 +52,12 @@ use Illuminate\Support\Facades\Mail;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
-    // return view('frontend.home');
+    // return view('dashboard');
+    return view('frontend.home');
 });
 
 
 // Admin Auth Routes 
-
 Route::get('login', [AuthController::class, 'create'])
     ->name('login');
 Route::post('login', [AuthController::class, 'store'])->name('login.store');
@@ -98,7 +98,6 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'create'])->name('profile.edit');
     Route::put('profile-update', [ProfileController::class, 'profileUpdate']);
     Route::put('profile-password-update', [ProfileController::class, 'profileUpdatePassword']);
-
     Route::resource('/users', UserController::class);
     Route::resource('/categories', CategoryController::class);
     Route::get('categories-restore/{id}', [CategoryController::class, 'restore']);
@@ -126,6 +125,7 @@ Route::middleware('auth')->group(function () {
 
     /////////// Admin Price /////////// 
     Route::resource('/admin-price', PriceController::class);
+    Route::resource('/admin-contact', AdminContactController::class);
 });
 
 

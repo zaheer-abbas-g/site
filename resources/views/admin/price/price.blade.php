@@ -336,7 +336,7 @@
                     });
             });
          
-            /////////////// Destroy Team //////////////
+            /////////////// Destroy Price //////////////
             $(document).on('click', '.deletePrice', function() {
                 var priceid = $(this).data('id');
                 Swal.fire({
